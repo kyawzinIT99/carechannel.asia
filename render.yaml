@@ -1,0 +1,57 @@
+# CareChannel on Render (not a VPS).
+# Starter web $7/mo + 1 GB disk $0.25/mo ≈ $7.25–$7.50.
+# Postgres is separate: use free Neon (recommended) or Render Postgres (+~$6).
+# n8n stays on Hostinger. Do not import BCC / PDF / SDDP workflows here.
+
+services:
+  - type: web
+    name: carechannel
+    runtime: node
+    plan: starter
+    region: singapore
+    rootDir: apps/web
+    buildCommand: npm ci --include=dev && npx prisma generate && npm run build
+    preDeployCommand: npx prisma migrate deploy
+    startCommand: npm start
+    healthCheckPath: /en
+    disk:
+      name: carechannel-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NEXT_TELEMETRY_DISABLED
+        value: "1"
+      - key: SITE_URL
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: STAFF_ALERT_EMAIL
+        value: itsolutions.mm@gmail.com
+      - key: N8N_WEBHOOK_SECRET
+        sync: false
+      - key: N8N_INQUIRY_WEBHOOK
+        value: https://n8n-al8a.srv1707349.hstgr.cloud/webhook/ram-hospital-inquiry
+      - key: TELEGRAM_STAFF_CHAT_ID
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: SMTP_FROM
+        sync: false

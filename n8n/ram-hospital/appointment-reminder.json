@@ -1,0 +1,78 @@
+{
+  "name": "Ram Hospital Appointment Reminder",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [{ "field": "cronExpression", "expression": "0 8 * * *" }]
+        }
+      },
+      "id": "cron",
+      "name": "Daily 08:00 Asia/Bangkok",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.RAM_HOSPITAL_APP_URL}}/api/v1/internal/n8n/reminders",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "X-Ram-Hospital-Secret", "value": "={{$env.RAM_HOSPITAL_WEBHOOK_SECRET}}" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fetch",
+      "name": "Load confirmed visits from app DB",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [240, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const messages = $input.first().json.messages || [];\nreturn messages.filter(m => m.toEmail).map(m => ({ json: m }));"
+      },
+      "id": "split",
+      "name": "Each approved reminder",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [480, 0]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{$json.toEmail}}",
+        "subject": "={{$json.subject}}",
+        "message": "={{$json.text}}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "mail",
+      "name": "Email via itsolutions.mm@gmail.com",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [720, 0],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "EnW0K9KGi7cdbGGq",
+          "name": "itsolutions.mm@gmail.com"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Daily 08:00 Asia/Bangkok": {
+      "main": [[{ "node": "Load confirmed visits from app DB", "type": "main", "index": 0 }]]
+    },
+    "Load confirmed visits from app DB": {
+      "main": [[{ "node": "Each approved reminder", "type": "main", "index": 0 }]]
+    },
+    "Each approved reminder": {
+      "main": [[{ "node": "Email via itsolutions.mm@gmail.com", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": { "executionOrder": "v1", "timezone": "Asia/Bangkok" }
+}

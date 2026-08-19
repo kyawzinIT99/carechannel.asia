@@ -1,0 +1,9 @@
+.DS_Store
+.tmp-fetch/
+node_modules/
+.next/
+.env
+.env.local
+*.pem
+.vercel
+coverage/

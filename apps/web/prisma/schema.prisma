@@ -1,0 +1,264 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  SUPER_ADMIN
+  HOSPITAL_ADMIN
+  INTERNATIONAL_COORDINATOR
+  RECEPTION
+  DOCTOR
+  NURSE
+  PATIENT
+}
+
+enum Locale {
+  en
+  my
+}
+
+enum GenderScope {
+  ANY
+  MALE
+  FEMALE
+}
+
+enum InquiryStatus {
+  NEW
+  CONTACTED
+  CLOSED
+}
+
+enum AppointmentStatus {
+  REQUESTED
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+enum OutboundChannel {
+  EMAIL
+  TELEGRAM
+}
+
+enum OutboundStatus {
+  QUEUED
+  SENT
+  FAILED
+  SKIPPED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  locale       Locale   @default(en)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  phone        String?
+  roles        UserRole[]
+  staffInquiries Inquiry[] @relation("StaffInquiries")
+  patientInquiries Inquiry[] @relation("PatientInquiries")
+}
+
+model UserRole {
+  id     String @id @default(cuid())
+  userId String
+  role   Role
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, role])
+}
+
+model SiteContent {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  valueEn   String   @db.Text
+  valueMy   String   @db.Text
+  updatedAt DateTime @updatedAt
+}
+
+model Branch {
+  id         String  @id @default(cuid())
+  code       String  @unique
+  nameEn     String
+  nameMy     String
+  detailEn   String  @db.Text
+  detailMy   String  @db.Text
+  mapQuery   String
+  status     String  @default("open")
+  sortOrder  Int     @default(100)
+  published  Boolean @default(true)
+}
+
+model HospitalProfile {
+  id              String @id @default(cuid())
+  legalNameTh     String
+  nameEn          String
+  nameMy          String
+  addressEn       String
+  addressMy       String
+  mainPhone       String
+  emergencyPhone  String
+  cardiacPhone    String
+  email           String
+  website         String
+  facebookUrl     String
+  logoPath        String
+  mapPath         String
+  heroPath        String
+  locationNoteEn  String
+  locationNoteMy  String
+  sourceNote      String @db.Text
+}
+
+model Specialty {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  sourceUrl   String
+  imagePath   String?
+  phone       String?
+  hoursEn     String?
+  hoursMy     String?
+  nameEn      String
+  nameMy      String
+  nameTh      String
+  summaryEn   String   @db.Text
+  summaryMy   String   @db.Text
+  servicesEn  String[]
+  servicesMy  String[]
+  sortOrder   Int
+  published   Boolean  @default(true)
+  parentId    String?
+  parent      Specialty?  @relation("SpecialtyTree", fields: [parentId], references: [id])
+  children    Specialty[] @relation("SpecialtyTree")
+}
+
+model PackageCatalog {
+  id           String    @id @default(cuid())
+  code         String    @unique
+  sourceUrl    String
+  nameEn       String
+  nameMy       String
+  validFrom    DateTime
+  validTo      DateTime
+  notesEn      String    @db.Text
+  notesMy      String    @db.Text
+  packages     Package[]
+}
+
+model Package {
+  id         String          @id @default(cuid())
+  catalogId  String
+  code       String          @unique
+  nameEn     String
+  nameMy     String
+  gender     GenderScope
+  listPrice  Decimal         @db.Decimal(12, 2)
+  salePrice  Decimal         @db.Decimal(12, 2)
+  currency   String          @default("THB")
+  published  Boolean         @default(true)
+  highlight  String?
+  featuresEn String[]        @default([])
+  featuresMy String[]        @default([])
+  catalog    PackageCatalog  @relation(fields: [catalogId], references: [id], onDelete: Cascade)
+  inquiries  Inquiry[]
+}
+
+model Promotion {
+  id        String   @id @default(cuid())
+  titleEn   String
+  titleMy   String
+  bodyEn    String   @db.Text
+  bodyMy    String   @db.Text
+  imagePath String?
+  published Boolean  @default(false)
+  sortOrder Int      @default(100)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Inquiry {
+  id            String        @id @default(cuid())
+  locale        Locale
+  fullName      String
+  phone         String
+  email             String?
+  country           String?
+  returningPatient  Boolean?
+  message           String        @db.Text
+  specialtySlug String?
+  packageId     String?
+  status        InquiryStatus @default(NEW)
+  assignedToId  String?
+  patientUserId String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  package       Package?      @relation(fields: [packageId], references: [id])
+  assignedTo    User?         @relation("StaffInquiries", fields: [assignedToId], references: [id])
+  patientUser   User?         @relation("PatientInquiries", fields: [patientUserId], references: [id])
+  appointments  Appointment[]
+}
+
+model Appointment {
+  id                String            @id @default(cuid())
+  inquiryId         String
+  locale            Locale
+  preferredDate     DateTime?
+  interpreterNeeded Boolean           @default(false)
+  interpreterLang   String?
+  airportPickup     Boolean           @default(false)
+  accommodationHelp Boolean           @default(false)
+  status            AppointmentStatus @default(REQUESTED)
+  staffNote         String?           @db.Text
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  inquiry           Inquiry           @relation(fields: [inquiryId], references: [id], onDelete: Cascade)
+}
+
+model MessageTemplate {
+  id      String @id @default(cuid())
+  key     String
+  locale  Locale
+  subject String
+  body    String @db.Text
+
+  @@unique([key, locale])
+}
+
+model OutboundMessage {
+  id        String          @id @default(cuid())
+  channel   OutboundChannel
+  toAddress String
+  templateKey String
+  locale    Locale
+  payload   Json
+  status    OutboundStatus  @default(QUEUED)
+  error     String?
+  createdAt DateTime        @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  actorId   String?
+  action    String
+  entity    String
+  entityId  String?
+  meta      Json?
+  createdAt DateTime @default(now())
+}
+
+model Consent {
+  id          String   @id @default(cuid())
+  inquiryId   String
+  accepted    Boolean
+  textVersion String
+  createdAt   DateTime @default(now())
+}

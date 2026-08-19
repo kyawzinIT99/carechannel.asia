@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+:root {
+  --ram-navy: #0b4f9c;
+  --ram-gold: #d4af37;
+  --ram-navy-dark: #083a73;
+  --ram-paper: #f4f7fb;
+  --ram-ink: #101b2c;
+  --my-stack: var(--font-noto-myanmar), "Myanmar Text", Pyidaungsu, Padauk,
+    var(--font-noto-sans), ui-sans-serif, system-ui, sans-serif;
+  --en-stack: var(--font-noto-sans), var(--font-noto-myanmar), "Myanmar Text",
+    Pyidaungsu, Padauk, ui-sans-serif, system-ui, sans-serif;
+}
+
+@theme inline {
+  --color-ram: var(--ram-navy);
+  --font-sans: var(--en-stack);
+}
+
+html {
+  color: var(--ram-ink);
+  background: var(--ram-paper);
+  text-rendering: auto;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+}
+
+html[lang="my"] {
+  font-family: var(--my-stack);
+  line-height: 1.75;
+  letter-spacing: 0;
+  font-synthesis: none;
+  font-kerning: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+html[lang="my"] *,
+html[lang="my"] *::before,
+html[lang="my"] *::after {
+  font-synthesis: none;
+  letter-spacing: 0;
+}
+
+html[lang="my"] h1,
+html[lang="my"] h2,
+html[lang="my"] h3,
+html[lang="my"] h4 {
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+html[lang="my"] .font-medium,
+html[lang="my"] .font-semibold {
+  font-weight: 600;
+}
+
+html[lang="my"] .font-bold,
+html[lang="my"] .font-extrabold,
+html[lang="my"] .font-black {
+  font-weight: 700;
+}
+
+html[lang="my"] .tracking-tight,
+html[lang="my"] .tracking-tighter,
+html[lang="my"] .tracking-wide,
+html[lang="my"] .tracking-widest {
+  letter-spacing: 0;
+}
+
+html[lang="my"] .uppercase {
+  text-transform: none;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--ram-paper);
+  color: var(--ram-ink);
+  font-family: var(--font-sans);
+}
+
+html[lang="my"] body {
+  font-family: var(--my-stack);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+}
+
+button::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+::selection {
+  background: #cfe0f5;
+  color: #0b2140;
+}

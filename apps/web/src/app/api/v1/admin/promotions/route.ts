@@ -1,0 +1,41 @@
+import { NextResponse } from "next/server";
+import { prisma } from "@/server/db/prisma";
+import { hasRole, readSession } from "@/server/auth/session";
+import { Role } from "@prisma/client";
+
+const ADMIN: Role[] = ["SUPER_ADMIN", "HOSPITAL_ADMIN"];
+
+function promoData(body: Record<string, unknown>) {
+  return {
+    titleEn: String(body.titleEn ?? "").trim(),
+    titleMy: String(body.titleMy ?? "").trim(),
+    bodyEn: String(body.bodyEn ?? "").trim(),
+    bodyMy: String(body.bodyMy ?? "").trim(),
+    imagePath: body.imagePath ? String(body.imagePath) : null,
+    sortOrder: Number(body.sortOrder ?? 100),
+    published: Boolean(body.published),
+  };
+}
+
+export async function GET() {
+  const session = await readSession();
+  if (!hasRole(session, ADMIN)) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  const rows = await prisma.promotion.findMany({ orderBy: { sortOrder: "asc" } });
+  return NextResponse.json(rows);
+}
+
+export async function POST(request: Request) {
+  const session = await readSession();
+  if (!hasRole(session, ADMIN)) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  const body = promoData(await request.json());
+  if (!body.titleEn || !body.titleMy || !body.bodyEn || !body.bodyMy) {
+    return NextResponse.json({ error: "missing_fields" }, { status: 400 });
+  }
+  try {
+    const promo = await prisma.promotion.create({ data: body });
+    return NextResponse.json(promo, { status: 201 });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "save_failed";
+    return NextResponse.json({ error: message }, { status: 400 });
+  }
+}
