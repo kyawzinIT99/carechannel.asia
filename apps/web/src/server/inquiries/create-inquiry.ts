@@ -168,7 +168,9 @@ export async function ingestExternalInquiry(raw: unknown) {
       fullName: fullName.length >= 2 ? fullName : "Google Form visitor",
       phone: phone.length >= 6 ? phone : "000000",
       email: email.includes("@") ? email : "",
-      country: normalizeCountry(pickStr(nested, ["country", "Country"])),
+      country: normalizeCountry(
+        pickStr(nested, ["country", "Country", "nationality", "Nationality"]),
+      ),
       returningPatient: /yes|true|1|ရှိ/i.test(pickStr(nested, ["returningPatient", "returning"])),
       message: `[Google Form]\n${message}`.slice(0, 4000),
       specialtySlug,

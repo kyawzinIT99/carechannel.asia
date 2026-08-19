@@ -111,26 +111,24 @@ export default async function ContactPage({
               <ContactChannels locale={locale} variant="stack" />
             </div>
           </div>
-          {chrome.googleFormUrl ? (
-            <div className="rounded-2xl bg-[#f7f1e4] px-5 py-4 ring-1 ring-[#e8dcc0]">
-              <p className="text-sm font-semibold text-[#1a2330]">
-                {my ? "Google Form" : "Google Form"}
-              </p>
-              <p className="mt-2 text-xs leading-6 text-slate-600">
-                {my
-                  ? "ဖောင်ဖြင့် ပို့လိုပါက ဤခလုတ်ကို သုံးပါ။ အချက်အလက်သည် ညှိနှိုင်းရေးမှူး စာရင်းတစ်ခုတည်းသို့ ရောက်ပါသည်။ အဖွဲ့ဝင်စာရင်းအသစ် မခွဲပါ။"
-                  : "Prefer a Google Form? Use this button. n8n sends it into the same visit-request list. Details are not split into extra member lists."}
-              </p>
-              <a
-                href={chrome.googleFormUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-3 inline-flex rounded-full bg-[#1a2330] px-4 py-2 text-sm font-semibold text-white hover:bg-[#111820]"
-              >
-                {my ? "Google Form ဖွင့်ရန်" : "Open Google Form"}
-              </a>
-            </div>
-          ) : null}
+          <div className="rounded-2xl bg-[#f7f1e4] px-5 py-4 ring-1 ring-[#e8dcc0]">
+            <p className="text-sm font-semibold text-[#1a2330]">
+              {my ? "ရိုးရှင်းသော ဖောင်" : "Simple form"}
+            </p>
+            <p className="mt-2 text-xs leading-6 text-slate-600">
+              {my
+                ? "အမည်၊ အီးမေးလ်၊ ဖုန်း၊ နိုင်ငံသား။ ဝက်ဘ်ဆိုက် တောင်းဆိုမှုနှင့် တူသော အချက်အလက်။ n8n က ညှိနှိုင်းရေးမှူး စာရင်းတစ်ခုတည်းသို့ ပို့ပါသည်။"
+                : "Name, email, phone, nationality — the same core details as this website request. n8n sends it into the same coordinator list."}
+            </p>
+            <a
+              href={chrome.googleFormUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-flex rounded-full bg-[#1a2330] px-4 py-2 text-sm font-semibold text-white hover:bg-[#111820]"
+            >
+              {my ? "ရိုးရှင်းသော ဖောင် ဖွင့်ရန်" : "Open simple form"}
+            </a>
+          </div>
         </aside>
       </div>
     </div>

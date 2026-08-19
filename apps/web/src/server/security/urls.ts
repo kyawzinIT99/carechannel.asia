@@ -31,8 +31,12 @@ export function googleFormsUrl(value: string | undefined) {
   const url = httpsUrl(value, "");
   if (!url) return "";
   try {
-    const host = new URL(url).hostname.replace(/^www\./, "");
+    const parsed = new URL(url);
+    const host = parsed.hostname.replace(/^www\./, "");
     if (host === "docs.google.com" || host === "forms.gle") return url;
+    if (host === "n8n-al8a.srv1707349.hstgr.cloud" && parsed.pathname.startsWith("/form/")) {
+      return url;
+    }
   } catch {
     return "";
   }

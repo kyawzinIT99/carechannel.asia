@@ -15,7 +15,7 @@ const FIELDS = [
   { key: "partner.linePhone", label: "LINE number (public)", multiline: false, fallbackEn: "082-567-4570", fallbackMy: "082-567-4570" },
   { key: "partner.telegramUrl", label: "Telegram username link only (https://t.me/yourname). Leave blank to open Telegram chat with the LINE phone. Do not use t.me/+66… — that is an invite link and will fail.", multiline: false, fallbackEn: "", fallbackMy: "" },
   { key: "partner.viberPhone", label: "Viber number (public)", multiline: false, fallbackEn: "+95 9504 3252", fallbackMy: "+95 9504 3252" },
-  { key: "partner.googleFormUrl", label: "Optional Google Form URL (https://docs.google.com/forms/...). n8n posts it into Inquiries. Leave blank to hide.", multiline: false, fallbackEn: "", fallbackMy: "" },
+  { key: "partner.googleFormUrl", label: "Simple form URL shown next to the website request. Default is the n8n form (Name, Email, Phone, Nationality) already attached to CRM. Paste a Google Form URL after those four question titles exist and Responses are linked to the Ram Hospital sheet.", multiline: false, fallbackEn: "https://n8n-al8a.srv1707349.hstgr.cloud/form/ram-hospital-visit", fallbackMy: "https://n8n-al8a.srv1707349.hstgr.cloud/form/ram-hospital-visit" },
   { key: "visit.pickupTitle", label: "Airport pickup title", multiline: false, fallbackEn: VISIT_ASSIST[0].titleEn, fallbackMy: VISIT_ASSIST[0].titleMy },
   { key: "visit.pickupBody", label: "Airport pickup body", multiline: true, fallbackEn: VISIT_ASSIST[0].bodyEn, fallbackMy: VISIT_ASSIST[0].bodyMy },
   { key: "visit.stayTitle", label: "Rental apartment title", multiline: false, fallbackEn: VISIT_ASSIST[1].titleEn, fallbackMy: VISIT_ASSIST[1].titleMy },

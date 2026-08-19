@@ -2,7 +2,7 @@ import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/routing";
 import { ShwedagonMark } from "@/components/shwedagon-mark";
 import { ABOUT_FACEBOOK_URL, ABOUT_FIELDS, aboutField } from "@/catalog/about-copy";
-import { loadPublicCopy } from "@/server/content/public";
+import { loadPublicChrome, loadPublicCopy } from "@/server/content/public";
 
 export const dynamic = "force-dynamic";
 
@@ -18,7 +18,7 @@ export default async function AboutPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const my = locale === "my";
-  const copy = await loadPublicCopy(locale);
+  const [copy, chrome] = await Promise.all([loadPublicCopy(locale), loadPublicChrome()]);
   const pick = (key: (typeof ABOUT_FIELDS)[number]["key"]) => {
     const field = aboutField(key);
     return copy[key] || (locale === "my" ? field.fallbackMy : field.fallbackEn);
@@ -67,6 +67,14 @@ export default async function AboutPage({
             >
               {my ? "ဤဝက်ဘ်ဆိုက်မှ တောင်းဆိုမည်" : "Inquire on this website"}
             </Link>
+            <a
+              href={chrome.googleFormUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full border border-[#d4af37]/50 bg-white/80 px-7 py-3 text-sm font-semibold text-[#1a2330] hover:bg-white"
+            >
+              {my ? "ရိုးရှင်းသော ဖောင်" : "Simple form"}
+            </a>
             <Link
               href="/packages"
               className="rounded-full border border-[#d4af37]/50 bg-white/80 px-7 py-3 text-sm font-semibold text-[#1a2330] hover:bg-white"

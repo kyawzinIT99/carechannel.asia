@@ -78,6 +78,14 @@ export default async function HomePage({
               >
                 {ctaPrimary}
               </Link>
+              <a
+                href={chrome.googleFormUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full border border-[#1a2330]/15 bg-white px-7 py-3 text-sm font-semibold text-[#1a2330] hover:bg-white/80"
+              >
+                {my ? "ရိုးရှင်းသော ဖောင်" : "Simple form"}
+              </a>
               <Link
                 href="/packages"
                 className="rounded-full border border-[#1a2330]/15 bg-white px-7 py-3 text-sm font-semibold text-[#1a2330] hover:bg-white/80"

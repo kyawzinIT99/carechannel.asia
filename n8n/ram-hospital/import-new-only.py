@@ -16,6 +16,7 @@ WORKFLOWS = [
     ROOT / "inquiry-alert.json",
     ROOT / "telegram-ingress.json",
     ROOT / "appointment-reminder.json",
+    ROOT / "google-form-inquiry.json",
 ]
 
 
@@ -75,8 +76,12 @@ def main() -> None:
             print("refuse to touch", found["name"], found["id"])
             continue
         if found:
-            print("already exists", name, found["id"], "activate only")
             wf_id = found["id"]
+            if name == "Ram Hospital Google Form to CRM":
+                api("PUT", f"/api/v1/workflows/{wf_id}", create_body)
+                print("updated", name, wf_id)
+            else:
+                print("already exists", name, wf_id, "activate only")
         else:
             created = api("POST", "/api/v1/workflows", create_body)
             wf_id = created["id"]
