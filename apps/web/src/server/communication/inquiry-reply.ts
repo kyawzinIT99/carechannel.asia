@@ -108,7 +108,7 @@ export async function buildInquiryReply(input: InquiryReplyInput): Promise<Inqui
     input.accommodationHelp
       ? locale === "my"
         ? "အငှားတိုက်ခန်း အကူအညီ တောင်းထားသည် (ဟိုတယ်ပက်ကေ့ချ် မဟုတ်၊ လိုမှသာ၊ ပုံမှန် ၃,၅၀၀ သို့မဟုတ် ၄,၀၀၀ ဘတ်)။"
-        : "Help requested with a simple rental apartment if the visitor wants one (not a hotel package; typically 3,500 or 4,000 THB at the partner apartment site).",
+        : "Help requested with a simple rental apartment if the visitor wants one (not a hotel package; typically 3,500 or 4,000 THB at the partner apartment site)."
       : "",
     input.interpreterNeeded
       ? locale === "my"
