@@ -8,6 +8,9 @@ services:
     runtime: node
     plan: starter
     region: singapore
+    repo: https://github.com/kyawzinIT99/carechannel.asia.git
+    branch: main
+    autoDeployTrigger: commit
     rootDir: apps/web
     buildCommand: npm install --include=dev && npx prisma generate && npm run build
     startCommand: npx prisma migrate deploy && npm start

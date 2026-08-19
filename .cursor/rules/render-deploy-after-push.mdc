@@ -1,0 +1,19 @@
+---
+description: After every git push to CareChannel main, trigger a Render deploy immediately.
+alwaysApply: true
+---
+
+# Render deploy after git push
+
+When you push `main` to `origin` (`github.com/kyawzinIT99/carechannel.asia`):
+
+1. Run `git push` as usual.
+2. Immediately trigger CareChannel on Render. Do not wait for the user to click Manual Deploy.
+
+How to trigger:
+
+- If `.env.render` or the environment has `RENDER_DEPLOY_HOOK`, run `curl -fsS -X POST "$RENDER_DEPLOY_HOOK"` right after a successful push.
+- Service id is `srv-da2lctrl550s73ehh8dg`. Live URL is `https://carechannel.onrender.com`.
+- Do not touch SDDP (`sddp-apartment.onrender.com`).
+
+The Cursor hook `.cursor/hooks/after-git-push-render.sh` also POSTs that hook after a successful `git push`. Keep Auto-Deploy **On Commit** on the Render service so GitHub pushes start a build even without the hook.
