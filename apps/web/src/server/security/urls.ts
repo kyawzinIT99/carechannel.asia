@@ -22,6 +22,11 @@ export function googleMapsEmbedSrc(mapQuery: string, hl: "en" | "my") {
   return `https://maps.google.com/maps?q=${encodeURIComponent(q)}&hl=${hl}&z=16&output=embed`;
 }
 
+export function googleMapsSearchHref(mapQuery: string) {
+  const q = mapQuery.replace(/[\u0000-\u001f<>]/g, "").slice(0, 200);
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+}
+
 export function googleFormsUrl(value: string | undefined) {
   const url = httpsUrl(value, "");
   if (!url) return "";
