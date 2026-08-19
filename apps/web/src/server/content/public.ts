@@ -34,10 +34,15 @@ export async function loadPublicChrome(): Promise<PublicChrome> {
   const viberDisplay = copy["partner.viberPhone"]?.trim() || HOSPITAL_PROFILE.viberDisplay;
   const telegramStored = copy["partner.telegramUrl"]?.trim() || HOSPITAL_PROFILE.telegramUrl;
   const apartmentUrl = httpsUrl(copy["partner.apartmentUrl"], "https://sddp-apartment.onrender.com");
+  const publishedForm =
+    "https://docs.google.com/forms/d/e/1FAIpQLSfV14CMMEqKiKkALBxB0JKc740JKPiAIrY-ykNQUqTjKsJbKw/viewform";
+  const storedForm = googleFormsUrl(copy["partner.googleFormUrl"]) || googleFormsUrl(process.env.GOOGLE_FORM_URL);
   const googleFormUrl =
-    googleFormsUrl(copy["partner.googleFormUrl"]) ||
-    googleFormsUrl(process.env.GOOGLE_FORM_URL) ||
-    "https://docs.google.com/forms/d/1nLGeHgj-IhYtgzPw2Bi7spUQW9rRnrHd1Fa4GZ7y3yQ/viewform";
+    !storedForm ||
+    storedForm.includes("ram-hospital-visit") ||
+    (storedForm.includes("1nLGeHgj") && !storedForm.includes("/e/"))
+      ? publishedForm
+      : storedForm;
   return {
     nameEn: hospital.nameEn,
     nameMy: hospital.nameMy,

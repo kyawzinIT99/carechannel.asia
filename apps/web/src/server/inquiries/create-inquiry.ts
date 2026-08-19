@@ -153,11 +153,19 @@ function pickStr(raw: Record<string, unknown>, keys: string[]) {
 /** n8n / Google Form → same Inquiry row. Never creates a User. */
 export async function ingestExternalInquiry(raw: unknown) {
   const body = raw && typeof raw === "object" ? (raw as Record<string, unknown>) : {};
-  const nested = body.body && typeof body.body === "object" ? (body.body as Record<string, unknown>) : body;
+  const nestedRaw = body.body && typeof body.body === "object" ? (body.body as Record<string, unknown>) : body;
+  const nested: Record<string, unknown> = { ...nestedRaw };
+  for (const [key, val] of Object.entries(nestedRaw)) {
+    const trimmed = key.trim();
+    if (trimmed && nested[trimmed] == null) nested[trimmed] = val;
+  }
   const fullName = pickStr(nested, ["fullName", "name", "Name", "full_name"]);
-  const phone = pickStr(nested, ["phone", "Phone", "mobile", "tel"]);
+  const phone = pickStr(nested, ["phone", "Phone", "Phone or viber Number", "mobile", "tel"]);
   const email = pickStr(nested, ["email", "Email"]);
-  const message = pickStr(nested, ["message", "Message", "comment", "notes"]) || "Google Form visit request";
+  const address = pickStr(nested, ["Resident Address", "address", "Address"]);
+  const message =
+    pickStr(nested, ["message", "Message", "comment", "notes"]) ||
+    (address ? `Resident address: ${address}` : "Google Form visit request");
   const locale = pickStr(nested, ["locale", "language"]) === "my" ? "my" : "en";
   const specialtySlugRaw = pickStr(nested, ["specialtySlug", "specialty"]);
   const specialtySlug = allSlugs().includes(specialtySlugRaw) ? specialtySlugRaw : undefined;

@@ -17,39 +17,55 @@
     },
     {
       "parameters": {
-        "path": "ram-hospital-visit",
-        "formTitle": "Chiangmai Ram Hospital visit request",
-        "formDescription": "Same four details as the website request. A coordinator follows up. This is not emergency care.",
-        "formFields": {
-          "values": [
-            { "fieldLabel": "Name", "fieldType": "text", "requiredField": true, "placeholder": "Full name" },
-            { "fieldLabel": "Email", "fieldType": "email", "requiredField": true, "placeholder": "name@email.com" },
-            { "fieldLabel": "Phone", "fieldType": "text", "requiredField": true, "placeholder": "+95 …" },
-            { "fieldLabel": "Nationality", "fieldType": "text", "requiredField": true, "placeholder": "Myanmar" }
-          ]
-        },
-        "responseMode": "onReceived",
-        "options": {
-          "buttonLabel": "Send request",
-          "appendAttribution": false
+        "rule": {
+          "interval": [{ "field": "minutes", "minutesInterval": 1 }]
         }
       },
-      "id": "form-simple",
-      "name": "Simple visit form",
-      "type": "n8n-nodes-base.formTrigger",
-      "typeVersion": 2.2,
-      "position": [0, 220],
-      "webhookId": "ram-hospital-visit"
+      "id": "every-min",
+      "name": "Every minute",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [0, 240]
     },
     {
       "parameters": {
-        "jsCode": "const raw = items[0].json;\nconst body = raw.body && typeof raw.body === 'object' ? raw.body : raw;\nconst nv = body.namedValues && typeof body.namedValues === 'object' ? body.namedValues : {};\nfunction pick(obj, keys) {\n  for (const key of keys) {\n    const val = obj[key];\n    if (Array.isArray(val) && val[0]) return String(val[0]).trim();\n    if (val != null && String(val).trim()) return String(val).trim();\n  }\n  return '';\n}\nconst keysName = ['fullName', 'Name', 'name', 'Full name'];\nconst keysEmail = ['email', 'Email'];\nconst keysPhone = ['phone', 'Phone', 'mobile', 'tel'];\nconst keysNat = ['country', 'Country', 'nationality', 'Nationality'];\nconst fullName = pick(body, keysName) || pick(nv, keysName);\nconst email = pick(body, keysEmail) || pick(nv, keysEmail);\nconst phone = pick(body, keysPhone) || pick(nv, keysPhone);\nconst country = pick(body, keysNat) || pick(nv, keysNat) || 'Myanmar';\nreturn [{ json: { fullName, email, phone, country, locale: 'en', message: 'Visit request (name, email, phone, nationality)' } }];"
+        "method": "GET",
+        "url": "https://sheets.googleapis.com/v4/spreadsheets/1uNbPN1TlnOg7ztzJmC-bITM4AXOjIDqzopPP9SJOY5M/values/Form%20Responses%201",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleDriveOAuth2Api",
+        "options": {}
+      },
+      "id": "read-sheet",
+      "name": "Read linked responses",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [240, 240],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "3uPsiUT3D5JpjwWH",
+          "name": "itsolutions.mm@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const staticData = $getWorkflowStaticData('global');\nconst values = items[0].json.values || [];\nif (!Array.isArray(values) || values.length < 2) return [];\nif (staticData.lastCount == null) {\n  staticData.lastCount = values.length;\n  return [];\n}\nconst headers = (values[0] || []).map((h) => String(h || '').trim());\nconst fresh = values.slice(Number(staticData.lastCount) || 1);\nstaticData.lastCount = values.length;\nreturn fresh.map((row) => {\n  const obj = {};\n  headers.forEach((h, i) => { obj[h] = String((row || [])[i] || '').trim(); });\n  return { json: obj };\n});"
+      },
+      "id": "new-rows",
+      "name": "Only new sheet rows",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [480, 240]
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = items[0].json;\nconst body = raw.body && typeof raw.body === 'object' ? raw.body : raw;\nconst nv = body.namedValues && typeof body.namedValues === 'object' ? body.namedValues : {};\nfunction pick(obj, keys) {\n  const bag = {};\n  for (const [k, v] of Object.entries(obj || {})) bag[String(k).trim()] = v;\n  for (const key of keys) {\n    const val = bag[key] != null ? bag[key] : obj[key];\n    if (Array.isArray(val) && val[0]) return String(val[0]).trim();\n    if (val != null && String(val).trim()) return String(val).trim();\n  }\n  return '';\n}\nconst keysName = ['fullName', 'Name', 'name', 'Full name'];\nconst keysEmail = ['email', 'Email'];\nconst keysPhone = ['phone', 'Phone', 'Phone or viber Number', 'mobile', 'tel'];\nconst keysNat = ['country', 'Country', 'nationality', 'Nationality'];\nconst keysAddr = ['Resident Address', 'address', 'Address'];\nconst fullName = pick(body, keysName) || pick(nv, keysName);\nconst email = pick(body, keysEmail) || pick(nv, keysEmail);\nconst phone = pick(body, keysPhone) || pick(nv, keysPhone);\nconst country = pick(body, keysNat) || pick(nv, keysNat) || 'Myanmar';\nconst address = pick(body, keysAddr) || pick(nv, keysAddr);\nconst message = address ? ('Resident address: ' + address) : 'Visit request (Google Form)';\nreturn [{ json: { fullName, email, phone, country, locale: 'en', message } }];"
       },
       "id": "map-fields",
       "name": "Map name email phone nationality",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [280, 220]
+      "position": [720, 120]
     },
     {
       "parameters": {
@@ -73,58 +89,24 @@
       "name": "Create inquiry in CareChannel",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [540, 220]
-    },
-    {
-      "parameters": {
-        "operation": "append",
-        "documentId": {
-          "__rl": true,
-          "value": "1eUxxpTDInD65CL8kNPCi92YEmxyP_ipC1uYnA15oMPw",
-          "mode": "id"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "1999607699",
-          "mode": "id"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Timestamp": "={{$now.toISO()}}",
-            "Name": "={{$('Map name email phone nationality').item.json.fullName}}",
-            "Email": "={{$('Map name email phone nationality').item.json.email}}",
-            "Phone": "={{$('Map name email phone nationality').item.json.phone}}",
-            "Nationality": "={{$('Map name email phone nationality').item.json.country}}"
-          }
-        },
-        "options": {}
-      },
-      "id": "append-sheet",
-      "name": "Log to Google Sheet",
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.5,
-      "position": [780, 220],
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "tNzD3SlIUiRK6beo",
-          "name": "Google Sheets account"
-        }
-      }
+      "position": [980, 120]
     }
   ],
   "connections": {
     "Google Form webhook": {
       "main": [[{ "node": "Map name email phone nationality", "type": "main", "index": 0 }]]
     },
-    "Simple visit form": {
+    "Every minute": {
+      "main": [[{ "node": "Read linked responses", "type": "main", "index": 0 }]]
+    },
+    "Read linked responses": {
+      "main": [[{ "node": "Only new sheet rows", "type": "main", "index": 0 }]]
+    },
+    "Only new sheet rows": {
       "main": [[{ "node": "Map name email phone nationality", "type": "main", "index": 0 }]]
     },
     "Map name email phone nationality": {
-      "main": [[
-        { "node": "Create inquiry in CareChannel", "type": "main", "index": 0 },
-        { "node": "Log to Google Sheet", "type": "main", "index": 0 }
-      ]]
+      "main": [[{ "node": "Create inquiry in CareChannel", "type": "main", "index": 0 }]]
     }
   },
   "settings": { "executionOrder": "v1" }
