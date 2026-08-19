@@ -73,7 +73,7 @@ export default async function AboutPage({
               rel="noopener noreferrer"
               className="rounded-full border border-[#d4af37]/50 bg-white/80 px-7 py-3 text-sm font-semibold text-[#1a2330] hover:bg-white"
             >
-              {my ? "ရိုးရှင်းသော ဖောင်" : "Simple form"}
+              {my ? "Google Form" : "Google Form"}
             </a>
             <Link
               href="/packages"

@@ -37,7 +37,7 @@ export async function loadPublicChrome(): Promise<PublicChrome> {
   const googleFormUrl =
     googleFormsUrl(copy["partner.googleFormUrl"]) ||
     googleFormsUrl(process.env.GOOGLE_FORM_URL) ||
-    "https://n8n-al8a.srv1707349.hstgr.cloud/form/ram-hospital-visit";
+    "https://docs.google.com/forms/d/1nLGeHgj-IhYtgzPw2Bi7spUQW9rRnrHd1Fa4GZ7y3yQ/viewform";
   return {
     nameEn: hospital.nameEn,
     nameMy: hospital.nameMy,

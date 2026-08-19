@@ -113,7 +113,7 @@ export default async function ContactPage({
           </div>
           <div className="rounded-2xl bg-[#f7f1e4] px-5 py-4 ring-1 ring-[#e8dcc0]">
             <p className="text-sm font-semibold text-[#1a2330]">
-              {my ? "ရိုးရှင်းသော ဖောင်" : "Simple form"}
+              {my ? "Google Form" : "Google Form"}
             </p>
             <p className="mt-2 text-xs leading-6 text-slate-600">
               {my
@@ -126,7 +126,7 @@ export default async function ContactPage({
               rel="noopener noreferrer"
               className="mt-3 inline-flex rounded-full bg-[#1a2330] px-4 py-2 text-sm font-semibold text-white hover:bg-[#111820]"
             >
-              {my ? "ရိုးရှင်းသော ဖောင် ဖွင့်ရန်" : "Open simple form"}
+                {my ? "Google Form ဖွင့်ရန်" : "Open Google Form"}
             </a>
           </div>
         </aside>
