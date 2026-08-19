@@ -5,6 +5,7 @@ import { Link, usePathname } from "@/i18n/routing";
 const NAV = [
   { href: "/admin",            label: "Dashboard" },
   { href: "/admin/home",       label: "Homepage copy" },
+  { href: "/admin/about",      label: "About page" },
   { href: "/admin/promotions", label: "Public promotions" },
   { href: "/admin/packages",   label: "Packages" },
   { href: "/admin/specialties",label: "Specialties" },

@@ -9,6 +9,7 @@ import {
   packageFeatureLines,
   type SpecialtySeed,
 } from "../src/catalog/hospital-source";
+import { ABOUT_FIELDS } from "../src/catalog/about-copy";
 
 const prisma = new PrismaClient();
 
@@ -265,6 +266,11 @@ async function main() {
       valueMy:
         "လိုပါက ညှိနှိုင်းရေးမှူးက ခရီးစဉ်အနီး ရိုးရိုး အငှားတိုက်ခန်း ရှာပေးနိုင်သည်။ ဟိုတယ် မဟုတ်၊ ဆေးရုံ သို့မဟုတ် စစ်ဆေးပက်ကေ့ချ်လည်း မဟုတ်ပါ။ မိတ်ဖက်တိုက်ခန်းဝက်ဘ်ဆိုက်တွင် ပုံမှန်အားဖြင့် ၃,၅၀၀ သို့မဟုတ် ၄,၀၀၀ ဘတ်။ လိုမှသာ တောင်းဆိုဖောင်၊ LINE၊ Telegram သို့မဟုတ် Viber တွင် ပြောပါ။",
     },
+    ...ABOUT_FIELDS.map((f) => ({
+      key: f.key,
+      valueEn: f.fallbackEn,
+      valueMy: f.fallbackMy,
+    })),
   ];
 
   for (const row of siteContent) {

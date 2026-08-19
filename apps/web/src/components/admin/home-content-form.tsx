@@ -5,7 +5,15 @@ import { useRouter } from "@/i18n/routing";
 
 type Row = { key: string; label: string; valueEn: string; valueMy: string; multiline?: boolean };
 
-export function HomeContentForm({ rows }: { rows: Row[] }) {
+export function HomeContentForm({
+  rows,
+  buttonLabel = "Save homepage copy",
+  successMessage = "Saved. The public homepage now shows this copy.",
+}: {
+  rows: Row[];
+  buttonLabel?: string;
+  successMessage?: string;
+}) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [ok, setOk] = useState(false);
@@ -69,9 +77,9 @@ export function HomeContentForm({ rows }: { rows: Row[] }) {
         disabled={busy}
         className="rounded-full bg-[#0b4f9c] px-6 py-2.5 text-sm font-bold text-white hover:bg-[#083a73] disabled:opacity-50"
       >
-        {busy ? "Saving…" : "Save homepage copy"}
+        {busy ? "Saving…" : buttonLabel}
       </button>
-      {ok && <p className="text-sm font-semibold text-emerald-700">Saved. The public homepage now shows this copy.</p>}
+      {ok && <p className="text-sm font-semibold text-emerald-700">{successMessage}</p>}
       {err && <p className="text-sm text-red-600">{err}</p>}
     </form>
   );

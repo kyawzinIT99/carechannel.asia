@@ -59,6 +59,9 @@ export default async function AdminDashboard() {
           <Link href="/admin/home" className="rounded-full bg-[#0b4f9c] px-4 py-2 text-sm font-semibold text-white hover:bg-[#083a73]">
             Edit homepage
           </Link>
+          <Link href="/admin/about" className="rounded-full border border-[#0b4f9c] px-4 py-2 text-sm font-semibold text-[#0b4f9c] hover:bg-slate-50">
+            Edit About
+          </Link>
           <Link href="/admin/promotions/new" className="rounded-full border border-[#0b4f9c] px-4 py-2 text-sm font-semibold text-[#0b4f9c] hover:bg-slate-50">
             + New announcement
           </Link>
@@ -76,6 +79,7 @@ export default async function AdminDashboard() {
         <div className="mt-4 grid gap-2 text-sm md:grid-cols-2">
           {[
             ["PUBLIC — Homepage", "/en"],
+            ["PUBLIC — About", "/en/about"],
             ["PUBLIC — Specialties", "/en/specialties"],
             ["PUBLIC — Packages", "/en/packages"],
             ["PUBLIC — Request a visit", "/en/contact"],
@@ -83,6 +87,7 @@ export default async function AdminDashboard() {
             ["STAFF — Coordinator inbox", "/en/staff"],
             ["ADMIN — Dashboard", "/en/admin"],
             ["ADMIN — Homepage copy", "/en/admin/home"],
+            ["ADMIN — About copy", "/en/admin/about"],
             ["ADMIN — Inquiries", "/en/admin/inquiries"],
             ["ADMIN — Announcements", "/en/admin/promotions"],
             ["ADMIN — Packages", "/en/admin/packages"],

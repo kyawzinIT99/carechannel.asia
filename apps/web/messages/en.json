@@ -5,6 +5,7 @@
   },
   "nav": {
     "home": "Home",
+    "about": "About",
     "specialties": "Centres",
     "packages": "Packages",
     "contact": "Request a visit",
@@ -94,6 +95,6 @@
     "promotions": "Promotions"
   },
   "footer": {
-    "legal": "Official partner channel for Myanmar and other visitors. Coordinators continue by email and Telegram. This site does not give emergency instructions or invent medical advice."
+    "legal": "Official partner channel for Myanmar and other Asia visitors. Coordinators continue by email and Telegram. This site does not give emergency instructions or invent medical advice."
   }
 }

@@ -25,6 +25,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
 
   const menuLinks = [
     { href: "/",            label: locale === "my" ? "မူလစာမျက်နှာ"      : "Home" },
+    { href: "/about",       label: locale === "my" ? "အကြောင်း"           : "About" },
     { href: "/specialties", label: locale === "my" ? "ဌာနများ"             : "Specialty centres" },
     { href: "/packages",    label: locale === "my" ? "ပက်ကေ့ချ်များ"       : "Packages" },
     { href: "/visit",       label: locale === "my" ? "လေဆိပ်ကားနှင့် နေထိုင်ရန်" : "Pickup & stay" },
@@ -144,6 +145,9 @@ export function SiteChrome({ children }: { children: ReactNode }) {
                 {locale === "my" ? hospital.nameMy : hospital.nameEn}
               </p>
               <p className="text-xs text-slate-400">{hospital.legalNameTh}</p>
+              <Link href="/about" className="mt-2 inline-flex text-sm font-semibold text-[#1a2330] hover:underline">
+                {locale === "my" ? "အကြောင်း" : "About"} →
+              </Link>
             </div>
 
             <div className="text-sm leading-7 text-slate-600">
