@@ -1,0 +1,12 @@
+.git
+.tmp-fetch
+**/.env
+**/.env.*
+!**/.env.example
+**/node_modules
+**/.next
+**/coverage
+**/.DS_Store
+n8n
+README.md
+LICENSE
