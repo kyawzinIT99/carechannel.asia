@@ -8,7 +8,7 @@ import { PageContainer } from "@/components/page-container";
 export default function StaffLoginPage() {
   const locale = useLocale();
   const router = useRouter();
-  const [error, setError] = useState<"invalid" | "patient" | null>(null);
+  const [error, setError] = useState<"invalid" | "patient" | "busy" | "server" | null>(null);
   const [busy, setBusy] = useState(false);
   const my = locale === "my";
 
@@ -28,6 +28,16 @@ export default function StaffLoginPage() {
         portal: "staff",
       }),
     });
+    if (res.status === 429) {
+      setError("busy");
+      setBusy(false);
+      return;
+    }
+    if (res.status === 500) {
+      setError("server");
+      setBusy(false);
+      return;
+    }
     if (res.status === 403) {
       setError("patient");
       setBusy(false);
@@ -55,18 +65,28 @@ export default function StaffLoginPage() {
           <p className="mt-1 text-sm text-slate-500">
             {my
               ? "ညှိနှိုင်းရေးမှူးနှင့် အက်ဒမင်အတွက်သာ။ လူနာများ ဤနေရာမှ မဝင်ပါ။"
-              : "For coordinators and hospital admin only. Patients do not sign in here."}
+              : "For coordinators and hospital admin only. Use this page, not patient sign-in. Patients do not sign in here."}
           </p>
 
           <form onSubmit={onSubmit} className="mt-6 space-y-4">
             <label className="block text-sm font-medium text-slate-700">
               Email
-              <input required name="email" type="email" className={field} />
+              <input required name="email" type="email" autoComplete="username" className={field} />
             </label>
             <label className="block text-sm font-medium text-slate-700">
               Password
-              <input required name="password" type="password" className={field} />
+              <input required name="password" type="password" autoComplete="current-password" className={field} />
             </label>
+            {error === "busy" && (
+              <p className="rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-800">
+                Too many sign-in tries. Wait a few minutes and try again.
+              </p>
+            )}
+            {error === "server" && (
+              <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
+                Server auth is not ready. JWT_SECRET on Render must be at least 32 characters.
+              </p>
+            )}
             {error === "invalid" && (
               <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
                 Sign-in was not accepted.

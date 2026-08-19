@@ -5,6 +5,7 @@ import { signSession, setSessionCookie, STAFF_ROLES } from "@/server/auth/sessio
 import { Role } from "@prisma/client";
 import { clientIp, rateLimit } from "@/server/security/http";
 import { dummyPasswordHash } from "@/server/security/urls";
+import { ensureBootstrapAdmin } from "@/server/auth/ensure-admin";
 
 const ADMIN_ROLES: Role[] = ["SUPER_ADMIN", "HOSPITAL_ADMIN"];
 
@@ -20,17 +21,27 @@ export async function POST(request: Request) {
   if (!body.email || !body.password) {
     return NextResponse.json({ error: "missing" }, { status: 400 });
   }
+  const email = String(body.email).trim().toLowerCase();
+  const password = String(body.password);
   const portal = body.portal === "staff" ? "staff" : "patient";
 
+  if (portal === "staff") {
+    try {
+      await ensureBootstrapAdmin(email, password);
+    } catch {
+      /* empty disk or migrate-not-ready; lookup below still returns invalid */
+    }
+  }
+
   const user = await prisma.user.findUnique({
-    where: { email: body.email },
+    where: { email },
     include: { roles: true },
   });
   if (!user || !user.isActive) {
-    await bcrypt.compare(body.password, dummyPasswordHash());
+    await bcrypt.compare(password, dummyPasswordHash());
     return NextResponse.json({ error: "invalid" }, { status: 401 });
   }
-  const ok = await bcrypt.compare(body.password, user.passwordHash);
+  const ok = await bcrypt.compare(password, user.passwordHash);
   if (!ok) {
     return NextResponse.json({ error: "invalid" }, { status: 401 });
   }
@@ -47,11 +58,16 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "patient_portal" }, { status: 403 });
   }
 
-  const token = await signSession({
-    sub: user.id,
-    email: user.email,
-    roles,
-  });
+  let token: string;
+  try {
+    token = await signSession({
+      sub: user.id,
+      email: user.email,
+      roles,
+    });
+  } catch {
+    return NextResponse.json({ error: "server" }, { status: 500 });
+  }
   await setSessionCookie(token);
 
   const destination =

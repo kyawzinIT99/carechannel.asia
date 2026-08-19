@@ -22,13 +22,13 @@ export async function POST(request: Request) {
   if (body.password.length < 8) {
     return NextResponse.json({ error: "weak_password" }, { status: 400 });
   }
-  const existing = await prisma.user.findUnique({ where: { email: body.email } });
+  const existing = await prisma.user.findUnique({ where: { email: body.email.trim().toLowerCase() } });
   if (existing) {
     return NextResponse.json({ error: "exists" }, { status: 409 });
   }
   const user = await prisma.user.create({
     data: {
-      email: body.email,
+      email: body.email.trim().toLowerCase(),
       passwordHash: await bcrypt.hash(body.password, 12),
       name: body.name,
       phone: body.phone || null,

@@ -182,7 +182,7 @@ async function main() {
     });
   }
 
-  const adminEmail = process.env.ADMIN_EMAIL ?? "admin@chiangmairam.local";
+  const adminEmail = (process.env.ADMIN_EMAIL ?? "admin@chiangmairam.local").trim().toLowerCase();
   const adminPassword = process.env.ADMIN_PASSWORD ?? "ChangeMe_RamHospital_2026";
   const passwordHash = await bcrypt.hash(adminPassword, 12);
   const admin = await prisma.user.upsert({
