@@ -5,6 +5,7 @@ import { loadPublicChrome, loadPublicCopy, loadPublicPromotions, loadPublicSpeci
 import { VisitAssistSection } from "@/components/visit-assist-section";
 import { ContactChannels } from "@/components/contact-channels";
 import { ShwedagonMark } from "@/components/shwedagon-mark";
+import { HospitalFilm } from "@/components/hospital-film";
 
 export const dynamic = "force-dynamic";
 
@@ -116,6 +117,12 @@ export default async function HomePage({
               </div>
             </div>
           </figure>
+        </div>
+      </section>
+
+      <section className="border-b border-[#e4ebe4] bg-[#1a2330]">
+        <div className="mx-auto max-w-6xl px-6 py-12 md:py-16">
+          <HospitalFilm locale={locale} />
         </div>
       </section>
 

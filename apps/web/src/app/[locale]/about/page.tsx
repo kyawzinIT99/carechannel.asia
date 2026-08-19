@@ -1,5 +1,6 @@
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/routing";
+import { HospitalFilm } from "@/components/hospital-film";
 import { ShwedagonMark } from "@/components/shwedagon-mark";
 import { ABOUT_FACEBOOK_URL, ABOUT_FIELDS, aboutField } from "@/catalog/about-copy";
 import { loadPublicChrome, loadPublicCopy } from "@/server/content/public";
@@ -99,6 +100,9 @@ export default async function AboutPage({
             >
               Viber
             </Link>
+          </div>
+          <div className="mt-10 max-w-4xl">
+            <HospitalFilm locale={locale} />
           </div>
         </div>
       </section>
