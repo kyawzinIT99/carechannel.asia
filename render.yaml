@@ -1,7 +1,5 @@
-# CareChannel on Render (not a VPS).
-# Starter web $7/mo + 1 GB disk $0.25/mo ≈ $7.25–$7.50.
-# Postgres is separate: use free Neon (recommended) or Render Postgres (+~$6).
-# n8n stays on Hostinger. Do not import BCC / PDF / SDDP workflows here.
+# CareChannel: Render Starter + existing 1 GB disk (same pattern as SDDP).
+# SQLite file on the disk. n8n stays on Hostinger. Do not touch BCC / PDF / SDDP.
 
 services:
   - type: web
@@ -11,7 +9,7 @@ services:
     region: singapore
     rootDir: apps/web
     buildCommand: npm install --include=dev && npx prisma generate && npm run build
-    preDeployCommand: npx prisma migrate deploy
+    preDeployCommand: mkdir -p /var/data && npx prisma migrate deploy
     startCommand: npm start
     healthCheckPath: /en
     disk:
@@ -23,10 +21,10 @@ services:
         value: "22"
       - key: NEXT_TELEMETRY_DISABLED
         value: "1"
-      - key: SITE_URL
-        sync: false
       - key: DATABASE_URL
-        sync: false
+        value: file:/var/data/carechannel.db
+      - key: SITE_URL
+        value: https://carechannel.onrender.com
       - key: JWT_SECRET
         sync: false
       - key: ADMIN_EMAIL
@@ -45,13 +43,3 @@ services:
         sync: false
       - key: OPENAI_MODEL
         value: gpt-4o-mini
-      - key: SMTP_HOST
-        sync: false
-      - key: SMTP_PORT
-        value: "587"
-      - key: SMTP_USER
-        sync: false
-      - key: SMTP_PASS
-        sync: false
-      - key: SMTP_FROM
-        sync: false

@@ -1,2 +1,0 @@
-ALTER TABLE "Inquiry" ADD COLUMN IF NOT EXISTS "country" TEXT;
-ALTER TABLE "Inquiry" ADD COLUMN IF NOT EXISTS "returningPatient" BOOLEAN;

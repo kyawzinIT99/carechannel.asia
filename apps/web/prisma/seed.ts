@@ -115,7 +115,27 @@ const templates: { key: string; locale: Locale; subject: string; body: string }[
 
 async function main() {
   await prisma.hospitalProfile.deleteMany();
-  await prisma.hospitalProfile.create({ data: { ...HOSPITAL_PROFILE } });
+  await prisma.hospitalProfile.create({
+    data: {
+      legalNameTh: HOSPITAL_PROFILE.legalNameTh,
+      nameEn: HOSPITAL_PROFILE.nameEn,
+      nameMy: HOSPITAL_PROFILE.nameMy,
+      addressEn: HOSPITAL_PROFILE.addressEn,
+      addressMy: HOSPITAL_PROFILE.addressMy,
+      mainPhone: HOSPITAL_PROFILE.mainPhone,
+      emergencyPhone: HOSPITAL_PROFILE.emergencyPhone,
+      cardiacPhone: HOSPITAL_PROFILE.cardiacPhone,
+      email: HOSPITAL_PROFILE.email,
+      website: HOSPITAL_PROFILE.website,
+      facebookUrl: HOSPITAL_PROFILE.facebookUrl,
+      logoPath: HOSPITAL_PROFILE.logoPath,
+      mapPath: HOSPITAL_PROFILE.mapPath,
+      heroPath: HOSPITAL_PROFILE.heroPath,
+      locationNoteEn: HOSPITAL_PROFILE.locationNoteEn,
+      locationNoteMy: HOSPITAL_PROFILE.locationNoteMy,
+      sourceNote: HOSPITAL_PROFILE.sourceNote,
+    },
+  });
 
   for (const spec of SPECIALTIES) {
     await upsertSpecialty(spec);

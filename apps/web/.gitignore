@@ -37,6 +37,12 @@ yarn-error.log*
 # vercel
 .vercel
 
+# sqlite (same idea as SDDP on the Render disk)
+prisma/*.db
+prisma/*.db-journal
+prisma/dev.db
+prisma/prisma/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

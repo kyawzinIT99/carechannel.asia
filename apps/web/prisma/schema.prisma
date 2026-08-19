@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -80,8 +80,8 @@ model UserRole {
 model SiteContent {
   id        String   @id @default(cuid())
   key       String   @unique
-  valueEn   String   @db.Text
-  valueMy   String   @db.Text
+  valueEn   String
+  valueMy   String
   updatedAt DateTime @updatedAt
 }
 
@@ -90,8 +90,8 @@ model Branch {
   code       String  @unique
   nameEn     String
   nameMy     String
-  detailEn   String  @db.Text
-  detailMy   String  @db.Text
+  detailEn   String
+  detailMy   String
   mapQuery   String
   status     String  @default("open")
   sortOrder  Int     @default(100)
@@ -116,7 +116,7 @@ model HospitalProfile {
   heroPath        String
   locationNoteEn  String
   locationNoteMy  String
-  sourceNote      String @db.Text
+  sourceNote      String
 }
 
 model Specialty {
@@ -130,10 +130,10 @@ model Specialty {
   nameEn      String
   nameMy      String
   nameTh      String
-  summaryEn   String   @db.Text
-  summaryMy   String   @db.Text
-  servicesEn  String[]
-  servicesMy  String[]
+  summaryEn   String
+  summaryMy   String
+  servicesEn  Json     @default("[]")
+  servicesMy  Json     @default("[]")
   sortOrder   Int
   published   Boolean  @default(true)
   parentId    String?
@@ -149,8 +149,8 @@ model PackageCatalog {
   nameMy       String
   validFrom    DateTime
   validTo      DateTime
-  notesEn      String    @db.Text
-  notesMy      String    @db.Text
+  notesEn      String
+  notesMy      String
   packages     Package[]
 }
 
@@ -161,13 +161,13 @@ model Package {
   nameEn     String
   nameMy     String
   gender     GenderScope
-  listPrice  Decimal         @db.Decimal(12, 2)
-  salePrice  Decimal         @db.Decimal(12, 2)
+  listPrice  Decimal
+  salePrice  Decimal
   currency   String          @default("THB")
   published  Boolean         @default(true)
   highlight  String?
-  featuresEn String[]        @default([])
-  featuresMy String[]        @default([])
+  featuresEn Json            @default("[]")
+  featuresMy Json            @default("[]")
   catalog    PackageCatalog  @relation(fields: [catalogId], references: [id], onDelete: Cascade)
   inquiries  Inquiry[]
 }
@@ -176,8 +176,8 @@ model Promotion {
   id        String   @id @default(cuid())
   titleEn   String
   titleMy   String
-  bodyEn    String   @db.Text
-  bodyMy    String   @db.Text
+  bodyEn    String
+  bodyMy    String
   imagePath String?
   published Boolean  @default(false)
   sortOrder Int      @default(100)
@@ -193,7 +193,7 @@ model Inquiry {
   email             String?
   country           String?
   returningPatient  Boolean?
-  message           String        @db.Text
+  message           String
   specialtySlug String?
   packageId     String?
   status        InquiryStatus @default(NEW)
@@ -217,7 +217,7 @@ model Appointment {
   airportPickup     Boolean           @default(false)
   accommodationHelp Boolean           @default(false)
   status            AppointmentStatus @default(REQUESTED)
-  staffNote         String?           @db.Text
+  staffNote         String?
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
   inquiry           Inquiry           @relation(fields: [inquiryId], references: [id], onDelete: Cascade)
@@ -228,7 +228,7 @@ model MessageTemplate {
   key     String
   locale  Locale
   subject String
-  body    String @db.Text
+  body    String
 
   @@unique([key, locale])
 }

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/server/db/prisma";
+import { stringList } from "@/server/db/json-list";
 import { Link } from "@/i18n/routing";
 import { PackageEditor } from "@/components/admin/package-editor";
 
@@ -35,8 +36,8 @@ export default async function EditPackagePage({
         salePrice={String(pkg.salePrice)}
         highlight={pkg.highlight ?? ""}
         published={pkg.published}
-        featuresEn={pkg.featuresEn ?? []}
-        featuresMy={pkg.featuresMy ?? []}
+        featuresEn={stringList(pkg.featuresEn)}
+        featuresMy={stringList(pkg.featuresMy)}
       />
     </div>
   );

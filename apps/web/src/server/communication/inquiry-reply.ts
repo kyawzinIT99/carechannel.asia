@@ -16,6 +16,7 @@ import {
 } from "@/server/communication/message-format";
 import { messengerFooterText } from "@/catalog/partner-messengers";
 import { loadPublicPackages } from "@/server/content/public";
+import { stringList } from "@/server/db/json-list";
 
 type PublicPackage = Awaited<ReturnType<typeof loadPublicPackages>>[number];
 
@@ -141,7 +142,7 @@ export async function buildInquiryReply(input: InquiryReplyInput): Promise<Inqui
     specialties: specialties.map((item) => ({
       name: locale === "my" ? item.nameMy : item.nameEn,
       summary: locale === "my" ? item.summaryMy : item.summaryEn,
-      services: (locale === "my" ? item.servicesMy : item.servicesEn).slice(0, 8),
+      services: stringList(locale === "my" ? item.servicesMy : item.servicesEn).slice(0, 8),
     })),
     extras,
     stayHelp: {

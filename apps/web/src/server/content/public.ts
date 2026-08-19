@@ -1,4 +1,5 @@
 import { prisma } from "@/server/db/prisma";
+import { stringList } from "@/server/db/json-list";
 import { listBranches } from "@/server/db/branches";
 import { listSiteContent } from "@/server/db/site-content";
 import {
@@ -101,8 +102,8 @@ export async function loadPublicPackages() {
           listPrice: String(p.listPrice),
           salePrice: String(p.salePrice),
           highlight: p.highlight ?? null,
-          featuresEn: Array.isArray(p.featuresEn) ? p.featuresEn : fallback.featuresEn,
-          featuresMy: Array.isArray(p.featuresMy) ? p.featuresMy : fallback.featuresMy,
+          featuresEn: stringList(p.featuresEn).length ? stringList(p.featuresEn) : fallback.featuresEn,
+          featuresMy: stringList(p.featuresMy).length ? stringList(p.featuresMy) : fallback.featuresMy,
         };
       });
     }
@@ -148,7 +149,13 @@ export async function loadPublicSpecialties() {
       where: { published: true },
       orderBy: { sortOrder: "asc" },
     });
-    if (rows.length) return rows;
+    if (rows.length) {
+      return rows.map((s) => ({
+        ...s,
+        servicesEn: stringList(s.servicesEn),
+        servicesMy: stringList(s.servicesMy),
+      }));
+    }
   } catch { /* fallback */ }
   return flattenSpecialties(SPECIALTIES).map((s) => ({
     id: s.slug,

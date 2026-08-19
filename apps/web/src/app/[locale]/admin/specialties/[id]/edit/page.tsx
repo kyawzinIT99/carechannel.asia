@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/server/db/prisma";
+import { stringList } from "@/server/db/json-list";
 import { SpecialtyForm } from "@/components/admin/specialty-form";
 
 export const dynamic = "force-dynamic";
@@ -19,8 +20,8 @@ export default async function EditSpecialtyPage({ params }: { params: Promise<{ 
           nameTh: s.nameTh,
           summaryEn: s.summaryEn,
           summaryMy: s.summaryMy,
-          servicesEn: s.servicesEn.join("\n"),
-          servicesMy: s.servicesMy.join("\n"),
+          servicesEn: stringList(s.servicesEn).join("\n"),
+          servicesMy: stringList(s.servicesMy).join("\n"),
           imagePath: s.imagePath ?? "",
           hoursEn: s.hoursEn ?? "",
           hoursMy: s.hoursMy ?? "",

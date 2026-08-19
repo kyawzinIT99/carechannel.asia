@@ -22,7 +22,7 @@ Do not import or edit existing Hostinger workflows named BCC, PDF, or SDDP. Impo
 ```bash
 cd apps/web
 cp .env.example .env
-# set JWT_SECRET (>= 32 chars) and DATABASE_URL (Neon Postgres or local)
+# set JWT_SECRET (>= 32 chars). DATABASE_URL is SQLite: file:./prisma/dev.db
 npm install
 npx prisma migrate dev --name init
 npm run db:seed
@@ -35,7 +35,20 @@ Open http://localhost:3000/en and http://localhost:3000/my
 
 This portal runs on **Render Starter**, not a VPS. n8n stays on Hostinger.
 
-Typical bill: **Starter web $7/mo + 1 GB disk $0.25/mo ≈ $7.25–$7.50**. That disk is for small files only. **Postgres is not included** in $7.50 — use a free [Neon](https://neon.tech) database (fits the budget) or Render Postgres later (~+$6).
+Typical bill: **Starter web $7/mo + 1 GB disk $0.25/mo ≈ $7.25**. The database is a SQLite file on that disk (`file:/var/data/carechannel.db`), same idea as SDDP. No Neon.
+
+On the existing carechannel service: Environment → `DATABASE_URL` = `file:/var/data/carechannel.db` (must match the Disk mount path). Then Manual Deploy. After Live, seed once from a one-off job or laptop is not needed if you run seed on first boot — run from Render Shell:
+
+```bash
+cd /opt/render/project/src/apps/web
+npx prisma db seed
+```
+
+Or from your Mac after setting DATABASE_URL is only local. For production seed, use Render **Shell** on carechannel after migrate:
+
+```bash
+npx prisma db seed
+```
 
 1. This repo: https://github.com/kyawzinIT99/carechannel.asia
 2. On Render: New → Blueprint → select the repo (`render.yaml`).
