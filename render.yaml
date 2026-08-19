@@ -1,5 +1,6 @@
-# CareChannel: Render Starter + existing 1 GB disk (same pattern as SDDP).
-# SQLite file on the disk. n8n stays on Hostinger. Do not touch BCC / PDF / SDDP.
+# CareChannel: existing Starter service + existing 1 GB disk (like SDDP).
+# Do not change the disk mount path. Point DATABASE_URL at that mount.
+# n8n stays on Hostinger. Do not touch BCC / PDF / SDDP.
 
 services:
   - type: web
@@ -9,8 +10,7 @@ services:
     region: singapore
     rootDir: apps/web
     buildCommand: npm install --include=dev && npx prisma generate && npm run build
-    preDeployCommand: mkdir -p /var/data && npx prisma migrate deploy
-    startCommand: npm start
+    startCommand: npx prisma migrate deploy && npm start
     healthCheckPath: /en
     disk:
       name: carechannel-data
