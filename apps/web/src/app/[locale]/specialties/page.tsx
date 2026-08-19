@@ -147,7 +147,6 @@ export default async function SpecialtiesPage({
 
         {/* ── HEALTH CENTER + SUB-CENTRES ── */}
         {tree.filter(c => c.slug === "health-center").map((hc) => {
-          const accent = ACCENT["health-center"];
           return (
             <div key={hc.slug}>
               {/* Parent card */}

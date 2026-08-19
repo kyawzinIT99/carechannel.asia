@@ -10,7 +10,7 @@ const ADMIN: Role[] = ["SUPER_ADMIN", "HOSPITAL_ADMIN"];
 
 export async function POST(request: Request) {
   const session = await readSession();
-  if (!hasRole(session, ADMIN)) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  if (!session || !hasRole(session, ADMIN)) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
 
   const body = (await request.json()) as { inquiryIds?: string[]; promotionId?: string };
   const inquiryIds = Array.isArray(body.inquiryIds) ? body.inquiryIds.slice(0, 40) : [];
