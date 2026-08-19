@@ -57,7 +57,7 @@ export function HomeContentForm({
             <label className="text-sm font-medium text-slate-600">
               English
               {row.multiline ? (
-                <textarea name={`${row.key}.en`} rows={4} defaultValue={row.valueEn} className={field} />
+                <textarea name={`${row.key}.en`} rows={8} defaultValue={row.valueEn} className={field} />
               ) : (
                 <input name={`${row.key}.en`} defaultValue={row.valueEn} className={field} />
               )}
@@ -65,7 +65,7 @@ export function HomeContentForm({
             <label className="text-sm font-medium text-slate-600">
               Myanmar
               {row.multiline ? (
-                <textarea name={`${row.key}.my`} rows={4} defaultValue={row.valueMy} className={field} />
+                <textarea name={`${row.key}.my`} rows={10} defaultValue={row.valueMy} className={field} />
               ) : (
                 <input name={`${row.key}.my`} defaultValue={row.valueMy} className={field} />
               )}

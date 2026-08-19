@@ -276,9 +276,10 @@ async function main() {
   for (const row of siteContent) {
     await prisma.siteContent.upsert({
       where: { key: row.key },
-      update: row.key.startsWith("visit.stay")
-        ? { valueEn: row.valueEn, valueMy: row.valueMy }
-        : {},
+      update:
+        row.key.startsWith("visit.stay") || row.key.startsWith("about.")
+          ? { valueEn: row.valueEn, valueMy: row.valueMy }
+          : {},
       create: row,
     });
   }

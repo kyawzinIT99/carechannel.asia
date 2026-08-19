@@ -1,0 +1,48 @@
+{
+  "name": "Ram Hospital Google Form to CRM",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ram-hospital-google-form",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "wh-gform",
+      "name": "Google Form webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0],
+      "webhookId": "ram-hospital-google-form"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.RAM_HOSPITAL_APP_URL}}/api/v1/internal/n8n/inquiries",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Ram-Hospital-Secret",
+              "value": "={{$env.N8N_WEBHOOK_SECRET}}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{JSON.stringify($json.body || $json)}}",
+        "options": {}
+      },
+      "id": "post-crm",
+      "name": "Create inquiry in CareChannel",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [280, 0]
+    }
+  ],
+  "connections": {
+    "Google Form webhook": {
+      "main": [[{ "node": "Create inquiry in CareChannel", "type": "main", "index": 0 }]]
+    }
+  }
+}

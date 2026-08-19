@@ -30,7 +30,7 @@ export default async function AdminAboutPage() {
           <Link href="/about" className="font-semibold text-[#0b4f9c] hover:underline">
             /about
           </Link>{" "}
-          in English and Myanmar. It is the official partner story — relationship, Asia patients, and why to inquire on this website.
+          in English and Myanmar. Myanmar copy is written in full Burmese. Save to replace the catalog text on the public About page.
         </p>
       </div>
       <HomeContentForm

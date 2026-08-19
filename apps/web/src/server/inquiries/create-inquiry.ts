@@ -133,3 +133,58 @@ export async function createInquiry(raw: unknown, patientUserId?: string) {
 
   return inquiry;
 }
+
+function normalizeCountry(value: string | undefined) {
+  const raw = String(value || "").trim();
+  if (!raw) return "Myanmar";
+  if (/မြန်မာ|burma|\bmm\b/i.test(raw)) return "Myanmar";
+  const hit = (COUNTRIES as readonly string[]).find((row) => row.toLowerCase() === raw.toLowerCase());
+  return hit || "Myanmar";
+}
+
+function pickStr(raw: Record<string, unknown>, keys: string[]) {
+  for (const key of keys) {
+    const val = raw[key];
+    if (typeof val === "string" && val.trim()) return val.trim();
+  }
+  return "";
+}
+
+/** n8n / Google Form → same Inquiry row. Never creates a User. */
+export async function ingestExternalInquiry(raw: unknown) {
+  const body = raw && typeof raw === "object" ? (raw as Record<string, unknown>) : {};
+  const nested = body.body && typeof body.body === "object" ? (body.body as Record<string, unknown>) : body;
+  const fullName = pickStr(nested, ["fullName", "name", "Name", "full_name"]);
+  const phone = pickStr(nested, ["phone", "Phone", "mobile", "tel"]);
+  const email = pickStr(nested, ["email", "Email"]);
+  const message = pickStr(nested, ["message", "Message", "comment", "notes"]) || "Google Form visit request";
+  const locale = pickStr(nested, ["locale", "language"]) === "my" ? "my" : "en";
+  const specialtySlugRaw = pickStr(nested, ["specialtySlug", "specialty"]);
+  const specialtySlug = allSlugs().includes(specialtySlugRaw) ? specialtySlugRaw : undefined;
+  const packageCode = pickStr(nested, ["packageCode", "package"]) || undefined;
+  try {
+    return await createInquiry({
+      locale,
+      fullName: fullName.length >= 2 ? fullName : "Google Form visitor",
+      phone: phone.length >= 6 ? phone : "000000",
+      email: email.includes("@") ? email : "",
+      country: normalizeCountry(pickStr(nested, ["country", "Country"])),
+      returningPatient: /yes|true|1|ရှိ/i.test(pickStr(nested, ["returningPatient", "returning"])),
+      message: `[Google Form]\n${message}`.slice(0, 4000),
+      specialtySlug,
+      packageCode,
+      consent: true,
+    });
+  } catch {
+    return createInquiry({
+      locale,
+      fullName: fullName.length >= 2 ? fullName : "Google Form visitor",
+      phone: phone.length >= 6 ? phone : "000000",
+      email: email.includes("@") ? email : "",
+      country: "Myanmar",
+      returningPatient: false,
+      message: `[Google Form]\n${message}`.slice(0, 4000),
+      consent: true,
+    });
+  }
+}

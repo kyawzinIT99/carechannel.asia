@@ -1,6 +1,7 @@
 import { prisma } from "@/server/db/prisma";
 import { UserActions } from "@/components/admin/user-actions";
 import { CreateStaffUserForm } from "@/components/admin/create-staff-user-form";
+import { STAFF_ROLES } from "@/server/auth/session";
 
 export const dynamic = "force-dynamic";
 
@@ -9,14 +10,14 @@ export default async function AdminUsersPage() {
     orderBy: { createdAt: "desc" },
     include: { roles: true },
   });
+  const staffUsers = users.filter((user) => user.roles.some((row) => STAFF_ROLES.includes(row.role)));
 
   return (
     <div className="space-y-5">
       <div>
         <h1 className="text-2xl font-bold">Users</h1>
         <p className="mt-1 text-sm text-slate-500">
-          Create another login here. HOSPITAL_ADMIN and SUPER_ADMIN can open the admin panel at Staff login.
-          INTERNATIONAL_COORDINATOR and RECEPTION use the coordinator inbox.
+          Staff logins only. Visitor and Google Form details stay in Inquiries — not as extra members here.
         </p>
       </div>
 
@@ -36,12 +37,12 @@ export default async function AdminUsersPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
-            {users.length === 0 ? (
+            {staffUsers.length === 0 ? (
               <tr>
                 <td colSpan={7} className="px-4 py-8 text-center text-slate-400">No users yet.</td>
               </tr>
             ) : null}
-            {users.map((user) => (
+            {staffUsers.map((user) => (
               <tr key={user.id} className="align-middle hover:bg-slate-50">
                 <td className="px-4 py-3 font-medium">{user.name}</td>
                 <td className="px-4 py-3 text-slate-600">{user.email}</td>

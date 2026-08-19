@@ -13,16 +13,13 @@ import {
 } from "@/catalog/hospital-source";
 
 import type { PublicChrome } from "@/catalog/public-chrome";
-import { httpsUrl } from "@/server/security/urls";
+import { googleFormsUrl, httpsUrl } from "@/server/security/urls";
+import { lineHttpUrl, telegramHttpUrl, viberAppUrl } from "@/server/security/messengers";
 
 function siteMapEn() {
   return listSiteContent().then((rows) =>
     Object.fromEntries(rows.map((r) => [r.key, r.valueEn])),
   );
-}
-
-function digits(value: string) {
-  return value.replace(/\D/g, "");
 }
 
 export async function loadPublicChrome(): Promise<PublicChrome> {
@@ -35,10 +32,9 @@ export async function loadPublicChrome(): Promise<PublicChrome> {
   }
   const linePhone = copy["partner.linePhone"]?.trim() || HOSPITAL_PROFILE.chatPhoneDisplay;
   const viberDisplay = copy["partner.viberPhone"]?.trim() || HOSPITAL_PROFILE.viberDisplay;
-  const telegramUrl = httpsUrl(copy["partner.telegramUrl"], HOSPITAL_PROFILE.telegramUrl);
+  const telegramStored = copy["partner.telegramUrl"]?.trim() || HOSPITAL_PROFILE.telegramUrl;
   const apartmentUrl = httpsUrl(copy["partner.apartmentUrl"], "https://sddp-apartment.onrender.com");
-  const lineDigits = digits(linePhone);
-  const viberDigits = digits(viberDisplay);
+  const googleFormUrl = googleFormsUrl(copy["partner.googleFormUrl"]);
   return {
     nameEn: hospital.nameEn,
     nameMy: hospital.nameMy,
@@ -48,11 +44,12 @@ export async function loadPublicChrome(): Promise<PublicChrome> {
     logoPath: hospital.logoPath || HOSPITAL_PROFILE.logoPath,
     heroPath: hospital.heroPath || HOSPITAL_PROFILE.heroPath,
     linePhone,
-    lineUrl: lineDigits ? `https://line.me/ti/p/~${lineDigits}` : HOSPITAL_PROFILE.lineUrl,
-    telegramUrl,
+    lineUrl: lineHttpUrl(linePhone),
+    telegramUrl: telegramHttpUrl(telegramStored, linePhone),
     viberDisplay,
-    viberUrl: viberDigits ? `viber://chat?number=${viberDigits}` : HOSPITAL_PROFILE.viberUrl,
+    viberUrl: viberAppUrl(viberDisplay),
     apartmentUrl,
+    googleFormUrl,
   };
 }
 

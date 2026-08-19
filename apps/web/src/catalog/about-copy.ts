@@ -6,73 +6,146 @@ export const ABOUT_FIELDS = [
     key: "about.kicker",
     label: "Small line above title",
     multiline: false,
-    fallbackEn: "Official partner · Asia patients",
-    fallbackMy: "တရားဝင် မိတ်ဖက် · အာရှ လူနာများ",
+    fallbackEn: "Official partner · website and apps",
+    fallbackMy: "တရားဝင် မိတ်ဖက် · ဝက်ဘ်ဆိုက်နှင့် အက်ပ်များ",
   },
   {
     key: "about.title",
     label: "Page title",
     multiline: false,
-    fallbackEn: "Who we are",
-    fallbackMy: "ကျွန်ုပ်တို့ ဘယ်သူများလဲ",
+    fallbackEn: "Connect here for the official partner visit",
+    fallbackMy: "တရားဝင် မိတ်ဖက်ခရီးစဉ်ကို ဤနေရာမှ ဆက်သွယ်ပါ",
+  },
+  {
+    key: "about.highlight",
+    label: "Highlight under title",
+    multiline: true,
+    fallbackEn:
+      "Visitors who connect on this website, LINE, Telegram, or Viber receive the official Chiangmai Ram partner opportunity: a large published discount and visit priority. That is stronger than going through a usual medical agent or incentive broker who works under many hospitals.",
+    fallbackMy:
+      "ဤဝက်ဘ်ဆိုက်၊ LINE၊ Telegram သို့မဟုတ် Viber မှ ဆက်သွယ်သော ဧည့်သည်များသည် ချင်းမိုင်ရမ်၏ တရားဝင် မိတ်ဖက်အခွင့်အရေးကို ရရှိပါသည်။ ဆေးရုံက ထုတ်ပြန်ထားသော လျှော့စျေးကြီးနှင့် ဦးစားပေး ခရီးစဉ်ဖြစ်ပါသည်။ ဆေးရုံအများအပြားအောက်တွင် လုပ်ကိုင်သော ပုံမှန်ဆေးအေးဂျင့် သို့မဟုတ် incentive ကြားခံထက် ပိုမိုခိုင်မာပါသည်။",
   },
   {
     key: "about.lead",
     label: "Lead paragraph",
     multiline: true,
     fallbackEn:
-      "This website is the official Chiangmai Ram Hospital partner channel for patients from Myanmar and across Asia. We are not a third-party medical broker. The hospital-published incentive is confirmed here, with confidence, because this channel is the official partner.",
+      "This website is the official partner channel of Chiangmai Ram Hospital for patients from Myanmar and Asia. Care is at Chiangmai Ram — one hospital, not a shopping list of many hospitals. We offer a simple way to connect: send a request on this website, or open LINE, Telegram, or Viber from the same site. Some visitors may also use the Google Form. Every request arrives in one coordinator inbox. We do not invent a different medical service. We confirm the hospital-published incentive for people who come through this official channel.",
     fallbackMy:
-      "ဤဝက်ဘ်ဆိုက်သည် မြန်မာနှင့် အာရှတလွှားမှ လူနာများအတွက် ချင်းမိုင်ရမ်ဆေးရုံ၏ တရားဝင် မိတ်ဖက်လမ်းကြောင်းဖြစ်သည်။ တတိယပါတီ ဆေးကြားခံမဟုတ်ပါ။ ဆေးရုံထုတ်ပြန်သည့် incentive ကို ဤနေရာတွင် ယုံကြည်စိတ်ချစွာ အတည်ပြုသည် — ဤလမ်းကြောင်းသည် တရားဝင် မိတ်ဖက်ဖြစ်သောကြောင့် ဖြစ်သည်။",
+      "ဤဝက်ဘ်ဆိုက်သည် မြန်မာနှင့် အာရှလူနာများအတွက် ချင်းမိုင်ရမ်ဆေးရုံ၏ တရားဝင် မိတ်ဖက်လမ်းကြောင်း ဖြစ်ပါသည်။ ကုသမှုကို ချင်းမိုင်ရမ်ဆေးရုံ တစ်ရုံတွင် လုပ်ပါသည်။ ဆေးရုံအများအပြားကို ရွေးချယ်ရောင်းသော လမ်းကြောင်း မဟုတ်ပါ။ ဆက်သွယ်ရန် လွယ်ကူပါသည်။ ဤဝက်ဘ်ဆိုက်မှ တောင်းဆိုမှု ပို့ပါ။ သို့မဟုတ် ဤဆိုက်ထဲမှ LINE၊ Telegram၊ Viber ကို ဖွင့်ပါ။ အချို့ဧည့်သည်များ Google Form ကို သုံးနိုင်ပါသည်။ တောင်းဆိုမှုအားလုံး ညှိနှိုင်းရေးမှူး စာရင်းတစ်ခုတည်းသို့ ရောက်ပါသည်။ ဆေးဝန်ဆောင်မှုအသစ်ကို တီထွင်မပြောပါ။ ဤတရားဝင်လမ်းကြောင်းမှ လာသူများအတွက် ဆေးရုံထုတ်ပြန် incentive ကို အတည်ပြုပါသည်။",
   },
   {
     key: "about.whoTitle",
     label: "Who we are — heading",
     multiline: false,
-    fallbackEn: "Our relationship with Chiangmai Ram",
-    fallbackMy: "ချင်းမိုင်ရမ်နှင့် ကျွန်ုပ်တို့၏ ဆက်ဆံရေး",
+    fallbackEn: "Who we are",
+    fallbackMy: "ကျွန်ုပ်တို့ ဘယ်သူများလဲ",
   },
   {
     key: "about.whoBody",
     label: "Who we are — body",
     multiline: true,
     fallbackEn:
-      "Chiangmai Ram Hospital is the hospital. This partner site plans the incentive visit for Asia patients — Myanmar first, then other countries in the region — using only hospital-published centres and 2026 check-up packages. A coordinator stays with you by email, LINE, Telegram, or Viber until the visit plan is clear.",
+      "Chiangmai Ram Hospital is the hospital in Chiang Mai. We are the official partner for the incentive visit plan. We show only hospital-published centres and 2026 check-up packages. A coordinator stays with you until the visit, optional airport pickup, and optional rental apartment are clear. Pickup and stay are extra help if you want them — not a hotel package, and not part of the checkup price.",
     fallbackMy:
-      "ချင်းမိုင်ရမ်ဆေးရုံသည် ဆေးရုံဖြစ်သည်။ ဤမိတ်ဖက်ဆိုက်သည် အာရှလူနာများ (မြန်မာကို ဦးစားပေးပြီး ဒေသတွင်း အခြားနိုင်ငံများ) အတွက် incentive ခရီးစဉ်ကို စီစဉ်သည်။ ဆေးရုံထုတ်ပြန်သည့် ဌာနနှင့် ၂၀၂၆ စစ်ဆေးပက်ကေ့ချ်များကိုသာ သုံးသည်။ ညှိနှိုင်းရေးမှူးက အီးမေးလ်၊ LINE၊ Telegram သို့မဟုတ် Viber ဖြင့် ခရီးစဉ်ရှင်းသည်အထိ ဆက်လက်ကူညီသည်။",
+      "ချင်းမိုင်ရမ်ဆေးရုံသည် ချင်းမိုင်ရှိ ဆေးရုံဖြစ်ပါသည်။ ကျွန်ုပ်တို့သည် incentive ခရီးစဉ်၏ တရားဝင် မိတ်ဖက်ဖြစ်ပါသည်။ ဆေးရုံက ထုတ်ပြန်ထားသော ဌာနများနှင့် ၂၀၂၆ ကျန်းမာရေးစစ်ဆေး ပက်ကေ့ချ်များကိုသာ ပြပါသည်။ ညှိနှိုင်းရေးမှူးက လာရောက်မည့်နေ့၊ လိုပါက လေဆိပ်ကား၊ လိုပါက အငှားတိုက်ခန်း ရှင်းသည်အထိ ကူညီပါသည်။ ကားနှင့် နေထိုင်ရန်သည် လိုမှသာ အကူအညီဖြစ်ပါသည်။ ဟိုတယ်ပက်ကေ့ချ် မဟုတ်ပါ။ စစ်ဆေးစျေးထဲတွင်လည်း မပါပါ။",
+  },
+  {
+    key: "about.focusTitle",
+    label: "Asia patients — heading",
+    multiline: false,
+    fallbackEn: "For Myanmar and Asia visitors",
+    fallbackMy: "မြန်မာနှင့် အာရှဧည့်သည်များအတွက်",
+  },
+  {
+    key: "about.focusBody",
+    label: "Asia patients — body",
+    multiline: true,
+    fallbackEn:
+      "We focus first on Myanmar patients, then other visitors from Asia. Write in Myanmar or English. If you need an interpreter, say so on the form. This site is for a planned visit, not emergency care.",
+    fallbackMy:
+      "မြန်မာလူနာများကို ဦးစားပေး ကူညီပါသည်။ ထို့နောက် အာရှမှ အခြားဧည့်သည်များကို ကူညီပါသည်။ မြန်မာ သို့မဟုတ် အင်္ဂလိပ်ဖြင့် ရေးနိုင်ပါသည်။ ဘာသာပြန်လိုပါက ဖောင်တွင် ပြောပါ။ ဤဆိုက်သည် ကြိုတင်စီစဉ်သော ခရီးစဉ်အတွက်သာ ဖြစ်ပါသည်။ အရေးပေါ်ကုသမှု မဟုတ်ပါ။",
   },
   {
     key: "about.whyTitle",
     label: "Why inquire here — heading",
     multiline: false,
-    fallbackEn: "Why inquire on this website",
-    fallbackMy: "ဤဝက်ဘ်ဆိုက်မှ အဘယ်ကြောင့် တောင်းဆိုသင့်သနည်း",
+    fallbackEn: "Discount and priority on this official channel",
+    fallbackMy: "ဤတရားဝင်လမ်းကြောင်းတွင် လျှော့စျေးနှင့် ဦးစားပေး",
   },
   {
     key: "about.whyBody",
     label: "Why inquire here — body",
     multiline: true,
     fallbackEn:
-      "If you trust this official channel, send your request here. The published partner incentive is beneficial because it is confirmed through the official partner — not because we invent a different hospital or a different medical service. Independent agents may show similar packages. The difference is authority: the amount and the visit plan are confirmed on this website, LINE, Telegram, or Viber.",
+      "People who connect here — on the website or the apps — have the official partner opportunity: a huge published discount and higher visit priority than a typical medical agent or incentive seller who works under many hospitals. Those agents may show similar packages. They are not the official Chiangmai Ram partner channel. We do not sell a different hospital. The same hospital-published packages are confirmed here, with the partner incentive and coordinator priority, because you came through this website and apps.",
     fallbackMy:
-      "ဤတရားဝင်လမ်းကြောင်းကို ယုံကြည်ပါက တောင်းဆိုမှုကို ဤနေရာမှ ပို့ပါ။ ထုတ်ပြန်သည့် မိတ်ဖက် incentive သည် အကျိုးရှိသည်မှာ တရားဝင် မိတ်ဖက်မှ အတည်ပြုသောကြောင့် ဖြစ်သည် — ဆေးရုံအသစ် သို့မဟုတ် ဆေးဝန်ဆောင်မှုအသစ်ကို တီထွင်သောကြောင့် မဟုတ်ပါ။ လွတ်လပ်သော ကြားခံများက ဆင်တူပက်ကေ့ချ်ကို ပြနိုင်သည်။ ကွာခြားချက်မှာ အာဏာဖြစ်သည်။ ပမာဏနှင့် ခရီးစဉ်ကို ဤဝက်ဘ်ဆိုက်၊ LINE၊ Telegram သို့မဟုတ် Viber မှ အတည်ပြုသည်။",
+      "ဤဝက်ဘ်ဆိုက် သို့မဟုတ် အက်ပ်များမှ ဆက်သွယ်သူများသည် တရားဝင် မိတ်ဖက်အခွင့်အရေး ရရှိပါသည်။ ဆေးရုံက ထုတ်ပြန်ထားသော လျှော့စျေးကြီးနှင့် ခရီးစဉ် ဦးစားပေးဖြစ်ပါသည်။ ဆေးရုံအများအပြားအောက်တွင် လုပ်သော ပုံမှန်ဆေးအေးဂျင့် သို့မဟုတ် incentive ရောင်းသူများထက် ပိုမိုရရှိပါသည်။ ထိုကြားခံများက ဆင်တူပက်ကေ့ချ်ကို ပြနိုင်ပါသည်။ သို့သော် ချင်းမိုင်ရမ်၏ တရားဝင် မိတ်ဖက်လမ်းကြောင်း မဟုတ်ပါ။ ကျွန်ုပ်တို့သည် ဆေးရုံအသစ် မရောင်းပါ။ ဆေးရုံထုတ်ပြန် ပက်ကေ့ချ်အတိုင်း ဤနေရာတွင် အတည်ပြုပါသည်။ ဤဝက်ဘ်ဆိုက်နှင့် အက်ပ်မှ လာသောကြောင့် မိတ်ဖက် incentive နှင့် ညှိနှိုင်းရေးမှူး ဦးစားပေးကို ရရှိပါသည်။",
+  },
+  {
+    key: "about.howTitle",
+    label: "How it works — heading",
+    multiline: false,
+    fallbackEn: "How visitors connect",
+    fallbackMy: "ဧည့်သည်များ ဆက်သွယ်ပုံ",
+  },
+  {
+    key: "about.how1",
+    label: "Step 1",
+    multiline: true,
+    fallbackEn: "Read centres and 2026 packages on this website. Then send one request here, or open LINE, Telegram, or Viber from the same page.",
+    fallbackMy: "ဤဝက်ဘ်ဆိုက်တွင် ဌာနနှင့် ၂၀၂၆ ပက်ကေ့ချ်ကို ဖတ်ပါ။ ထို့နောက် ဤနေရာမှ တောင်းဆိုမှု ပို့ပါ။ သို့မဟုတ် ဤဆိုက်ထဲမှ LINE၊ Telegram၊ Viber ကို ဖွင့်ပါ။",
+  },
+  {
+    key: "about.how2",
+    label: "Step 2",
+    multiline: true,
+    fallbackEn: "Prefer a Google Form? Use the form on the request page. n8n sends it into the same visit-request list. We do not split your details into extra member lists.",
+    fallbackMy: "Google Form သုံးလိုပါက တောင်းဆိုစာမျက်နှာရှိ ဖောင်ကို သုံးပါ။ n8n က တူညီသော လာရောက်ရန် စာရင်းထဲသို့ ပို့ပါသည်။ အချက်အလက်ကို အဖွဲ့ဝင်စာရင်းအသစ်များသို့ ခွဲမထားပါ။",
+  },
+  {
+    key: "about.how3",
+    label: "Step 3",
+    multiline: true,
+    fallbackEn: "A coordinator continues by email, LINE, Telegram, or Viber until the discounted incentive visit is clear. This is not a diagnosis by message.",
+    fallbackMy: "ညှိနှိုင်းရေးမှူးက အီးမေးလ်၊ LINE၊ Telegram သို့မဟုတ် Viber ဖြင့် လျှော့စျေး incentive ခရီးစဉ် ရှင်းသည်အထိ ဆက်ပြောပါမည်။ မက်ဆေ့ချ်ဖြင့် ရောဂါမရှာပါ။",
   },
   {
     key: "about.eventTitle",
     label: "Opening announcement — heading",
     multiline: false,
     fallbackEn: "Announced at the temple opening",
-    fallbackMy: "ဘုရားဖွင့်ပွဲတွင် ကြေညာခဲ့သည်",
+    fallbackMy: "ဘုရားဖွင့်ပွဲတွင် ကြေညာခဲ့ပါသည်",
   },
   {
     key: "about.eventBody",
     label: "Opening announcement — body",
     multiline: true,
     fallbackEn:
-      "This official partner relationship was announced publicly at the temple opening ceremony. The same announcement is on Facebook page ChiangmaiRam.myanmar. Facebook is for that public record. Visit requests continue only on this website, LINE, Telegram, or Viber — not as a Facebook inquiry, and not as emergency care.",
+      "This official partner relationship was announced at the temple opening ceremony. You can see that announcement on Facebook ChiangmaiRam.myanmar. Facebook is only the public record. To get the partner discount and priority, connect on this website or the apps — not by Facebook message.",
     fallbackMy:
-      "ဤတရားဝင် မိတ်ဖက်ဆက်ဆံရေးကို ဘုရားဖွင့်ပွဲတွင် အများပြည်သူသို့ ကြေညာခဲ့သည်။ အလားတူ ကြေညာချက်ကို Facebook စာမျက်နှာ ChiangmaiRam.myanmar တွင် ကြည့်နိုင်သည်။ Facebook သည် ထိုအများပြည်သူ မှတ်တမ်းအတွက် ဖြစ်သည်။ လာရောက်ရန် တောင်းဆိုမှုကို ဤဝက်ဘ်ဆိုက်၊ LINE၊ Telegram သို့မဟုတ် Viber မှသာ ဆက်လုပ်သည် — Facebook စုံစမ်းမှု မဟုတ်၊ အရေးပေါ်ကုသမှုလည်း မဟုတ်ပါ။",
+      "ဤတရားဝင် မိတ်ဖက်ဆက်ဆံရေးကို ဘုရားဖွင့်ပွဲတွင် ကြေညာခဲ့ပါသည်။ Facebook ChiangmaiRam.myanmar တွင် ထိုကြေညာချက်ကို ကြည့်နိုင်ပါသည်။ Facebook သည် အများပြည်သူ မှတ်တမ်းသာ ဖြစ်ပါသည်။ မိတ်ဖက် လျှော့စျေးနှင့် ဦးစားပေး ရရှိရန် ဤဝက်ဘ်ဆိုက် သို့မဟုတ် အက်ပ်များမှ ဆက်သွယ်ပါ။ Facebook စာပို့၍ မဟုတ်ပါ။",
+  },
+  {
+    key: "about.noteTitle",
+    label: "Important note — heading",
+    multiline: false,
+    fallbackEn: "Please note",
+    fallbackMy: "သတိပြုရန်",
+  },
+  {
+    key: "about.noteBody",
+    label: "Important note — body",
+    multiline: true,
+    fallbackEn:
+      "This partner site does not give emergency instructions. Website requests, app chats, and the Google Form all become one visit request for coordinators. Customer details stay in that inquiry list — not scattered as extra members in the admin panel.",
+    fallbackMy:
+      "ဤမိတ်ဖက်ဆိုက်သည် အရေးပေါ်ညွှန်ကြားချက် မပေးပါ။ ဝက်ဘ်ဆိုက် တောင်းဆိုမှု၊ အက်ပ် စကားပြောမှုနှင့် Google Form အားလုံး ညှိနှိုင်းရေးမှူးအတွက် လာရောက်ရန် တောင်းဆိုမှု တစ်ခုတည်း ဖြစ်ပါသည်။ ဧည့်သည်အချက်အလက်ကို ထိုစာရင်းတွင်သာ ထားပါသည်။ အက်ဒမင်တွင် အဖွဲ့ဝင်စာရင်းအသစ်များသို့ ခွဲမဖြန့်ပါ။",
   },
 ] as const;
 
 export const ABOUT_FACEBOOK_URL = HOSPITAL_PROFILE.facebookUrl;
+
+export function aboutField(key: (typeof ABOUT_FIELDS)[number]["key"]) {
+  return ABOUT_FIELDS.find((row) => row.key === key)!;
+}

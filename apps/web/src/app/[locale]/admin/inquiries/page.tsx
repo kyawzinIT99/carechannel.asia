@@ -49,7 +49,7 @@ export default async function AdminInquiriesPage({
         </div>
       </div>
       <p className="text-sm text-slate-500">
-        Each row is one visit request. Assign to a coordinator and mark Contacted or Closed once handled. AI auto-reply was already sent on submission.
+        Each row is one visit request from the website, LINE / Telegram / Viber, or Google Form via n8n. Assign to a coordinator. Do not keep a second customer list.
       </p>
 
       <InquiryReportBoard

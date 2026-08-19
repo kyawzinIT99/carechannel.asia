@@ -29,19 +29,13 @@ export function ContactChannels({
   ) : null;
 
   const messengers = [
-    { key: "line", label: "LINE", href: chrome.lineUrl },
-    { key: "telegram", label: "Telegram", href: chrome.telegramUrl },
-    { key: "viber", label: "Viber", href: chrome.viberUrl },
+    { key: "line", label: "LINE", href: "/connect/line" as const },
+    { key: "telegram", label: "Telegram", href: "/connect/telegram" as const },
+    { key: "viber", label: "Viber", href: "/connect/viber" as const },
   ].map((ch) => (
-    <a
-      key={ch.key}
-      href={ch.href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={linkClass}
-    >
+    <Link key={ch.key} href={ch.href} className={linkClass}>
       {ch.label}
-    </a>
+    </Link>
   ));
 
   const note =

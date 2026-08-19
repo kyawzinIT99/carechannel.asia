@@ -1,10 +1,15 @@
 import { HOSPITAL_PROFILE } from "@/catalog/hospital-source";
+import { lineHttpUrl, telegramHttpUrl } from "@/server/security/messengers";
 
-export const PARTNER_MESSENGERS = [
-  { key: "line", label: "LINE", href: HOSPITAL_PROFILE.lineUrl },
-  { key: "telegram", label: "Telegram", href: HOSPITAL_PROFILE.telegramUrl },
-  { key: "viber", label: "Viber", href: HOSPITAL_PROFILE.viberUrl },
-] as const;
+const site = (process.env.SITE_URL || "https://carechannel.onrender.com").replace(/\/$/, "");
+
+export function PARTNER_MESSENGERS(locale: "en" | "my") {
+  return [
+    { key: "line", label: "LINE", href: lineHttpUrl(HOSPITAL_PROFILE.chatPhoneDisplay) },
+    { key: "telegram", label: "Telegram", href: telegramHttpUrl("", HOSPITAL_PROFILE.chatPhoneDisplay) },
+    { key: "viber", label: "Viber", href: `${site}/${locale}/connect/viber` },
+  ] as const;
+}
 
 export function messengerFooterText(locale: "en" | "my") {
   const line = HOSPITAL_PROFILE.chatPhoneDisplay;
@@ -16,14 +21,11 @@ export function messengerFooterText(locale: "en" | "my") {
 }
 
 export function messengerFooterHtml(locale: "en" | "my") {
-  const items = PARTNER_MESSENGERS.map(
+  const items = PARTNER_MESSENGERS(locale).map(
     (ch) =>
       `<a href="${ch.href}" style="color:#0b4f9c;margin-right:12px;font-weight:600">${ch.label}</a>`,
   ).join("");
-  const numbers =
-    locale === "my"
-      ? `LINE: ${HOSPITAL_PROFILE.chatPhoneDisplay} · Viber: ${HOSPITAL_PROFILE.viberDisplay}`
-      : `LINE: ${HOSPITAL_PROFILE.chatPhoneDisplay} · Viber: ${HOSPITAL_PROFILE.viberDisplay}`;
+  const numbers = `LINE: ${HOSPITAL_PROFILE.chatPhoneDisplay} · Viber: ${HOSPITAL_PROFILE.viberDisplay}`;
   const lead =
     locale === "my"
       ? "တရားဝင် incentive ပမာဏနှင့် ခရီးစဉ်ကို ဤဝက်ဘ်ဆိုက်၊ LINE၊ Telegram သို့မဟုတ် Viber မှသာ ဆက်လက် အတည်ပြုပါ။"

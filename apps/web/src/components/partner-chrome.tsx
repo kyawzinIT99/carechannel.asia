@@ -3,6 +3,7 @@
 import { createContext, useContext, type ReactNode } from "react";
 import { HOSPITAL_PROFILE } from "@/catalog/hospital-source";
 import type { PublicChrome } from "@/catalog/public-chrome";
+import { lineHttpUrl, telegramHttpUrl, viberAppUrl } from "@/server/security/messengers";
 
 const fallback: PublicChrome = {
   nameEn: HOSPITAL_PROFILE.nameEn,
@@ -13,11 +14,12 @@ const fallback: PublicChrome = {
   logoPath: HOSPITAL_PROFILE.logoPath,
   heroPath: HOSPITAL_PROFILE.heroPath,
   linePhone: HOSPITAL_PROFILE.chatPhoneDisplay,
-  lineUrl: HOSPITAL_PROFILE.lineUrl,
-  telegramUrl: HOSPITAL_PROFILE.telegramUrl,
+  lineUrl: lineHttpUrl(HOSPITAL_PROFILE.chatPhoneDisplay),
+  telegramUrl: telegramHttpUrl("", HOSPITAL_PROFILE.chatPhoneDisplay),
   viberDisplay: HOSPITAL_PROFILE.viberDisplay,
-  viberUrl: HOSPITAL_PROFILE.viberUrl,
+  viberUrl: viberAppUrl(HOSPITAL_PROFILE.viberDisplay),
   apartmentUrl: "https://sddp-apartment.onrender.com",
+  googleFormUrl: "",
 };
 
 const PartnerChromeContext = createContext<PublicChrome>(fallback);

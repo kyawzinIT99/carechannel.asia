@@ -19,11 +19,12 @@ export const HOSPITAL_PROFILE = {
   /** Partner LINE / Telegram number. Official incentive-visit chat — not a hospital emergency line. */
   chatPhoneDisplay: "082-567-4570",
   chatPhoneE164: "66825674570",
-  lineUrl: "https://line.me/ti/p/~0825674570",
-  telegramUrl: "https://t.me/+66825674570",
+  lineUrl: "https://line.me/R/ti/p/~0825674570",
+  /** Phone chat uses tg://resolve?phone= — t.me/+<phone> is an invite link and will fail. */
+  telegramUrl: "",
   viberDisplay: "+95 9504 3252",
   viberE164: "9595043252",
-  viberUrl: "viber://chat?number=9595043252",
+  viberUrl: "viber://chat?number=%2B9595043252",
   logoPath: "/brand/logo-ramhosp.png",
   mapPath: "/photos/map.jpg",
   heroPath: "/photos/health.jpg",
