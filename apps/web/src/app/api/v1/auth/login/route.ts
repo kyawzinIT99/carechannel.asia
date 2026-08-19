@@ -3,10 +3,15 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/server/db/prisma";
 import { signSession, setSessionCookie, STAFF_ROLES } from "@/server/auth/session";
 import { Role } from "@prisma/client";
+import { clientIp, rateLimit } from "@/server/security/http";
+import { dummyPasswordHash } from "@/server/security/urls";
 
 const ADMIN_ROLES: Role[] = ["SUPER_ADMIN", "HOSPITAL_ADMIN"];
 
 export async function POST(request: Request) {
+  if (!rateLimit(`login:${clientIp(request)}`, 20, 10 * 60 * 1000)) {
+    return NextResponse.json({ error: "too_many" }, { status: 429 });
+  }
   const body = (await request.json()) as {
     email?: string;
     password?: string;
@@ -22,6 +27,7 @@ export async function POST(request: Request) {
     include: { roles: true },
   });
   if (!user || !user.isActive) {
+    await bcrypt.compare(body.password, dummyPasswordHash());
     return NextResponse.json({ error: "invalid" }, { status: 401 });
   }
   const ok = await bcrypt.compare(body.password, user.passwordHash);

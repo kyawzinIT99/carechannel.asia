@@ -13,6 +13,7 @@ import {
 } from "@/catalog/hospital-source";
 
 import type { PublicChrome } from "@/catalog/public-chrome";
+import { httpsUrl } from "@/server/security/urls";
 
 function siteMapEn() {
   return listSiteContent().then((rows) =>
@@ -34,8 +35,8 @@ export async function loadPublicChrome(): Promise<PublicChrome> {
   }
   const linePhone = copy["partner.linePhone"]?.trim() || HOSPITAL_PROFILE.chatPhoneDisplay;
   const viberDisplay = copy["partner.viberPhone"]?.trim() || HOSPITAL_PROFILE.viberDisplay;
-  const telegramUrl = copy["partner.telegramUrl"]?.trim() || HOSPITAL_PROFILE.telegramUrl;
-  const apartmentUrl = copy["partner.apartmentUrl"]?.trim() || "https://sddp-apartment.onrender.com";
+  const telegramUrl = httpsUrl(copy["partner.telegramUrl"], HOSPITAL_PROFILE.telegramUrl);
+  const apartmentUrl = httpsUrl(copy["partner.apartmentUrl"], "https://sddp-apartment.onrender.com");
   const lineDigits = digits(linePhone);
   const viberDigits = digits(viberDisplay);
   return {

@@ -2,6 +2,7 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { VISIT_SITES } from "@/catalog/hospital-source";
+import { googleMapsEmbedSrc } from "@/server/security/urls";
 
 export function GoogleMapsBanner() {
   const locale = useLocale();
@@ -23,7 +24,7 @@ export function GoogleMapsBanner() {
               </div>
               <iframe
                 title={locale === "my" ? site.nameMy : site.nameEn}
-                src={`https://maps.google.com/maps?q=${encodeURIComponent(site.mapQuery)}&hl=${hl}&z=16&output=embed`}
+                src={googleMapsEmbedSrc(site.mapQuery, hl)}
                 className="h-[220px] w-full border-0 md:h-[280px]"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"

@@ -4,10 +4,12 @@ import { prisma } from "@/server/db/prisma";
 import { HOSPITAL_PROFILE } from "@/catalog/hospital-source";
 import { renderApprovedTemplate } from "@/server/communication/templates";
 
+import { secretsEqual } from "@/server/security/http";
+
 function authorized(request: Request) {
   const secret = process.env.N8N_WEBHOOK_SECRET?.trim();
   if (!secret) return false;
-  return request.headers.get("x-ram-hospital-secret") === secret;
+  return secretsEqual(request.headers.get("x-ram-hospital-secret"), secret);
 }
 
 export async function POST(request: Request) {

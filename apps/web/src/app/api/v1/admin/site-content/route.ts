@@ -22,7 +22,6 @@ export async function PATCH(request: Request) {
     }
     return NextResponse.json({ ok: true, count: rows.length });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "save_failed";
-    return NextResponse.json({ error: message }, { status: 400 });
+    return NextResponse.json({ error: "save_failed" }, { status: 400 });
   }
 }

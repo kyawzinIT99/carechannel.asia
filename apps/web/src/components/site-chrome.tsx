@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/routing";
 import { VISIT_SITES } from "@/catalog/hospital-source";
+import { googleMapsEmbedSrc, googleMapsSearchHref } from "@/server/security/urls";
 import { ContactChannels } from "@/components/contact-channels";
 import { usePartnerChrome } from "@/components/partner-chrome";
 
@@ -167,14 +168,14 @@ export function SiteChrome({ children }: { children: ReactNode }) {
               <div className="mt-3 overflow-hidden rounded-2xl ring-1 ring-slate-200">
                 <iframe
                   title={locale === "my" ? "ချင်းမိုင်ရမ်ဆေးရုံ မြေပုံ" : "Chiangmai Ram Hospital map"}
-                  src={`https://maps.google.com/maps?q=${encodeURIComponent(VISIT_SITES[0].mapQuery)}&hl=${locale === "my" ? "my" : "en"}&z=16&output=embed`}
+                  src={googleMapsEmbedSrc(VISIT_SITES[0].mapQuery, locale === "my" ? "my" : "en")}
                   className="h-[220px] w-full border-0 md:h-[260px]"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                 />
               </div>
               <a
-                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(VISIT_SITES[0].mapQuery)}`}
+                href={googleMapsSearchHref(VISIT_SITES[0].mapQuery)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-2 inline-flex text-sm font-semibold text-[#1a2330] hover:underline"

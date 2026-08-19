@@ -3,8 +3,12 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/server/db/prisma";
 import { setSessionCookie, signSession } from "@/server/auth/session";
 import { Role } from "@prisma/client";
+import { clientIp, rateLimit } from "@/server/security/http";
 
 export async function POST(request: Request) {
+  if (!rateLimit(`reg:${clientIp(request)}`, 5, 60 * 60 * 1000)) {
+    return NextResponse.json({ error: "too_many" }, { status: 429 });
+  }
   const body = (await request.json()) as {
     email?: string;
     password?: string;

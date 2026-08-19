@@ -5,12 +5,16 @@ import { hasRole, readSession } from "@/server/auth/session";
 import { dispatchGuestPromotion, notifyTelegram } from "@/server/automation/dispatch";
 import { renderGuestEmailHtml, renderGuestEmailText } from "@/server/communication/message-format";
 import { prisma } from "@/server/db/prisma";
+import { clientIp, rateLimit } from "@/server/security/http";
 
 const ADMIN: Role[] = ["SUPER_ADMIN", "HOSPITAL_ADMIN"];
 
 export async function POST(request: Request) {
   const session = await readSession();
   if (!session || !hasRole(session, ADMIN)) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  if (!rateLimit(`promote:${session.sub}:${clientIp(request)}`, 8, 10 * 60 * 1000)) {
+    return NextResponse.json({ error: "too_many" }, { status: 429 });
+  }
 
   const body = (await request.json()) as { inquiryIds?: string[]; promotionId?: string };
   const inquiryIds = Array.isArray(body.inquiryIds) ? body.inquiryIds.slice(0, 40) : [];
