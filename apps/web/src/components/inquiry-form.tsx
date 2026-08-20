@@ -2,7 +2,6 @@
 
 import { FormEvent, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { PartnerVisaMark } from "@/components/partner-visa-mark";
 import { COUNTRIES } from "@/catalog/countries";
 import {
   CHECKUP_PACKAGES_2026,
@@ -377,12 +376,11 @@ export function InquiryForm({
             <span>
               <span className="flex items-center gap-2 text-sm font-medium text-slate-800">
                 {my ? "ကြာရှည် ဗီဇာ အကူအညီ" : "Long-stay visa help"}
-                <PartnerVisaMark className="h-6 w-auto" />
               </span>
               <span className="mt-0.5 block text-xs text-slate-500">
                 {my
-                  ? "ထိုင်းဥပဒေအောက် မိတ်ဖက်ရုံး — ဖုန်း/အီးမေးလ် မဖော်ပြပါ။ ဤဆိုက် သို့မဟုတ် အက်ပ်မှသာ။ လိုမှသာ။"
-                  : "Partner office under Thai law — we do not publish their phone or email. Ask only here or on LINE / Telegram / Viber. Optional."}
+                  ? "ဧည့်သည် လိုမှသာ။ ဤဝက်ဘ်ဆိုက် သို့မဟုတ် LINE / Telegram / Viber မှ တောင်းပါ။"
+                  : "Only if the visitor wants it. Ask on this website or LINE / Telegram / Viber."}
               </span>
             </span>
           </label>

@@ -274,9 +274,9 @@ async function main() {
     {
       key: "visit.visaBody",
       valueEn:
-        "If you wish, a coordinator can arrange optional long-stay visa help in Chiang Mai through our partner visa support office. That office is established under Thai law and endorsements. We do not publish their phone or email. Ask only on this website, LINE, Telegram, or Viber — not a checkup package, and only if you want it.",
+        "Long-stay visa help in Chiang Mai is announced only if the visitor wants it. Ask on this website, LINE, Telegram, or Viber. We do not publish a visa office phone or email. This is not a checkup package.",
       valueMy:
-        "လိုပါက ညှိနှိုင်းရေးမှူးက ချင်းမိုင်တွင် ကြာရှည် ဗီဇာ အကူအညီကို မိတ်ဖက် visa support ရုံးမှ စီစဉ်ပေးနိုင်သည်။ ထိုရုံးသည် ထိုင်းဥပဒေနှင့် ထောက်ခံချက်အောက်တွင် တည်ထောင်ထားသည်။ ၎င်းတို့၏ ဖုန်း သို့မဟုတ် အီးမေးလ်ကို ဤဆိုက်တွင် မဖော်ပြပါ။ ဤဝက်ဘ်ဆိုက်၊ LINE၊ Telegram သို့မဟုတ် Viber မှသာ တောင်းပါ။ စစ်ဆေးပက်ကေ့ချ်တွင် မပါဝင်ပါ။ လိုမှသာ။",
+        "ချင်းမိုင် ကြာရှည် ဗီဇာ အကူအညီကို ဧည့်သည် လိုမှသာ ကြေညာပါသည်။ ဤဝက်ဘ်ဆိုက်၊ LINE၊ Telegram သို့မဟုတ် Viber မှ တောင်းပါ။ ဗီဇာရုံး ဖုန်း သို့မဟုတ် အီးမေးလ်ကို မဖော်ပြပါ။ စစ်ဆေးပက်ကေ့ချ်တွင် မပါဝင်ပါ။",
     },
     ...ABOUT_FIELDS.map((f) => ({
       key: f.key,

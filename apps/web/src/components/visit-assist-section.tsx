@@ -2,7 +2,6 @@ import { Link } from "@/i18n/routing";
 import { VISIT_ASSIST } from "@/catalog/hospital-source";
 import { loadPublicChrome } from "@/server/content/public";
 import { listSiteContent } from "@/server/db/site-content";
-import { PartnerVisaMark } from "@/components/partner-visa-mark";
 
 async function copy(key: string, locale: string, fallbackEn: string, fallbackMy: string) {
   try {
@@ -40,7 +39,7 @@ export async function VisitAssistSection({
   const cards = [
     { code: pickup.code, kind: my ? "သယ်ယူပို့ဆောင်ရေး" : "Transport", title: pickupTitle, body: pickupBody },
     { code: stay.code, kind: my ? "နေထိုင်ရန်" : "Stay", title: stayTitle, body: stayBody },
-    { code: visa.code, kind: my ? "ဗီဇာ" : "Visa", title: visaTitle, body: visaBody, logo: true },
+    { code: visa.code, kind: my ? "ဗီဇာ" : "Visa", title: visaTitle, body: visaBody },
   ];
 
   return (
@@ -54,19 +53,17 @@ export async function VisitAssistSection({
         </h2>
         <p className="mt-2 max-w-2xl text-sm leading-7 text-slate-500">
           {my
-            ? "ဤအကူအညီများသည် စစ်ဆေးပက်ကေ့ချ်တွင် မပါဝင်ပါ။ လိုမှသာ ညှိနှိုင်းရေးမှူးက ကူညီသည်။ ဗီဇာရုံး ဆက်သွယ်ရန်ကို ဤဝက်ဘ်ဆိုက် သို့မဟုတ် LINE / Telegram / Viber မှသာ တောင်းပါ။"
-            : "This is optional help only — not part of a checkup package. Visa help, if you want it, is requested only through this website or LINE / Telegram / Viber. We do not publish that office’s phone or email."}
+            ? "ဤအကူအညီများသည် စစ်ဆေးပက်ကေ့ချ်တွင် မပါဝင်ပါ။ ဗီဇာကို ဧည့်သည် လိုမှသာ ကြေညာပါသည်။ ဤဝက်ဘ်ဆိုက် သို့မဟုတ် LINE / Telegram / Viber မှ တောင်းပါ။"
+            : "This is optional help only — not part of a checkup package. Visa help is announced only if the visitor wants it, via this website or LINE / Telegram / Viber."}
         </p>
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           {cards.map((item) => (
             <article key={item.code} className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100">
-              <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-sky-700">
-                {item.logo ? <PartnerVisaMark className="h-5 w-auto" /> : null}
+              <p className="text-xs font-bold uppercase tracking-widest text-sky-700">
                 {item.kind}
               </p>
-              <h3 className="mt-2 flex items-center gap-2 text-xl font-bold text-slate-900">
+              <h3 className="mt-2 text-xl font-bold text-slate-900">
                 {item.title}
-                {item.logo ? <PartnerVisaMark className="h-7 w-auto" /> : null}
               </h3>
               <p className="mt-3 text-sm leading-7 text-slate-600">{item.body}</p>
               {item.code === stay.code && apartmentUrl ? (

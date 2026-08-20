@@ -114,8 +114,8 @@ export async function buildInquiryReply(input: InquiryReplyInput): Promise<Inqui
       : "",
     input.visaHelp
       ? locale === "my"
-        ? "ကြာရှည် ဗီဇာ အကူအညီ တောင်းထားသည် (ထိုင်းဥပဒေအောက် မိတ်ဖက်ရုံး။ ဖုန်း/အီးမေးလ် မပေးပါ။ ဤလမ်းကြောင်းမှသာ)။"
-        : "Optional long-stay visa help requested (partner office under Thai law). Do not send that office’s phone or email — reply via this website, LINE, Telegram, or Viber only."
+        ? "ကြာရှည် ဗီဇာ အကူအညီကို ဧည့်သည်က တောင်းထားသည်။ ဤဝက်ဘ်ဆိုက်၊ LINE၊ Telegram သို့မဟုတ် Viber မှသာ ပြန်ကြားပါ။ ဗီဇာရုံး ဖုန်း/အီးမေးလ် မပို့ပါ။"
+        : "Long-stay visa help was requested because the visitor asked. Reply via this website, LINE, Telegram, or Viber. Do not send a visa office phone or email."
       : "",
     input.interpreterNeeded
       ? locale === "my"

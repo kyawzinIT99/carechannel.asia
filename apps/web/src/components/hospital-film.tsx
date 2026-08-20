@@ -1,5 +1,3 @@
-import { PartnerVisaMark } from "@/components/partner-visa-mark";
-
 export const HOSPITAL_FILM_SRC = "/videos/chiangmai-ram-master.mp4";
 
 export function HospitalFilm({
@@ -27,9 +25,8 @@ export function HospitalFilm({
         <source src={HOSPITAL_FILM_SRC} type="video/mp4" />
       </video>
       <figcaption className="border-t border-white/10 px-5 py-4 sm:px-6">
-        <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.16em] text-[#d4af37]">
+        <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#d4af37]">
           {my ? "ဆေးရုံ ရုပ်သံ" : "Hospital film"}
-          <PartnerVisaMark className="h-5 w-auto brightness-110" />
         </p>
         <p className="mt-1 text-sm font-semibold leading-6 text-white">
           {my
