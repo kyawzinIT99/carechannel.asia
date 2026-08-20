@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
+import { PartnerVisaMark } from "@/components/partner-visa-mark";
 import { COUNTRIES } from "@/catalog/countries";
 import {
   CHECKUP_PACKAGES_2026,
@@ -88,6 +89,7 @@ export function InquiryForm({
   const [needInterpreter, setNeedInterpreter] = useState(false);
   const [needPickup, setNeedPickup] = useState(false);
   const [needStay, setNeedStay] = useState(false);
+  const [needVisa, setNeedVisa] = useState(false);
   const [pkgExpanded, setPkgExpanded] = useState(false);
   const [returning, setReturning] = useState<"yes" | "no" | "">("");
 
@@ -117,6 +119,7 @@ export function InquiryForm({
       interpreterLang: String(form.get("interpreterLang") ?? "") || undefined,
       airportPickup: needPickup,
       accommodationHelp: needStay,
+      visaHelp: needVisa,
       consent: true,
     };
     const res = await fetch("/api/v1/public/inquiries", {
@@ -348,7 +351,7 @@ export function InquiryForm({
       <section className={`${sectionCls} border-t border-slate-100`}>
         <p className={stepHeadCls}>
           <span className={stepNumCls}>{selectedPkg ? "3" : "4"}</span>
-          {my ? "လေဆိပ်ကားနှင့် နေထိုင်ရန်" : "Pickup and stay"}
+          {my ? "လေဆိပ်ကား၊ နေထိုင်ရန်နှင့် ဗီဇာ" : "Pickup, stay, and visa"}
           <span className="font-normal text-slate-400">{my ? "(ရွေးချယ်နိုင်)" : "(optional)"}</span>
         </p>
         <p className="text-xs leading-6 text-slate-500">
@@ -367,6 +370,20 @@ export function InquiryForm({
             <span>
               <span className="block text-sm font-medium text-slate-800">{my ? "အငှားတိုက်ခန်း အကူအညီ" : "Rental apartment help"}</span>
               <span className="mt-0.5 block text-xs text-slate-500">{my ? "ဟိုတယ်ပက်ကေ့ချ် မဟုတ် — လိုမှသာ၊ ၃,၅၀၀ သို့မဟုတ် ၄,၀၀၀ ဘတ်" : "Not a hotel package — only if you want, typically 3,500 or 4,000 THB"}</span>
+            </span>
+          </label>
+          <label className={`flex cursor-pointer items-start gap-3 sm:col-span-2 ${optionCls(needVisa)}`}>
+            <input type="checkbox" checked={needVisa} onChange={(e) => setNeedVisa(e.target.checked)} className="mt-0.5 h-4 w-4 accent-[#1a2330]" />
+            <span>
+              <span className="flex items-center gap-2 text-sm font-medium text-slate-800">
+                {my ? "ကြာရှည် ဗီဇာ အကူအညီ" : "Long-stay visa help"}
+                <PartnerVisaMark className="h-6 w-auto" />
+              </span>
+              <span className="mt-0.5 block text-xs text-slate-500">
+                {my
+                  ? "ထိုင်းဥပဒေအောက် မိတ်ဖက်ရုံး — ဖုန်း/အီးမေးလ် မဖော်ပြပါ။ ဤဆိုက် သို့မဟုတ် အက်ပ်မှသာ။ လိုမှသာ။"
+                  : "Partner office under Thai law — we do not publish their phone or email. Ask only here or on LINE / Telegram / Viber. Optional."}
+              </span>
             </span>
           </label>
         </div>

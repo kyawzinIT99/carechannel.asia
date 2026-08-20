@@ -20,6 +20,8 @@ const FIELDS = [
   { key: "visit.pickupBody", label: "Airport pickup body", multiline: true, fallbackEn: VISIT_ASSIST[0].bodyEn, fallbackMy: VISIT_ASSIST[0].bodyMy },
   { key: "visit.stayTitle", label: "Rental apartment title", multiline: false, fallbackEn: VISIT_ASSIST[1].titleEn, fallbackMy: VISIT_ASSIST[1].titleMy },
   { key: "visit.stayBody", label: "Rental apartment body", multiline: true, fallbackEn: VISIT_ASSIST[1].bodyEn, fallbackMy: VISIT_ASSIST[1].bodyMy },
+  { key: "visit.visaTitle", label: "Visa help title", multiline: false, fallbackEn: VISIT_ASSIST[2].titleEn, fallbackMy: VISIT_ASSIST[2].titleMy },
+  { key: "visit.visaBody", label: "Visa help body", multiline: true, fallbackEn: VISIT_ASSIST[2].bodyEn, fallbackMy: VISIT_ASSIST[2].bodyMy },
 ];
 
 export default async function AdminHomeContentPage() {

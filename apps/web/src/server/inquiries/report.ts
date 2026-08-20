@@ -27,6 +27,7 @@ export async function listInquiryReports(status?: string) {
       message: row.message,
       airportPickup: appt?.airportPickup ? "yes" : "no",
       accommodationHelp: appt?.accommodationHelp ? "yes" : "no",
+      visaHelp: appt?.visaHelp ? "yes" : "no",
       interpreter: appt?.interpreterNeeded ? appt.interpreterLang || "yes" : "no",
       preferredDate: appt?.preferredDate ? appt.preferredDate.toISOString().slice(0, 10) : "",
     };
@@ -48,6 +49,7 @@ export function inquiriesToCsv(rows: Awaited<ReturnType<typeof listInquiryReport
     "Assigned",
     "Pickup",
     "Apartment help",
+    "Visa help",
     "Interpreter",
     "Preferred date",
     "Message",
@@ -68,6 +70,7 @@ export function inquiriesToCsv(rows: Awaited<ReturnType<typeof listInquiryReport
       row.assignedTo,
       row.airportPickup,
       row.accommodationHelp,
+      row.visaHelp,
       row.interpreter,
       row.preferredDate,
       row.message,

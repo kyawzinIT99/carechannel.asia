@@ -216,6 +216,7 @@ model Appointment {
   interpreterLang   String?
   airportPickup     Boolean           @default(false)
   accommodationHelp Boolean           @default(false)
+  visaHelp          Boolean           @default(false)
   status            AppointmentStatus @default(REQUESTED)
   staffNote         String?
   createdAt         DateTime          @default(now())

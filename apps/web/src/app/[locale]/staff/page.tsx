@@ -70,6 +70,7 @@ export default async function StaffPage({
                       <p>{row.specialtySlug ?? row.package?.nameEn ?? "—"}</p>
                       {appt?.airportPickup ? <p className="mt-1 font-semibold text-sky-700">Airport pickup</p> : null}
                       {appt?.accommodationHelp ? <p className="font-semibold text-sky-700">Stay nearby</p> : null}
+                      {appt?.visaHelp ? <p className="font-semibold text-sky-700">Visa help</p> : null}
                     </td>
                     <td className="px-5 py-3">
                       <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-700">

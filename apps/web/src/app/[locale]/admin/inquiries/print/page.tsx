@@ -58,6 +58,7 @@ export default async function InquiryPrintPage({
                 {row.packageName || row.specialty || "—"}
                 {row.airportPickup === "yes" ? " · pickup" : ""}
                 {row.accommodationHelp === "yes" ? " · apartment" : ""}
+                {row.visaHelp === "yes" ? " · visa" : ""}
               </td>
               <td className="py-2 pr-3">{row.status}</td>
               <td className="max-w-xs py-2">{row.message.slice(0, 180)}</td>

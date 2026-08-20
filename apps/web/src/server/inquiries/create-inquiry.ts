@@ -27,6 +27,7 @@ export const inquirySchema = z.object({
   preferredDate: z.string().optional(),
   airportPickup: z.boolean().optional(),
   accommodationHelp: z.boolean().optional(),
+  visaHelp: z.boolean().optional(),
   consent: z.literal(true),
 });
 
@@ -85,6 +86,7 @@ export async function createInquiry(raw: unknown, patientUserId?: string) {
       interpreterLang: data.interpreterLang || null,
       airportPickup: Boolean(data.airportPickup),
       accommodationHelp: Boolean(data.accommodationHelp),
+      visaHelp: Boolean(data.visaHelp),
     },
   });
 
@@ -100,6 +102,7 @@ export async function createInquiry(raw: unknown, patientUserId?: string) {
         visitSite: data.visitSite ?? null,
         airportPickup: Boolean(data.airportPickup),
         accommodationHelp: Boolean(data.accommodationHelp),
+        visaHelp: Boolean(data.visaHelp),
       },
     },
   });
@@ -120,6 +123,7 @@ export async function createInquiry(raw: unknown, patientUserId?: string) {
       interpreterLang: data.interpreterLang,
       airportPickup: data.airportPickup,
       accommodationHelp: data.accommodationHelp,
+      visaHelp: data.visaHelp,
       preferredDate: data.preferredDate,
     });
     await dispatchInquiryConversation({

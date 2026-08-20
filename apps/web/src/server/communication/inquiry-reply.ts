@@ -35,6 +35,7 @@ export type InquiryReplyInput = {
   interpreterLang?: string;
   airportPickup?: boolean;
   accommodationHelp?: boolean;
+  visaHelp?: boolean;
   preferredDate?: string;
 };
 
@@ -111,6 +112,11 @@ export async function buildInquiryReply(input: InquiryReplyInput): Promise<Inqui
         ? "အငှားတိုက်ခန်း အကူအညီ တောင်းထားသည် (ဟိုတယ်ပက်ကေ့ချ် မဟုတ်၊ လိုမှသာ၊ ပုံမှန် ၃,၅၀၀ သို့မဟုတ် ၄,၀၀၀ ဘတ်)။"
         : "Help requested with a simple rental apartment if the visitor wants one (not a hotel package; typically 3,500 or 4,000 THB at the partner apartment site)."
       : "",
+    input.visaHelp
+      ? locale === "my"
+        ? "ကြာရှည် ဗီဇာ အကူအညီ တောင်းထားသည် (ထိုင်းဥပဒေအောက် မိတ်ဖက်ရုံး။ ဖုန်း/အီးမေးလ် မပေးပါ။ ဤလမ်းကြောင်းမှသာ)။"
+        : "Optional long-stay visa help requested (partner office under Thai law). Do not send that office’s phone or email — reply via this website, LINE, Telegram, or Viber only."
+      : "",
     input.interpreterNeeded
       ? locale === "my"
         ? `ဆေးဘာသာပြန် တောင်းဆိုထားသည်: ${input.interpreterLang || "yes"}။ ဆေးရုံဖော်ပြ ဘာသာများ: ${INTERPRETER_LANGUAGES.join(", ")}`
@@ -124,6 +130,7 @@ export async function buildInquiryReply(input: InquiryReplyInput): Promise<Inqui
     ...(input.interpreterNeeded ? ["interpreter"] : []),
     ...(input.airportPickup ? ["airport-pickup"] : []),
     ...(input.accommodationHelp ? ["accommodation"] : []),
+    ...(input.visaHelp ? ["visa-support"] : []),
   ];
 
   const facts = {

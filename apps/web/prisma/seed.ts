@@ -266,6 +266,18 @@ async function main() {
       valueMy:
         "လိုပါက ညှိနှိုင်းရေးမှူးက ခရီးစဉ်အနီး ရိုးရိုး အငှားတိုက်ခန်း ရှာပေးနိုင်သည်။ ဟိုတယ် မဟုတ်၊ ဆေးရုံ သို့မဟုတ် စစ်ဆေးပက်ကေ့ချ်လည်း မဟုတ်ပါ။ မိတ်ဖက်တိုက်ခန်းဝက်ဘ်ဆိုက်တွင် ပုံမှန်အားဖြင့် ၃,၅၀၀ သို့မဟုတ် ၄,၀၀၀ ဘတ်။ လိုမှသာ တောင်းဆိုဖောင်၊ LINE၊ Telegram သို့မဟုတ် Viber တွင် ပြောပါ။",
     },
+    {
+      key: "visit.visaTitle",
+      valueEn: "Long-stay visa help",
+      valueMy: "ကြာရှည် ဗီဇာ အကူအညီ",
+    },
+    {
+      key: "visit.visaBody",
+      valueEn:
+        "If you wish, a coordinator can arrange optional long-stay visa help in Chiang Mai through our partner visa support office. That office is established under Thai law and endorsements. We do not publish their phone or email. Ask only on this website, LINE, Telegram, or Viber — not a checkup package, and only if you want it.",
+      valueMy:
+        "လိုပါက ညှိနှိုင်းရေးမှူးက ချင်းမိုင်တွင် ကြာရှည် ဗီဇာ အကူအညီကို မိတ်ဖက် visa support ရုံးမှ စီစဉ်ပေးနိုင်သည်။ ထိုရုံးသည် ထိုင်းဥပဒေနှင့် ထောက်ခံချက်အောက်တွင် တည်ထောင်ထားသည်။ ၎င်းတို့၏ ဖုန်း သို့မဟုတ် အီးမေးလ်ကို ဤဆိုက်တွင် မဖော်ပြပါ။ ဤဝက်ဘ်ဆိုက်၊ LINE၊ Telegram သို့မဟုတ် Viber မှသာ တောင်းပါ။ စစ်ဆေးပက်ကေ့ချ်တွင် မပါဝင်ပါ။ လိုမှသာ။",
+    },
     ...ABOUT_FIELDS.map((f) => ({
       key: f.key,
       valueEn: f.fallbackEn,
@@ -277,7 +289,9 @@ async function main() {
     await prisma.siteContent.upsert({
       where: { key: row.key },
       update:
-        row.key.startsWith("visit.stay") || row.key.startsWith("about.")
+        row.key.startsWith("visit.stay") ||
+          row.key.startsWith("visit.visa") ||
+          row.key.startsWith("about.")
           ? { valueEn: row.valueEn, valueMy: row.valueMy }
           : {},
       create: row,

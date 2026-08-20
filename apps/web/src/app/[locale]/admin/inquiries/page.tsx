@@ -107,6 +107,7 @@ export default async function AdminInquiriesPage({
                     <p className="text-xs text-slate-500">{row.specialtySlug ?? (row.package?.nameEn ?? "—")}</p>
                     {appt?.airportPickup ? <p className="mt-1 text-[11px] font-semibold text-sky-700">Airport pickup</p> : null}
                     {appt?.accommodationHelp ? <p className="text-[11px] font-semibold text-sky-700">Stay nearby</p> : null}
+                    {appt?.visaHelp ? <p className="text-[11px] font-semibold text-sky-700">Visa help</p> : null}
                     <p className="mt-1 line-clamp-2 text-xs text-slate-700">{row.message}</p>
                   </td>
                   <td className="px-4 py-3">
