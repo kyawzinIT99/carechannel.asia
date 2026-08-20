@@ -12,7 +12,7 @@ export async function POST(request: Request) {
     const session = await readSession();
     const patientId = session?.roles.includes("PATIENT") ? session.sub : undefined;
     const inquiry = await createInquiry(body, patientId);
-    return NextResponse.json({ id: inquiry.id }, { status: 201 });
+    return NextResponse.json({ id: inquiry.id, visitorCode: inquiry.visitorCode }, { status: 201 });
   } catch {
     return NextResponse.json({ error: "invalid" }, { status: 400 });
   }

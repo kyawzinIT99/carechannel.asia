@@ -15,7 +15,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const inquiry = await ingestExternalInquiry(body);
-    return NextResponse.json({ id: inquiry.id, ok: true }, { status: 201 });
+    return NextResponse.json({ id: inquiry.id, visitorCode: inquiry.visitorCode, ok: true }, { status: 201 });
   } catch {
     return NextResponse.json({ error: "invalid" }, { status: 400 });
   }

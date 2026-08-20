@@ -1,5 +1,3 @@
-"use client";
-
 const ITEMS_EN = [
   "Official Myanmar Partner Channel",
   "Exclusive Benefits",
@@ -14,32 +12,15 @@ const ITEMS_MY = [
   "လူနာတစ်ဦးချင်း အထောက်အပံ့",
 ];
 
-function TickerCopy({ items }: { items: string[] }) {
-  return (
-    <span className="gold-ticker-copy">
-      {items.map((item) => (
-        <span key={item}>
-          {item}
-          <span className="gold-ticker-dot" aria-hidden="true">
-            •
-          </span>
-        </span>
-      ))}
-    </span>
-  );
-}
-
 export function GoldTicker({ locale }: { locale: string }) {
   const items = locale === "my" ? ITEMS_MY : ITEMS_EN;
-  const label = items.join(" • ");
+  const line = items.join("  •  ");
 
   return (
-    <div className="gold-ticker" aria-label={label}>
+    <div className="gold-ticker" aria-label={line}>
       <div className="gold-ticker-track">
-        <TickerCopy items={items} />
-        <TickerCopy items={items} />
-        <TickerCopy items={items} />
-        <TickerCopy items={items} />
+        <span>{line}</span>
+        <span aria-hidden="true">{line}</span>
       </div>
     </div>
   );

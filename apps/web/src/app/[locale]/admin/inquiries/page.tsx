@@ -1,6 +1,7 @@
 import { prisma } from "@/server/db/prisma";
 import { InquiryActions } from "@/components/admin/inquiry-actions";
 import { InquiryReportBoard, InquirySelectBox } from "@/components/admin/inquiry-report-bar";
+import { backfillVisitorCodes } from "@/server/inquiries/visitor-code";
 
 export const dynamic = "force-dynamic";
 
@@ -11,6 +12,7 @@ export default async function AdminInquiriesPage({
 }) {
   const { status } = await searchParams;
   const where = status === "NEW" ? { status: "NEW" as const } : undefined;
+  await backfillVisitorCodes();
 
   const inquiries = await prisma.inquiry.findMany({
     where,
@@ -49,7 +51,7 @@ export default async function AdminInquiriesPage({
         </div>
       </div>
       <p className="text-sm text-slate-500">
-        Each row is one visit request from the website, LINE / Telegram / Viber, or Google Form via n8n. Assign to a coordinator. Do not keep a second customer list.
+        Each row is one visit request from the website, LINE / Telegram / Viber, or Google Form via n8n. Codes like CH011 mark incentive visitors who came through this channel. Assign to a coordinator. Do not keep a second customer list.
       </p>
 
       <InquiryReportBoard
@@ -62,6 +64,7 @@ export default async function AdminInquiriesPage({
           <thead className="bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500">
             <tr>
               <th className="w-8 px-4 py-3"></th>
+              <th className="px-4 py-3">Code</th>
               <th className="px-4 py-3">Date</th>
               <th className="px-4 py-3">Visitor</th>
               <th className="px-4 py-3">Phone / Email</th>
@@ -74,7 +77,7 @@ export default async function AdminInquiriesPage({
           <tbody className="divide-y divide-slate-100">
             {inquiries.length === 0 ? (
               <tr>
-                <td colSpan={8} className="px-4 py-8 text-center text-slate-400">No inquiries yet.</td>
+                <td colSpan={9} className="px-4 py-8 text-center text-slate-400">No inquiries yet.</td>
               </tr>
             ) : null}
             {inquiries.map((row) => {
@@ -87,6 +90,10 @@ export default async function AdminInquiriesPage({
                 <tr key={row.id} className="align-top hover:bg-slate-50">
                   <td className="px-4 py-3">
                     <InquirySelectBox id={row.id} hasEmail={Boolean(row.email)} />
+                  </td>
+                  <td className="whitespace-nowrap px-4 py-3">
+                    <p className="font-mono text-sm font-bold tracking-wide text-[#8a6a3b]">{row.visitorCode || "—"}</p>
+                    <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Incentive</p>
                   </td>
                   <td className="whitespace-nowrap px-4 py-3 text-slate-500">
                     {row.createdAt.toISOString().slice(0, 16).replace("T", " ")}

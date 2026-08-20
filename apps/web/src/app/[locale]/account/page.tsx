@@ -73,6 +73,9 @@ export default async function AccountPage({
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <p className="font-semibold text-slate-900">{row.fullName}</p>
+                    {row.visitorCode ? (
+                      <p className="mt-1 font-mono text-sm font-bold text-[#8a6a3b]">{row.visitorCode}</p>
+                    ) : null}
                     <p className="text-xs text-slate-400">{row.createdAt.toISOString().slice(0, 10)}</p>
                   </div>
                   <span className={`shrink-0 rounded-full px-3 py-0.5 text-xs font-semibold ${cls}`}>{label}</span>

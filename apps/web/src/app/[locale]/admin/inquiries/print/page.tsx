@@ -32,6 +32,7 @@ export default async function InquiryPrintPage({
         <thead>
           <tr className="border-b border-slate-300 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
             <th className="py-2 pr-3">Date</th>
+            <th className="py-2 pr-3">Code</th>
             <th className="py-2 pr-3">Visitor</th>
             <th className="py-2 pr-3">Phone</th>
             <th className="py-2 pr-3">Email</th>
@@ -44,6 +45,7 @@ export default async function InquiryPrintPage({
           {rows.map((row) => (
             <tr key={row.id} className="border-b border-slate-100 align-top">
               <td className="whitespace-nowrap py-2 pr-3 text-slate-500">{row.createdAt.slice(0, 16).replace("T", " ")}</td>
+              <td className="whitespace-nowrap py-2 pr-3 font-mono font-bold text-[#8a6a3b]">{row.visitorCode || "—"}</td>
               <td className="py-2 pr-3">
                 <p className="font-semibold">{row.fullName}</p>
                 <p className="text-[11px] text-slate-500">

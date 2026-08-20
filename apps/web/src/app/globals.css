@@ -115,50 +115,45 @@ video {
 .gold-ticker {
   overflow: hidden;
   width: 100%;
+  mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
 }
 
 .gold-ticker-track {
   display: flex;
   width: max-content;
   color: #d4af37;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   white-space: nowrap;
-  will-change: transform;
-  animation: gold-ticker-scroll 22s linear infinite;
+  animation: gold-ticker-scroll 52s linear infinite;
 }
 
 html[lang="my"] .gold-ticker-track {
   letter-spacing: 0;
   text-transform: none;
-  font-size: 15px;
+  font-size: 14px;
 }
 
-.gold-ticker-copy {
-  display: inline-flex;
-  flex-shrink: 0;
-  align-items: center;
-}
-
-.gold-ticker-copy > span {
-  display: inline-flex;
-  flex-shrink: 0;
-  align-items: center;
-}
-
-.gold-ticker-dot {
-  display: inline-block;
-  padding: 0 1.25rem;
-  color: #c9a227;
+.gold-ticker-track span {
+  padding-right: 3.5rem;
 }
 
 @keyframes gold-ticker-scroll {
   from {
-    transform: translate3d(0, 0, 0);
+    transform: translateX(0);
   }
   to {
-    transform: translate3d(-50%, 0, 0);
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gold-ticker-track {
+    animation: none;
+  }
+  .gold-ticker-track span:last-child {
+    display: none;
   }
 }

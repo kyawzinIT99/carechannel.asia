@@ -5,6 +5,7 @@ import { dispatchInquiryConversation } from "@/server/automation/dispatch";
 import { buildInquiryReply } from "@/server/communication/inquiry-reply";
 import { flattenSpecialties } from "@/catalog/hospital-source";
 import { COUNTRIES } from "@/catalog/countries";
+import { assignVisitorCode, normalizeVisitorCode } from "@/server/inquiries/visitor-code";
 
 function allSlugs() {
   return flattenSpecialties().map((item) => item.slug);
@@ -28,6 +29,7 @@ export const inquirySchema = z.object({
   airportPickup: z.boolean().optional(),
   accommodationHelp: z.boolean().optional(),
   visaHelp: z.boolean().optional(),
+  visitorCode: z.string().max(20).optional(),
   consent: z.literal(true),
 });
 
@@ -54,6 +56,11 @@ export async function createInquiry(raw: unknown, patientUserId?: string) {
     }
   }
 
+  const visitorCode = await assignVisitorCode(data.visitorCode);
+  const claimed = normalizeVisitorCode(data.visitorCode);
+  const claimedNote =
+    claimed && claimed !== visitorCode ? `\nExisting incentive code quoted: ${claimed}` : "";
+
   const inquiry = await prisma.inquiry.create({
     data: {
       locale,
@@ -62,7 +69,8 @@ export async function createInquiry(raw: unknown, patientUserId?: string) {
       email: data.email || null,
       country: data.country,
       returningPatient: data.returningPatient,
-      message: data.message,
+      visitorCode,
+      message: `${data.message}${claimedNote}`.slice(0, 4000),
       specialtySlug: data.specialtySlug || null,
       packageId: packageId || null,
       patientUserId: patientUserId || null,
@@ -103,6 +111,7 @@ export async function createInquiry(raw: unknown, patientUserId?: string) {
         airportPickup: Boolean(data.airportPickup),
         accommodationHelp: Boolean(data.accommodationHelp),
         visaHelp: Boolean(data.visaHelp),
+        visitorCode,
       },
     },
   });
@@ -124,6 +133,7 @@ export async function createInquiry(raw: unknown, patientUserId?: string) {
       airportPickup: data.airportPickup,
       accommodationHelp: data.accommodationHelp,
       visaHelp: data.visaHelp,
+      visitorCode,
       preferredDate: data.preferredDate,
     });
     await dispatchInquiryConversation({
@@ -174,6 +184,7 @@ export async function ingestExternalInquiry(raw: unknown) {
   const specialtySlugRaw = pickStr(nested, ["specialtySlug", "specialty"]);
   const specialtySlug = allSlugs().includes(specialtySlugRaw) ? specialtySlugRaw : undefined;
   const packageCode = pickStr(nested, ["packageCode", "package"]) || undefined;
+  const visitorCode = pickStr(nested, ["visitorCode", "Visitor code", "Code", "Incentive code"]) || undefined;
   try {
     return await createInquiry({
       locale,
@@ -187,6 +198,7 @@ export async function ingestExternalInquiry(raw: unknown) {
       message: `[Google Form]\n${message}`.slice(0, 4000),
       specialtySlug,
       packageCode,
+      visitorCode,
       consent: true,
     });
   } catch {

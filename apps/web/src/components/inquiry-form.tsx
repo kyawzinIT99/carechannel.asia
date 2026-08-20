@@ -91,6 +91,7 @@ export function InquiryForm({
   const [needVisa, setNeedVisa] = useState(false);
   const [pkgExpanded, setPkgExpanded] = useState(false);
   const [returning, setReturning] = useState<"yes" | "no" | "">("");
+  const [issuedCode, setIssuedCode] = useState("");
 
   const allCentres = flattenSpecialties(specialties as typeof SPECIALTIES);
   const selectedCentre = allCentres.find((c) => c.slug === selectedSlug);
@@ -119,6 +120,7 @@ export function InquiryForm({
       airportPickup: needPickup,
       accommodationHelp: needStay,
       visaHelp: needVisa,
+      visitorCode: String(form.get("visitorCode") ?? ""),
       consent: true,
     };
     const res = await fetch("/api/v1/public/inquiries", {
@@ -126,7 +128,13 @@ export function InquiryForm({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
-    setStatus(res.ok ? "ok" : "err");
+    if (res.ok) {
+      const json = (await res.json().catch(() => ({}))) as { visitorCode?: string };
+      setIssuedCode(json.visitorCode || "");
+      setStatus("ok");
+    } else {
+      setStatus("err");
+    }
   }
 
   const inputCls =
@@ -151,6 +159,17 @@ export function InquiryForm({
             ? "ညှိနှိုင်းရေးမှူးသည် အီးမေးလ် သို့မဟုတ် Telegram ဖြင့် မကြာမီ ဆက်သွယ်ပါမည်"
             : "A coordinator will follow up by email and Telegram shortly."}
         </p>
+        {issuedCode ? (
+          <p className="mt-5 text-sm text-slate-600">
+            {my ? "သင့် incentive ကုဒ်" : "Your incentive visitor code"}
+            <span className="mt-1 block font-mono text-2xl font-bold tracking-wide text-[#8a6a3b]">{issuedCode}</span>
+            <span className="mt-2 block text-xs leading-6 text-slate-500">
+              {my
+                ? "ဤကုဒ်ကို ဝက်ဘ်ဆိုက် သို့မဟုတ် အက်ပ်မှ ထုတ်ပေးသည်။ ညှိနှိုင်းရေးမှူးနှင့် ပြောသည့်အခါ ပြပါ။"
+                : "This code is issued on this website or app for the partner incentive. Quote it when a coordinator follows up."}
+            </span>
+          </p>
+        ) : null}
       </div>
     );
   }
@@ -186,6 +205,10 @@ export function InquiryForm({
                 <option key={name} value={name}>{name}</option>
               ))}
             </select>
+          </label>
+          <label className={`${labelCls} sm:col-span-2`}>
+            {my ? "Incentive ဧည့်သည်ကုဒ် (ရှိပြီးသား CH011 ကဲ့သို့)" : "Incentive visitor code (if you already have one, e.g. CH011)"}
+            <input name="visitorCode" autoComplete="off" placeholder="CH011" className={inputCls} />
           </label>
         </div>
         <fieldset>

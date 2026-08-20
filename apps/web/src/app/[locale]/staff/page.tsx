@@ -42,6 +42,7 @@ export default async function StaffPage({
           <table className="min-w-full text-left text-sm">
             <thead className="bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500">
               <tr>
+                <th className="px-5 py-3">Code</th>
                 <th className="px-5 py-3">Date</th>
                 <th className="px-5 py-3">Visitor</th>
                 <th className="px-5 py-3">Phone</th>
@@ -55,6 +56,9 @@ export default async function StaffPage({
                 const appt = row.appointments[0];
                 return (
                   <tr key={row.id} className="align-top hover:bg-slate-50">
+                    <td className="whitespace-nowrap px-5 py-3">
+                      <p className="font-mono text-sm font-bold text-[#8a6a3b]">{row.visitorCode || "—"}</p>
+                    </td>
                     <td className="whitespace-nowrap px-5 py-3 text-xs text-slate-400">
                       {row.createdAt.toISOString().slice(0, 16).replace("T", " ")}
                     </td>

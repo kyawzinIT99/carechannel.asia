@@ -13,6 +13,7 @@ export async function listInquiryReports(status?: string) {
     return {
       id: row.id,
       createdAt: row.createdAt.toISOString(),
+      visitorCode: row.visitorCode || "",
       fullName: row.fullName,
       phone: row.phone,
       email: row.email || "",
@@ -37,6 +38,7 @@ export async function listInquiryReports(status?: string) {
 export function inquiriesToCsv(rows: Awaited<ReturnType<typeof listInquiryReports>>) {
   const headers = [
     "Date",
+    "Code",
     "Name",
     "Phone",
     "Email",
@@ -58,6 +60,7 @@ export function inquiriesToCsv(rows: Awaited<ReturnType<typeof listInquiryReport
   const lines = rows.map((row) =>
     [
       row.createdAt.slice(0, 16).replace("T", " "),
+      row.visitorCode,
       row.fullName,
       row.phone,
       row.email,

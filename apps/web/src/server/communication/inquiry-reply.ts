@@ -36,6 +36,7 @@ export type InquiryReplyInput = {
   airportPickup?: boolean;
   accommodationHelp?: boolean;
   visaHelp?: boolean;
+  visitorCode?: string;
   preferredDate?: string;
 };
 
@@ -102,6 +103,11 @@ export async function buildInquiryReply(input: InquiryReplyInput): Promise<Inqui
   const packages = matchPackages(input, catalog);
   const specialties = matchSpecialties(input);
   const extras = [
+    input.visitorCode
+      ? locale === "my"
+        ? `incentive ဧည့်သည်ကုဒ်: ${input.visitorCode}။ ဝက်ဘ်ဆိုက် သို့မဟုတ် အက်ပ်မှ လာသူများအတွက် ဤကုဒ်ကို သိမ်းထားပါ။`
+        : `Incentive visitor code: ${input.visitorCode}. Keep this code — it was issued on this website or app for the partner incentive.`
+      : "",
     input.airportPickup
       ? locale === "my"
         ? "လေဆိပ်ကား ကြိုဆိုရန် တောင်းဆိုထားသည် (ပက်ကေ့ချ်တွင် မပါဝင်ပါ)။"
@@ -131,6 +137,7 @@ export async function buildInquiryReply(input: InquiryReplyInput): Promise<Inqui
     ...(input.airportPickup ? ["airport-pickup"] : []),
     ...(input.accommodationHelp ? ["accommodation"] : []),
     ...(input.visaHelp ? ["visa-support"] : []),
+    ...(input.visitorCode ? ["incentive-code"] : []),
   ];
 
   const facts = {
@@ -216,6 +223,7 @@ export async function buildInquiryReply(input: InquiryReplyInput): Promise<Inqui
     email: input.email,
     country: input.country,
     returningPatient: input.returningPatient,
+    visitorCode: input.visitorCode,
     specialtySlug: input.specialtySlug,
     packageCode: input.packageCode,
     preferredDate: input.preferredDate,
@@ -229,13 +237,14 @@ export async function buildInquiryReply(input: InquiryReplyInput): Promise<Inqui
     phone: input.phone,
     country: input.country,
     returningPatient: input.returningPatient,
+    visitorCode: input.visitorCode,
     packageCode: input.packageCode,
     specialtySlug: input.specialtySlug,
     message: input.message,
     copy,
     extras,
   });
-  const staffText = `Partner portal inquiry\nName: ${input.fullName}\nPhone: ${input.phone}\nEmail: ${input.email || ""}\nCountry: ${input.country || ""}\nReturning patient: ${input.returningPatient ? "yes" : "no"}\nSpecialty: ${input.specialtySlug || ""}\nPackage: ${input.packageCode || ""}\nDate: ${input.preferredDate || ""}\nInterpreter: ${input.interpreterNeeded ? input.interpreterLang || "yes" : "no"}\nMessage: ${input.message}\nIntents: ${intents.join(", ") || "general"}\n\nGuest reply:\n${guestText}`;
+  const staffText = `Partner portal inquiry\nIncentive code: ${input.visitorCode || "—"}\nName: ${input.fullName}\nPhone: ${input.phone}\nEmail: ${input.email || ""}\nCountry: ${input.country || ""}\nReturning patient: ${input.returningPatient ? "yes" : "no"}\nSpecialty: ${input.specialtySlug || ""}\nPackage: ${input.packageCode || ""}\nDate: ${input.preferredDate || ""}\nInterpreter: ${input.interpreterNeeded ? input.interpreterLang || "yes" : "no"}\nMessage: ${input.message}\nIntents: ${intents.join(", ") || "general"}\n\nGuest reply:\n${guestText}`;
 
   return {
     intents,
@@ -245,7 +254,7 @@ export async function buildInquiryReply(input: InquiryReplyInput): Promise<Inqui
         : "Chiangmai Ram partner channel — your visit request",
     guestText,
     guestHtml,
-    staffSubject: `Ram Hospital inquiry — ${input.fullName}`,
+    staffSubject: `Ram Hospital inquiry — ${input.visitorCode || ""} ${input.fullName}`.trim(),
     staffText,
     staffHtml,
     telegramText,
