@@ -6,6 +6,7 @@ import { VisitAssistSection } from "@/components/visit-assist-section";
 import { ContactChannels } from "@/components/contact-channels";
 import { ShwedagonMark } from "@/components/shwedagon-mark";
 import { HospitalFilm } from "@/components/hospital-film";
+import { GoldTicker } from "@/components/gold-ticker";
 
 export const dynamic = "force-dynamic";
 
@@ -50,6 +51,11 @@ export default async function HomePage({
   return (
     <>
       <section className="border-b border-[#e4ebe4] bg-[#f6f3ec]">
+        <div className="border-b border-[#d4af37]/25 bg-[#1a2330] py-2.5">
+          <div className="mx-auto max-w-6xl px-6">
+            <GoldTicker locale={locale} />
+          </div>
+        </div>
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-14 md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] md:py-20">
           <div>
             <p

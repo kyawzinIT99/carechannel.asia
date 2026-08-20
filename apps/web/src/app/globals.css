@@ -111,3 +111,54 @@ video {
   background: #cfe0f5;
   color: #0b2140;
 }
+
+.gold-ticker {
+  overflow: hidden;
+  width: 100%;
+}
+
+.gold-ticker-track {
+  display: flex;
+  width: max-content;
+  color: #d4af37;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  will-change: transform;
+  animation: gold-ticker-scroll 22s linear infinite;
+}
+
+html[lang="my"] .gold-ticker-track {
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 15px;
+}
+
+.gold-ticker-copy {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.gold-ticker-copy > span {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.gold-ticker-dot {
+  display: inline-block;
+  padding: 0 1.25rem;
+  color: #c9a227;
+}
+
+@keyframes gold-ticker-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
