@@ -1,6 +1,5 @@
 import {
   HOSPITAL_PROFILE,
-  INTERPRETER_LANGUAGES,
   PARTNER_CHANNEL,
   VISIT_SITES,
   flattenSpecialties,
@@ -58,9 +57,6 @@ function haystack(input: InquiryReplyInput) {
     .toLowerCase();
 }
 
-const PACKAGE_HINTS =
-  /package|promotion|promo|price|checkup|check-up|health check|standard|advance|premium|3300|9500|12500|13500|18500|ပက်ကေ့|စစ်ဆေး|โปร|แพ็ก|ตรวจสุขภาพ/i;
-
 const SPECIALTY_HINTS: Record<string, RegExp> = {
   "cardiac-balloon-center": /heart|cardiac|chest|balloon|cad|ekg|နှလုံး|ရင်ဘတ်|หัวใจ/,
   "stroke-center": /stroke|paralysis|brain|လေဖြတ်|อัมพาต/,
@@ -82,16 +78,12 @@ function matchSpecialties(input: InquiryReplyInput): SpecialtySeed[] {
   for (const item of hinted) {
     if (!merged.some((row) => row.slug === item.slug)) merged.push(item);
   }
-  return merged.slice(0, 4);
+  return merged.slice(0, 1);
 }
 
 function matchPackages(input: InquiryReplyInput, catalog: PublicPackage[]) {
-  const showAll = Boolean(input.packageCode) || PACKAGE_HINTS.test(haystack(input));
-  if (!showAll) return [] as PublicPackage[];
-  if (!input.packageCode) return catalog;
-  const first = catalog.filter((pkg) => pkg.code === input.packageCode);
-  const rest = catalog.filter((pkg) => pkg.code !== input.packageCode);
-  return [...first, ...rest];
+  if (!input.packageCode) return [] as PublicPackage[];
+  return catalog.filter((pkg) => pkg.code === input.packageCode).slice(0, 1);
 }
 
 function money(value: string) {
@@ -106,28 +98,16 @@ export async function buildInquiryReply(input: InquiryReplyInput): Promise<Inqui
   const extras = [
     input.visitorCode
       ? locale === "my"
-        ? `incentive ဧည့်သည်ကုဒ်: ${input.visitorCode}။ ဝက်ဘ်ဆိုက် သို့မဟုတ် အက်ပ်မှ လာသူများအတွက် ဤကုဒ်ကို သိမ်းထားပါ။`
-        : `Incentive visitor code: ${input.visitorCode}. Keep this code — it was issued on this website or app for the partner incentive.`
+        ? `ကုဒ် ${input.visitorCode}`
+        : `Code ${input.visitorCode}`
       : "",
-    input.airportPickup
-      ? locale === "my"
-        ? "လေဆိပ်ကား ကြိုဆိုရန် တောင်းဆိုထားသည် (ပက်ကေ့ချ်တွင် မပါဝင်ပါ)။"
-        : "Airport pickup requested (not included in checkup packages)."
-      : "",
-    input.accommodationHelp
-      ? locale === "my"
-        ? "အငှားတိုက်ခန်း အကူအညီ တောင်းထားသည် (ဟိုတယ်ပက်ကေ့ချ် မဟုတ်၊ လိုမှသာ၊ ပုံမှန် ၃,၅၀၀ သို့မဟုတ် ၄,၀၀၀ ဘတ်)။"
-        : "Help requested with a simple rental apartment if the visitor wants one (not a hotel package; typically 3,500 or 4,000 THB at the partner apartment site)."
-      : "",
-    input.visaHelp
-      ? locale === "my"
-        ? "ကြာရှည် ဗီဇာ အကူအညီကို ဧည့်သည်က တောင်းထားသည်။ ဤဝက်ဘ်ဆိုက်၊ LINE၊ Telegram သို့မဟုတ် Viber မှသာ ပြန်ကြားပါ။ ဗီဇာရုံး ဖုန်း/အီးမေးလ် မပို့ပါ။"
-        : "Long-stay visa help was requested because the visitor asked. Reply via this website, LINE, Telegram, or Viber. Do not send a visa office phone or email."
-      : "",
+    input.airportPickup ? (locale === "my" ? "လေဆိပ်ကား တောင်းထားသည်" : "Airport pickup requested") : "",
+    input.accommodationHelp ? (locale === "my" ? "နေထိုင်ရန် အကူအညီ တောင်းထားသည်" : "Stay help requested") : "",
+    input.visaHelp ? (locale === "my" ? "ဗီဇာ အကူအညီ တောင်းထားသည်" : "Visa help requested") : "",
     input.interpreterNeeded
       ? locale === "my"
-        ? `ဆေးဘာသာပြန် တောင်းဆိုထားသည်: ${input.interpreterLang || "yes"}။ ဆေးရုံဖော်ပြ ဘာသာများ: ${INTERPRETER_LANGUAGES.join(", ")}`
-        : `Interpreter requested: ${input.interpreterLang || "yes"}. Hospital-published languages: ${INTERPRETER_LANGUAGES.join(", ")}`
+        ? `ဘာသာပြန်: ${input.interpreterLang || "yes"}`
+        : `Interpreter: ${input.interpreterLang || "yes"}`
       : "",
   ].filter(Boolean);
 
@@ -191,6 +171,7 @@ export async function buildInquiryReply(input: InquiryReplyInput): Promise<Inqui
       locale,
       fullName: input.fullName,
       message: input.message,
+      visitorCode: input.visitorCode,
       packageNames: facts.packages.map((pkg) => pkg.name),
       specialtyNames: facts.specialties.map((item) => item.name),
       extras,
@@ -209,6 +190,7 @@ export async function buildInquiryReply(input: InquiryReplyInput): Promise<Inqui
     locale,
     copy,
     visitorMessage: input.message,
+    visitorCode: input.visitorCode,
     siteLine,
     packageRows: facts.packages,
     specialtyBlocks: facts.specialties,
@@ -233,7 +215,6 @@ export async function buildInquiryReply(input: InquiryReplyInput): Promise<Inqui
     interpreter: input.interpreterNeeded ? input.interpreterLang || "yes" : "no",
     message: input.message,
     intents,
-    guestHtml,
   });
   const telegramText = renderStaffTelegramHtml({
     fullName: input.fullName,
@@ -245,17 +226,26 @@ export async function buildInquiryReply(input: InquiryReplyInput): Promise<Inqui
     packageCode: input.packageCode,
     specialtySlug: input.specialtySlug,
     message: input.message,
-    copy,
     extras,
   });
-  const staffText = `Partner portal inquiry\nIncentive code: ${input.visitorCode || "—"}\nPassport: ${input.passportNo || "—"}\nName: ${input.fullName}\nPhone: ${input.phone}\nEmail: ${input.email || ""}\nCountry: ${input.country || ""}\nReturning patient: ${input.returningPatient ? "yes" : "no"}\nSpecialty: ${input.specialtySlug || ""}\nPackage: ${input.packageCode || ""}\nDate: ${input.preferredDate || ""}\nInterpreter: ${input.interpreterNeeded ? input.interpreterLang || "yes" : "no"}\nMessage: ${input.message}\nIntents: ${intents.join(", ") || "general"}\n\nGuest reply:\n${guestText}`;
+  const staffText = [
+    `New inquiry ${input.visitorCode || ""}`.trim(),
+    input.fullName,
+    `Passport: ${input.passportNo || "—"}`,
+    `Phone: ${input.phone}`,
+    input.email ? `Email: ${input.email}` : "",
+    input.packageCode ? `Package: ${input.packageCode}` : "",
+    input.specialtySlug ? `Centre: ${input.specialtySlug}` : "",
+    extras.join(" · "),
+    input.message.slice(0, 240),
+  ]
+    .filter(Boolean)
+    .join("\n");
 
   return {
     intents,
     guestSubject:
-      locale === "my"
-        ? "ချင်းမိုင်ရမ် မိတ်ဖက်လမ်းကြောင်း — သင့်ခရီးစဉ် တောင်းဆိုမှု"
-        : "Chiangmai Ram partner channel — your visit request",
+      locale === "my" ? "ချင်းမိုင်ရမ် — တောင်းဆိုမှု လက်ခံပါသည်" : "Chiangmai Ram — we received your request",
     guestText,
     guestHtml,
     staffSubject: `Ram Hospital inquiry — ${input.visitorCode || ""} ${input.fullName}`.trim(),

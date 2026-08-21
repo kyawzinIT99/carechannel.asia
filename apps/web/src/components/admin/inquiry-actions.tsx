@@ -59,6 +59,19 @@ export function InquiryActions({
           <option key={c.id} value={c.id}>{c.name}</option>
         ))}
       </select>
+      <button
+        disabled={busy}
+        onClick={async () => {
+          if (!window.confirm("Delete this inquiry? This cannot be undone.")) return;
+          setBusy(true);
+          await fetch(`/api/v1/admin/inquiries/${id}`, { method: "DELETE" });
+          router.refresh();
+          setBusy(false);
+        }}
+        className="rounded-lg bg-red-50 px-2 py-1 text-xs font-semibold text-red-700 hover:bg-red-100 disabled:opacity-50"
+      >
+        Delete
+      </button>
     </div>
   );
 }

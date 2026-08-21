@@ -33,3 +33,29 @@ export async function PATCH(
   });
   return NextResponse.json(inquiry);
 }
+
+export async function DELETE(
+  _request: Request,
+  context: { params: Promise<{ id: string }> },
+) {
+  const session = await readSession();
+  if (!hasRole(session, STAFF_ROLES)) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  const { id } = await context.params;
+  const existing = await prisma.inquiry.findUnique({ where: { id }, select: { id: true, fullName: true } });
+  if (!existing) return NextResponse.json({ error: "not_found" }, { status: 404 });
+  await prisma.$transaction([
+    prisma.appointment.deleteMany({ where: { inquiryId: id } }),
+    prisma.consent.deleteMany({ where: { inquiryId: id } }),
+    prisma.inquiry.delete({ where: { id } }),
+  ]);
+  await prisma.auditLog.create({
+    data: {
+      actorId: session?.sub,
+      action: "inquiry.delete",
+      entity: "Inquiry",
+      entityId: id,
+      meta: { fullName: existing.fullName },
+    },
+  });
+  return NextResponse.json({ ok: true });
+}

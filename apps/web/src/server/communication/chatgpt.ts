@@ -17,8 +17,9 @@ function parseCopy(raw: string): PatientReplyCopy | null {
   try {
     const parsed = JSON.parse(raw) as Partial<PatientReplyCopy>;
     const greeting = parsed.greeting?.trim() ?? "";
-    const paragraphs = (parsed.paragraphs ?? []).map((p) => p.trim()).filter(Boolean).slice(0, 5);
-    const nextSteps = (parsed.nextSteps ?? []).map((p) => p.trim()).filter(Boolean).slice(0, 5);
+    const paragraphs = (parsed.paragraphs ?? []).map((p) => p.trim()).filter(Boolean).slice(0, 2)
+      .map((p) => (p.length > 220 ? `${p.slice(0, 217)}…` : p));
+    const nextSteps = (parsed.nextSteps ?? []).map((p) => p.trim()).filter(Boolean).slice(0, 2);
     if (!greeting || paragraphs.length === 0) return null;
     const blob = [greeting, ...paragraphs, ...nextSteps].join(" ");
     if (FORBIDDEN.test(blob)) return null;
@@ -41,19 +42,14 @@ Rules:
 - Never mention emergency 24-hour lines.
 - Do NOT diagnose. If the visitor describes symptoms, say a coordinator will continue the conversation; do not recommend treatment.
 - Language: ${language}.
-- This is NOT a greeting-only message. You must answer what they asked using the facts (package, specialty, pickup, stay, interpreter, date).
-- If they asked for pickup or a stay, treat those as optional help — not a hospital package. A stay is a simple rental apartment (typically 3,500 or 4,000 THB), not a hotel. You may name the apartment site URL only if it is in FACTS.
-- Invite them to continue only on this partner website, LINE, Telegram, or Viber using the messenger URLs and numbers in FACTS. Do not mention Facebook or WhatsApp. Do not invent other numbers.
-- Stress that the published incentive amount is confirmed through this official partner channel.
-- If they asked a centre, summarise only the hospital-published specialty facts.
-- If the request is general, still give a useful next-step plan (what the coordinator will confirm).
-- Tone: warm, professional, clear — not clinical, not salesy.
+- This is a SHORT reply. Do not write a long letter.
+- Tone: warm, clear, brief.
 
 Return ONLY valid JSON:
-{"greeting":"Dear Name,...","paragraphs":["...","..."],"nextSteps":["...","..."]}
+{"greeting":"Dear Name,","paragraphs":["..."],"nextSteps":["..."]}
 - greeting: 1 short line addressing ${JSON.stringify(input.visitorName)}
-- paragraphs: 2 to 4 short paragraphs (the actual answer)
-- nextSteps: 2 to 4 concrete follow-up items a coordinator will do by email and Telegram`;
+- paragraphs: 1 short paragraph (max 2 sentences). Include the incentive visitor code from FACTS if present. Do not paste long package lists or centre essays.
+- nextSteps: 1 or 2 very short follow-up items`;
 
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
