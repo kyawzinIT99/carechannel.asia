@@ -2,6 +2,7 @@ import { Promotion } from "@prisma/client";
 import { prisma } from "@/server/db/prisma";
 import { Link } from "@/i18n/routing";
 import { PromotionActions } from "@/components/admin/promotion-actions";
+import { AdminPageHeader } from "@/components/admin/admin-page-header";
 
 export const dynamic = "force-dynamic";
 
@@ -19,19 +20,16 @@ export default async function AdminPromotionsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between gap-4">
-        <h1 className="text-2xl font-bold">Public promotions</h1>
-        <Link
-          href="/admin/promotions/new"
-          className="rounded-full bg-[#0b4f9c] px-4 py-2 text-sm font-semibold text-white hover:bg-[#083a73]"
-        >
-          + New promotion
-        </Link>
-      </div>
-      <p className="text-sm text-slate-500">
-        Create or edit here, then tick <strong>Published</strong>. Live copy appears on the public homepage and packages page.
-        Publishing does not email visitors. To mail an update, open Inquiries, select visitors, pick this promotion, and press Send — n8n Inquiry Alert sends the follow-up mail.
-      </p>
+      <AdminPageHeader
+        title="Announcements"
+        hint="Published items appear on the public homepage and packages page. Publishing does not email visitors — use Inquiries to send a follow-up."
+        liveHref="/en"
+        actions={
+          <Link href="/admin/promotions/new" className="rounded-full bg-[#1a2330] px-4 py-2 text-sm font-semibold text-white hover:bg-[#111820]">
+            + New announcement
+          </Link>
+        }
+      />
 
       {promos.length === 0 ? (
         <p className="rounded-2xl bg-white p-6 text-slate-500">No promotions yet.</p>

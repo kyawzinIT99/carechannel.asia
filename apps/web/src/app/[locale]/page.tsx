@@ -1,7 +1,7 @@
 import { setRequestLocale } from "next-intl/server";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
-import { loadPublicChrome, loadPublicCopy, loadPublicPromotions, loadPublicSpecialties } from "@/server/content/public";
+import { loadPublicChrome, loadPublicCopy, loadPublicPackages, loadPublicPromotions, loadPublicSpecialties } from "@/server/content/public";
 import { VisitAssistSection } from "@/components/visit-assist-section";
 import { ContactChannels } from "@/components/contact-channels";
 import { ShwedagonMark } from "@/components/shwedagon-mark";
@@ -19,11 +19,12 @@ export default async function HomePage({
   setRequestLocale(locale);
   const my = locale === "my";
 
-  const [copy, promotions, featuredCentres, chrome] = await Promise.all([
+  const [copy, promotions, featuredCentres, chrome, packages] = await Promise.all([
     loadPublicCopy(locale),
     loadPublicPromotions(),
     loadPublicSpecialties(),
     loadPublicChrome(),
+    loadPublicPackages(),
   ]);
   const pick = (key: string, fallbackEn: string, fallbackMy: string) =>
     copy[key] || (locale === "my" ? fallbackMy : fallbackEn);
@@ -131,6 +132,42 @@ export default async function HomePage({
           <HospitalFilm locale={locale} />
         </div>
       </section>
+
+      {packages.length > 0 ? (
+        <section className="border-b border-[#e4ebe4] bg-white py-12">
+          <div className="mx-auto max-w-6xl px-6">
+            <div className="flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#c4a35a]">
+                  {my ? "၂၀၂၆ ပက်ကေ့ချ်" : "2026 check-up"}
+                </p>
+                <h2 className="mt-1 text-2xl font-semibold text-[#1a2330]">
+                  {my ? "ဆေးရုံထုတ်ပြန် စျေးနှုန်း" : "Hospital-published prices"}
+                </h2>
+              </div>
+              <Link href="/packages" className="text-sm font-semibold text-[#1a2330] hover:underline">
+                {my ? "အသေးစိတ် →" : "All packages →"}
+              </Link>
+            </div>
+            <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+              {packages.map((pkg) => (
+                <Link
+                  key={pkg.code}
+                  href={`/contact?package=${pkg.code}`}
+                  className="rounded-2xl bg-[#f7f4ee] p-4 ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-md"
+                >
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">{pkg.code.replaceAll("_", " ")}</p>
+                  <p className="mt-1 text-sm font-semibold leading-5 text-[#1a2330]">{my ? pkg.nameMy : pkg.nameEn}</p>
+                  <p className="mt-3 text-xl font-semibold text-[#1a2330]">
+                    {Number(pkg.salePrice).toLocaleString()}
+                    <span className="ml-1 text-xs font-medium text-slate-500">THB</span>
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       {promotions.length > 0 && (
         <section className="bg-[#f7f4ee] py-16 md:py-20">

@@ -1,5 +1,6 @@
 import { Link } from "@/i18n/routing";
 import { listBranches } from "@/server/db/branches";
+import { AdminPageHeader } from "@/components/admin/admin-page-header";
 
 export const dynamic = "force-dynamic";
 
@@ -14,17 +15,16 @@ export default async function AdminBranchesPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold">Branches</h1>
-          <p className="mt-1 text-sm text-slate-500">
-            Both campuses belong to Chiangmai Ram Hospital. Published branches appear on the contact form and contact sidebar.
-          </p>
-        </div>
-        <Link href="/admin/branches/new" className="rounded-full bg-[#0b4f9c] px-4 py-2 text-sm font-semibold text-white">
-          + Add branch
-        </Link>
-      </div>
+      <AdminPageHeader
+        title="Campuses"
+        hint="Published campuses appear on the contact form and contact sidebar."
+        liveHref="/en/contact"
+        actions={
+          <Link href="/admin/branches/new" className="rounded-full bg-[#1a2330] px-4 py-2 text-sm font-semibold text-white hover:bg-[#111820]">
+            + Add campus
+          </Link>
+        }
+      />
 
       {loadError ? (
         <p className="rounded-2xl bg-amber-50 p-4 text-sm text-amber-900">{loadError}</p>

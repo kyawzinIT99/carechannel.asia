@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { Role } from "@prisma/client";
 import { hasRole, readSession } from "@/server/auth/session";
 import { upsertSiteContent } from "@/server/db/site-content";
+import { revalidatePublicSite } from "@/server/content/revalidate-public";
 
 const ADMIN: Role[] = ["SUPER_ADMIN", "HOSPITAL_ADMIN"];
 
@@ -20,6 +21,7 @@ export async function PATCH(request: Request) {
         valueMy: String(row.valueMy ?? ""),
       });
     }
+    revalidatePublicSite();
     return NextResponse.json({ ok: true, count: rows.length });
   } catch (error) {
     return NextResponse.json({ error: "save_failed" }, { status: 400 });

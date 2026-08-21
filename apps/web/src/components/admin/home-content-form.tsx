@@ -45,7 +45,7 @@ export function HomeContentForm({
     router.refresh();
   }
 
-  const field = "mt-1 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm focus:border-[#0b4f9c] focus:outline-none";
+  const field = "mt-1 w-full rounded-xl border border-slate-200 bg-[#fbfaf7] px-3 py-2 text-sm focus:border-[#c4a35a] focus:outline-none";
 
   return (
     <form onSubmit={onSubmit} className="space-y-6">
@@ -75,7 +75,7 @@ export function HomeContentForm({
       ))}
       <button
         disabled={busy}
-        className="rounded-full bg-[#0b4f9c] px-6 py-2.5 text-sm font-bold text-white hover:bg-[#083a73] disabled:opacity-50"
+        className="rounded-full bg-[#1a2330] px-6 py-2.5 text-sm font-semibold text-white hover:bg-[#111820] disabled:opacity-50"
       >
         {busy ? "Saving…" : buttonLabel}
       </button>

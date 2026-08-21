@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/server/db/prisma";
 import { hasRole, readSession } from "@/server/auth/session";
 import { Role } from "@prisma/client";
+import { revalidatePublicSite } from "@/server/content/revalidate-public";
 
 const ADMIN: Role[] = ["SUPER_ADMIN", "HOSPITAL_ADMIN"];
 
@@ -40,5 +41,6 @@ export async function POST(request: Request) {
       parentId: body.parentId || null,
     },
   });
+  revalidatePublicSite();
   return NextResponse.json(row, { status: 201 });
 }

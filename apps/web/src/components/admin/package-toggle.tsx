@@ -10,7 +10,6 @@ export function PackageToggle({ id, published }: { id: string; published: boolea
 
   async function toggle() {
     setBusy(true);
-    setOn((v) => !v);
     const next = !on;
     setOn(next);
     const res = await fetch(`/api/v1/admin/packages/${id}`, {
@@ -28,7 +27,7 @@ export function PackageToggle({ id, published }: { id: string; published: boolea
       onClick={toggle}
       disabled={busy}
       aria-label={on ? "Hide package" : "Show package"}
-      className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors disabled:opacity-50 ${on ? "bg-emerald-500" : "bg-slate-300"}`}
+      className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors disabled:opacity-50 ${on ? "bg-[#1a2330]" : "bg-slate-300"}`}
     >
       <span className={`inline-block h-3.5 w-3.5 rounded-full bg-white shadow transition-transform ${on ? "translate-x-4" : "translate-x-1"}`} />
     </button>

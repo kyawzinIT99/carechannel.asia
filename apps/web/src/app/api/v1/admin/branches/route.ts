@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { Role } from "@prisma/client";
 import { hasRole, readSession } from "@/server/auth/session";
 import { createBranch } from "@/server/db/branches";
+import { revalidatePublicSite } from "@/server/content/revalidate-public";
 
 const ADMIN: Role[] = ["SUPER_ADMIN", "HOSPITAL_ADMIN"];
 
@@ -25,6 +26,7 @@ export async function POST(request: Request) {
       sortOrder: Number(body.sortOrder ?? 100),
       published: Boolean(body.published ?? true),
     });
+    revalidatePublicSite();
     return NextResponse.json(row, { status: 201 });
   } catch (error) {
     const message = error instanceof Error ? error.message : "save_failed";

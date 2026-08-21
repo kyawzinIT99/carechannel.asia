@@ -1,118 +1,120 @@
 import { prisma } from "@/server/db/prisma";
 import { Link } from "@/i18n/routing";
+import { AdminPageHeader } from "@/components/admin/admin-page-header";
+import { loadPublicPackages } from "@/server/content/public";
 
 export const dynamic = "force-dynamic";
 
 async function stats() {
-  const [
-    totalInquiries, newInquiries, confirmedAppts, promotions, templates, users,
-  ] = await Promise.all([
+  const [totalInquiries, newInquiries, packagesLive, promotions, users] = await Promise.all([
     prisma.inquiry.count(),
     prisma.inquiry.count({ where: { status: "NEW" } }),
-    prisma.appointment.count({ where: { status: "CONFIRMED" } }),
+    loadPublicPackages().then((rows) => rows.length),
     prisma.promotion.count({ where: { published: true } }),
-    prisma.messageTemplate.count(),
     prisma.user.count(),
   ]);
-  return { totalInquiries, newInquiries, confirmedAppts, promotions, templates, users };
+  return { totalInquiries, newInquiries, packagesLive, promotions, users };
 }
+
+const CONNECTIONS = [
+  {
+    title: "Homepage",
+    hint: "Hero copy, LINE, Telegram, Viber, pickup and stay text.",
+    edit: "/admin/home",
+    live: "/en",
+  },
+  {
+    title: "Packages",
+    hint: "Prices and tests on /packages and the visit form.",
+    edit: "/admin/packages",
+    live: "/en/packages",
+  },
+  {
+    title: "Announcements",
+    hint: "Published cards on the homepage and packages page.",
+    edit: "/admin/promotions",
+    live: "/en",
+  },
+  {
+    title: "Centres",
+    hint: "Specialty list on the homepage and /specialties.",
+    edit: "/admin/specialties",
+    live: "/en/specialties",
+  },
+  {
+    title: "Campuses",
+    hint: "Sripoom and Charoen Mueang on the contact page.",
+    edit: "/admin/branches",
+    live: "/en/contact",
+  },
+  {
+    title: "About",
+    hint: "Public about-page copy in English and Myanmar.",
+    edit: "/admin/about",
+    live: "/en/about",
+  },
+];
 
 export default async function AdminDashboard() {
   const s = await stats();
 
   const cards = [
-    { label: "Total inquiries",      value: s.totalInquiries,  href: "/admin/inquiries",  bg: "bg-[#0b4f9c]", text: "text-white" },
-    { label: "New (uncontacted)",     value: s.newInquiries,    href: "/admin/inquiries?status=NEW", bg: "bg-amber-500", text: "text-white" },
-    { label: "Confirmed appointments",value: s.confirmedAppts,  href: "/admin/inquiries",  bg: "bg-emerald-600", text: "text-white" },
-    { label: "Live promotions",       value: s.promotions,      href: "/admin/promotions", bg: "bg-white", text: "text-slate-800" },
-    { label: "Message templates",     value: s.templates,       href: "/admin/templates",  bg: "bg-white", text: "text-slate-800" },
-    { label: "Registered users",      value: s.users,           href: "/admin/users",      bg: "bg-white", text: "text-slate-800" },
+    { label: "Inquiries", value: s.totalInquiries, href: "/admin/inquiries", note: `${s.newInquiries} new` },
+    { label: "Live packages", value: s.packagesLive, href: "/admin/packages", note: "Public website" },
+    { label: "Announcements", value: s.promotions, href: "/admin/promotions", note: "Published" },
+    { label: "Users", value: s.users, href: "/admin/users", note: "Staff accounts" },
   ];
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-bold text-slate-900">Admin dashboard</h1>
-        <p className="mt-1 text-sm text-slate-500">
-          Official incentive partner portal — Chiangmai Ram Hospital Myanmar
-        </p>
-      </div>
+      <AdminPageHeader
+        title="Dashboard"
+        hint="This panel writes the same records the public website and visit form read. Save in admin, then open the live page to confirm."
+        liveHref="/en"
+        liveLabel="Open website"
+        actions={
+          <Link href="/admin/inquiries" className="rounded-full bg-[#1a2330] px-4 py-2 text-sm font-semibold text-white hover:bg-[#111820]">
+            Open inquiries
+          </Link>
+        }
+      />
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {cards.map((c) => (
           <Link
             key={c.label}
             href={c.href}
-            className={`rounded-2xl ${c.bg} p-6 shadow-sm ring-1 ring-slate-200 transition hover:shadow-md`}
+            className="rounded-2xl bg-white p-5 ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-md"
           >
-            <p className={`text-3xl font-bold ${c.text}`}>{c.value}</p>
-            <p className={`mt-1 text-sm ${c.text === "text-white" ? "text-white/80" : "text-slate-500"}`}>
-              {c.label}
-            </p>
+            <p className="text-3xl font-semibold text-[#1a2330]">{c.value}</p>
+            <p className="mt-1 text-sm font-semibold text-[#1a2330]">{c.label}</p>
+            <p className="mt-1 text-xs text-slate-500">{c.note}</p>
           </Link>
         ))}
       </div>
 
-      <div className="rounded-2xl bg-white p-6 shadow-sm">
-        <h2 className="font-semibold text-slate-800">Quick actions</h2>
-        <div className="mt-4 flex flex-wrap gap-3">
-          <Link href="/admin/home" className="rounded-full bg-[#0b4f9c] px-4 py-2 text-sm font-semibold text-white hover:bg-[#083a73]">
-            Edit homepage
-          </Link>
-          <Link href="/admin/about" className="rounded-full border border-[#0b4f9c] px-4 py-2 text-sm font-semibold text-[#0b4f9c] hover:bg-slate-50">
-            Edit About
-          </Link>
-          <Link href="/admin/promotions/new" className="rounded-full border border-[#0b4f9c] px-4 py-2 text-sm font-semibold text-[#0b4f9c] hover:bg-slate-50">
-            + New announcement
-          </Link>
-          <Link href="/admin/packages/new" className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
-            + Add package
-          </Link>
-          <Link href="/admin/inquiries" className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
-            View all inquiries
-          </Link>
-        </div>
-      </div>
-
-      <div className="rounded-2xl bg-white p-6 shadow-sm">
-        <h2 className="font-semibold text-slate-800">Route map</h2>
-        <div className="mt-4 grid gap-2 text-sm md:grid-cols-2">
-          {[
-            ["PUBLIC — Homepage", "/en"],
-            ["PUBLIC — About", "/en/about"],
-            ["PUBLIC — Specialties", "/en/specialties"],
-            ["PUBLIC — Packages", "/en/packages"],
-            ["PUBLIC — Request a visit", "/en/contact"],
-            ["PATIENT — My requests", "/en/account"],
-            ["STAFF — Coordinator inbox", "/en/staff"],
-            ["ADMIN — Dashboard", "/en/admin"],
-            ["ADMIN — Homepage copy", "/en/admin/home"],
-            ["ADMIN — About copy", "/en/admin/about"],
-            ["ADMIN — Inquiries", "/en/admin/inquiries"],
-            ["ADMIN — Announcements", "/en/admin/promotions"],
-            ["ADMIN — Packages", "/en/admin/packages"],
-            ["ADMIN — Templates", "/en/admin/templates"],
-            ["ADMIN — Users", "/en/admin/users"],
-            ["API — Submit inquiry", "POST /api/v1/public/inquiries"],
-            ["API — Login", "POST /api/v1/auth/login"],
-            ["API — Register", "POST /api/v1/auth/register"],
-            ["API — Confirm appt", "POST /api/v1/staff/appointments/[id]/confirm"],
-            ["API — n8n Telegram", "POST /api/v1/internal/n8n/telegram"],
-            ["API — n8n Reminders", "POST /api/v1/internal/n8n/reminders"],
-            ["API — Admin promotions", "POST/PATCH/DELETE /api/v1/admin/promotions"],
-            ["API — Admin inquiries", "PATCH /api/v1/admin/inquiries/[id]"],
-            ["API — Admin packages", "POST/PATCH /api/v1/admin/packages"],
-            ["API — Admin templates", "PATCH /api/v1/admin/templates/[key]"],
-            ["API — Admin users", "PATCH /api/v1/admin/users/[id]"],
-            ["API — Admin stats", "GET /api/v1/admin/stats"],
-          ].map(([label, route]) => (
-            <div key={route} className="flex items-start gap-2 rounded-lg bg-slate-50 px-3 py-2">
-              <span className="text-slate-500 shrink-0">{label}</span>
-              <code className="ml-auto text-xs text-[#0b4f9c] break-all">{route}</code>
+      <section>
+        <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-[#c4a35a]">Connected to the website</h2>
+        <div className="mt-4 grid gap-3 md:grid-cols-2">
+          {CONNECTIONS.map((row) => (
+            <div key={row.title} className="flex items-start justify-between gap-4 rounded-2xl bg-white p-5 ring-1 ring-black/5">
+              <div>
+                <p className="font-semibold text-[#1a2330]">{row.title}</p>
+                <p className="mt-1 text-sm leading-6 text-slate-500">{row.hint}</p>
+                <a href={row.live} className="mt-2 inline-block text-xs font-semibold text-[#c4a35a]">
+                  {row.live} →
+                </a>
+              </div>
+              <Link
+                href={row.edit}
+                className="shrink-0 rounded-full bg-[#1a2330] px-3 py-1.5 text-xs font-semibold text-white"
+              >
+                Edit
+              </Link>
             </div>
           ))}
         </div>
-      </div>
+      </section>
     </div>
   );
 }

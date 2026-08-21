@@ -124,7 +124,7 @@ export function PackageEditor({
       {err ? <p className="text-sm text-red-600">{err}</p> : null}
       {ok ? <p className="text-sm text-emerald-700">Saved.</p> : null}
       <div className="flex flex-wrap gap-3">
-        <button disabled={busy} className="rounded-full bg-[#0b4f9c] px-5 py-2 text-sm font-semibold text-white disabled:opacity-50">
+        <button disabled={busy} className="rounded-full bg-[#1a2330] px-5 py-2 text-sm font-semibold text-white disabled:opacity-50">
           {busy ? "Saving…" : "Save package"}
         </button>
         <button type="button" onClick={() => router.push("/admin/packages")} className="rounded-full border border-slate-300 px-5 py-2 text-sm">

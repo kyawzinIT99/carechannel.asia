@@ -63,7 +63,7 @@ export function AddPackageForm({ catalogId }: { catalogId: string }) {
         <textarea name="featuresMy" rows={4} className={field} />
       </label>
       {err ? <p className="md:col-span-2 text-xs text-red-600">{err}</p> : null}
-      <button disabled={busy} className="md:col-span-2 rounded-lg bg-[#0b4f9c] px-3 py-2 text-xs font-bold text-white">
+      <button disabled={busy} className="md:col-span-2 rounded-lg bg-[#1a2330] px-3 py-2 text-xs font-bold text-white">
         {busy ? "Adding…" : "Add package"}
       </button>
     </form>

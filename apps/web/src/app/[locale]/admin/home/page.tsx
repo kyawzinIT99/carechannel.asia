@@ -2,6 +2,7 @@ import { Link } from "@/i18n/routing";
 import { HomeContentForm } from "@/components/admin/home-content-form";
 import { countPublishedPromotions, listSiteContent } from "@/server/db/site-content";
 import { VISIT_ASSIST } from "@/catalog/hospital-source";
+import { AdminPageHeader } from "@/components/admin/admin-page-header";
 
 export const dynamic = "force-dynamic";
 
@@ -45,22 +46,21 @@ export default async function AdminHomeContentPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold">Homepage</h1>
-        <p className="mt-1 text-sm text-slate-500">
-          Edit public homepage copy, LINE / Telegram / Viber, pickup & stay text, and the apartment site. Announcements and package prices come from Promotions and Packages. Centres come from Specialties. Campuses come from Branches.
-        </p>
-      </div>
+      <AdminPageHeader
+        title="Homepage"
+        hint="Hero copy, LINE / Telegram / Viber, pickup and stay text. Announcements come from Promotions. Package prices come from Packages. Centres come from Specialties."
+        liveHref="/en"
+      />
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <Link href="/admin/promotions" className="rounded-2xl bg-amber-50 p-5 ring-1 ring-amber-100">
-          <p className="text-2xl font-black text-amber-800">{promoCount}</p>
-          <p className="mt-1 text-sm font-semibold text-amber-900">Published announcements</p>
-          <p className="mt-1 text-xs text-amber-700">These appear as news cards on the homepage.</p>
+        <Link href="/admin/promotions" className="rounded-2xl bg-white p-5 ring-1 ring-black/5">
+          <p className="text-2xl font-semibold text-[#1a2330]">{promoCount}</p>
+          <p className="mt-1 text-sm font-semibold text-[#1a2330]">Published announcements</p>
+          <p className="mt-1 text-xs text-slate-500">These cards appear on the public homepage.</p>
         </Link>
-        <Link href="/admin/packages" className="rounded-2xl bg-sky-50 p-5 ring-1 ring-sky-100">
-          <p className="text-sm font-semibold text-sky-900">Package prices</p>
-          <p className="mt-1 text-xs text-sky-700">The homepage price strip uses published packages from this catalog.</p>
+        <Link href="/admin/packages" className="rounded-2xl bg-white p-5 ring-1 ring-black/5">
+          <p className="text-sm font-semibold text-[#1a2330]">Package prices</p>
+          <p className="mt-1 text-xs text-slate-500">The homepage price row and /packages use published packages from this catalog.</p>
         </Link>
       </div>
 

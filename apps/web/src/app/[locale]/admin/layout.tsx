@@ -19,9 +19,9 @@ export default async function AdminLayout({
     redirect(`/${locale}/staff/login`);
   }
   return (
-    <div className="flex min-h-[calc(100vh-4rem)] gap-0">
+    <div className="flex min-h-screen flex-col bg-[#f4f1ea] md:flex-row">
       <AdminSidebar />
-      <div className="min-w-0 flex-1 p-6 md:p-8 print:p-0">{children}</div>
+      <div className="min-w-0 flex-1 p-5 md:p-8 print:bg-white print:p-0">{children}</div>
     </div>
   );
 }

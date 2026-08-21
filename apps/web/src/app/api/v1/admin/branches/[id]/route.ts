@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { Role } from "@prisma/client";
 import { hasRole, readSession } from "@/server/auth/session";
 import { deleteBranch, updateBranch } from "@/server/db/branches";
+import { revalidatePublicSite } from "@/server/content/revalidate-public";
 
 const ADMIN: Role[] = ["SUPER_ADMIN", "HOSPITAL_ADMIN"];
 
@@ -18,6 +19,7 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
     if (typeof body.published === "boolean") data.published = body.published;
     if (body.sortOrder !== undefined) data.sortOrder = Number(body.sortOrder);
     const row = await updateBranch(id, data);
+    revalidatePublicSite();
     return NextResponse.json(row);
   } catch (error) {
     const message = error instanceof Error ? error.message : "save_failed";
@@ -30,5 +32,6 @@ export async function DELETE(_request: Request, context: { params: Promise<{ id:
   if (!hasRole(session, ADMIN)) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   const { id } = await context.params;
   await deleteBranch(id);
+  revalidatePublicSite();
   return NextResponse.json({ ok: true });
 }

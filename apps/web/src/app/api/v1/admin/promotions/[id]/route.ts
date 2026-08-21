@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/server/db/prisma";
 import { hasRole, readSession } from "@/server/auth/session";
 import { Role } from "@prisma/client";
+import { revalidatePublicSite } from "@/server/content/revalidate-public";
 
 const ADMIN: Role[] = ["SUPER_ADMIN", "HOSPITAL_ADMIN"];
 
@@ -17,6 +18,7 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
   if (typeof body.published === "boolean") data.published = body.published;
   if (body.sortOrder !== undefined) data.sortOrder = Number(body.sortOrder);
   const promo = await prisma.promotion.update({ where: { id }, data: data as never });
+  revalidatePublicSite();
   return NextResponse.json(promo);
 }
 
@@ -25,5 +27,6 @@ export async function DELETE(_: Request, context: { params: Promise<{ id: string
   if (!hasRole(session, ADMIN)) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   const { id } = await context.params;
   await prisma.promotion.delete({ where: { id } });
+  revalidatePublicSite();
   return NextResponse.json({ ok: true });
 }

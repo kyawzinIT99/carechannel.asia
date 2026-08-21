@@ -1,7 +1,7 @@
-import { Link } from "@/i18n/routing";
 import { HomeContentForm } from "@/components/admin/home-content-form";
 import { ABOUT_FIELDS } from "@/catalog/about-copy";
 import { listSiteContent } from "@/server/db/site-content";
+import { AdminPageHeader } from "@/components/admin/admin-page-header";
 
 export const dynamic = "force-dynamic";
 
@@ -23,16 +23,11 @@ export default async function AdminAboutPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold">About page</h1>
-        <p className="mt-1 text-sm text-slate-500">
-          This copy appears at{" "}
-          <Link href="/about" className="font-semibold text-[#0b4f9c] hover:underline">
-            /about
-          </Link>{" "}
-          in English and Myanmar. Myanmar copy is written in full Burmese. Save to replace the catalog text on the public About page.
-        </p>
-      </div>
+      <AdminPageHeader
+        title="About page"
+        hint="English and Myanmar copy for the public About page. Save to replace the catalog text visitors see."
+        liveHref="/en/about"
+      />
       <HomeContentForm
         rows={rows}
         buttonLabel="Save About page"

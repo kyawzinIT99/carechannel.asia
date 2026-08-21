@@ -90,36 +90,65 @@ export async function loadPublicPromotions() {
   }
 }
 
+function publicPackageFromDb(p: {
+  id: string;
+  code: string;
+  nameEn: string;
+  nameMy: string;
+  gender: string;
+  listPrice: unknown;
+  salePrice: unknown;
+  highlight?: string | null;
+  featuresEn: unknown;
+  featuresMy: unknown;
+}) {
+  const fallback = packageFeatureLines(p.code);
+  const featuresEn = stringList(p.featuresEn);
+  const featuresMy = stringList(p.featuresMy);
+  return {
+    id: p.id,
+    code: p.code,
+    nameEn: p.nameEn,
+    nameMy: p.nameMy,
+    gender: p.gender,
+    listPrice: String(p.listPrice),
+    salePrice: String(p.salePrice),
+    highlight: p.highlight ?? null,
+    featuresEn: featuresEn.length ? featuresEn : fallback.featuresEn,
+    featuresMy: featuresMy.length ? featuresMy : fallback.featuresMy,
+  };
+}
+
 export async function loadPublicPackages() {
-  try {
-    const rows = await prisma.package.findMany({
-      where: { published: true },
-      orderBy: { salePrice: "asc" },
-    });
-    if (rows.length) {
-      return rows.map((p) => {
-        const fallback = packageFeatureLines(p.code);
-        return {
-          id: p.id,
-          code: p.code,
-          nameEn: p.nameEn,
-          nameMy: p.nameMy,
-          gender: p.gender,
-          listPrice: String(p.listPrice),
-          salePrice: String(p.salePrice),
-          highlight: p.highlight ?? null,
-          featuresEn: stringList(p.featuresEn).length ? stringList(p.featuresEn) : fallback.featuresEn,
-          featuresMy: stringList(p.featuresMy).length ? stringList(p.featuresMy) : fallback.featuresMy,
-        };
-      });
-    }
-  } catch { /* fallback */ }
-  return CHECKUP_PACKAGES_2026.map((p) => ({
+  const catalog = CHECKUP_PACKAGES_2026.map((p) => ({
     id: p.code,
     ...p,
     highlight: null as string | null,
     ...packageFeatureLines(p.code),
   }));
+  try {
+    const rows = await prisma.package.findMany({ orderBy: { salePrice: "asc" } });
+    const byCode = new Map(rows.map((row) => [row.code, row]));
+    const catalogCodes = new Set(CHECKUP_PACKAGES_2026.map((p) => p.code));
+    const merged = [];
+    for (const item of catalog) {
+      const db = byCode.get(item.code);
+      if (!db) {
+        merged.push(item);
+        continue;
+      }
+      if (!db.published) continue;
+      merged.push(publicPackageFromDb(db));
+    }
+    for (const db of rows) {
+      if (catalogCodes.has(db.code) || !db.published) continue;
+      merged.push(publicPackageFromDb(db));
+    }
+    merged.sort((a, b) => Number(a.salePrice) - Number(b.salePrice));
+    return merged.length ? merged : catalog;
+  } catch {
+    return catalog;
+  }
 }
 
 export async function loadPublicPackageNotes() {

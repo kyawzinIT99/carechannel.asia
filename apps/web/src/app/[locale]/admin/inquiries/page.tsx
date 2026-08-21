@@ -3,6 +3,7 @@ import { InquiryActions } from "@/components/admin/inquiry-actions";
 import { InquiryReportBoard, InquirySelectBox } from "@/components/admin/inquiry-report-bar";
 import { InquiryPassportField } from "@/components/admin/inquiry-passport-field";
 import { backfillVisitorCodes } from "@/server/inquiries/visitor-code";
+import { AdminPageHeader } from "@/components/admin/admin-page-header";
 
 export const dynamic = "force-dynamic";
 
@@ -44,16 +45,16 @@ export default async function AdminInquiriesPage({
 
   return (
     <div className="space-y-5">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-2xl font-bold">Inquiries</h1>
-        <div className="flex gap-2 text-sm">
-          <a href="?" className={`rounded-full px-3 py-1 ${!status ? "bg-[#0b4f9c] text-white" : "border border-slate-300 text-slate-600"}`}>All</a>
-          <a href="?status=NEW" className={`rounded-full px-3 py-1 ${status === "NEW" ? "bg-amber-500 text-white" : "border border-slate-300 text-slate-600"}`}>New only</a>
-        </div>
-      </div>
-      <p className="text-sm text-slate-500">
-        Each row is one visit request from the website, LINE / Telegram / Viber, or Google Form via n8n. Codes like CH011 mark incentive visitors who came through this channel. Assign to a coordinator. Do not keep a second customer list.
-      </p>
+      <AdminPageHeader
+        title="Inquiries"
+        hint="Website, LINE / Telegram / Viber, and Google Form requests land in this one list. CH codes mark incentive visitors."
+        actions={
+          <div className="flex gap-2 text-sm">
+            <a href="?" className={`rounded-full px-3 py-1.5 ${!status ? "bg-[#1a2330] text-white" : "border border-slate-300 text-slate-600"}`}>All</a>
+            <a href="?status=NEW" className={`rounded-full px-3 py-1.5 ${status === "NEW" ? "bg-[#c4a35a] text-[#1a2330]" : "border border-slate-300 text-slate-600"}`}>New only</a>
+          </div>
+        }
+      />
 
       <InquiryReportBoard
         status={status}

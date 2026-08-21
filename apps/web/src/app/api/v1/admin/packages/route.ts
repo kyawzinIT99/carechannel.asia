@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { GenderScope, Role } from "@prisma/client";
 import { prisma } from "@/server/db/prisma";
 import { hasRole, readSession } from "@/server/auth/session";
+import { revalidatePublicSite } from "@/server/content/revalidate-public";
 
 const ADMIN: Role[] = ["SUPER_ADMIN", "HOSPITAL_ADMIN"];
 
@@ -48,6 +49,7 @@ export async function POST(request: Request) {
           featuresMy: lines(body.featuresMy),
         },
       });
+      revalidatePublicSite();
       return NextResponse.json(pkg, { status: 201 });
     }
 
@@ -76,6 +78,7 @@ export async function POST(request: Request) {
         },
       },
     });
+    revalidatePublicSite();
     return NextResponse.json(catalog, { status: 201 });
   } catch (error) {
     const message = error instanceof Error ? error.message : "save_failed";

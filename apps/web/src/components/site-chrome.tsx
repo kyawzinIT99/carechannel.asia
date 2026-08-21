@@ -40,7 +40,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
   }, [open]);
 
   if (isInternal) {
-    return <div className="min-h-screen bg-[#eef1f6]">{children}</div>;
+    return <div className="min-h-screen bg-[#f4f1ea]">{children}</div>;
   }
 
   return (

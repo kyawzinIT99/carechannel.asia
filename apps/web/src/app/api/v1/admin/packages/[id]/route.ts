@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/server/db/prisma";
 import { hasRole, readSession } from "@/server/auth/session";
 import { Role } from "@prisma/client";
+import { revalidatePublicSite } from "@/server/content/revalidate-public";
 
 const ADMIN: Role[] = ["SUPER_ADMIN", "HOSPITAL_ADMIN"];
 
@@ -58,6 +59,7 @@ export async function PATCH(
   }
   try {
     const pkg = await prisma.package.update({ where: { id }, data });
+    revalidatePublicSite();
     return NextResponse.json(pkg);
   } catch (error) {
     const message = error instanceof Error ? error.message : "save_failed";
@@ -70,5 +72,6 @@ export async function DELETE(_: Request, context: { params: Promise<{ id: string
   if (!hasRole(session, ADMIN)) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   const { id } = await context.params;
   await prisma.package.delete({ where: { id } });
+  revalidatePublicSite();
   return NextResponse.json({ ok: true });
 }
