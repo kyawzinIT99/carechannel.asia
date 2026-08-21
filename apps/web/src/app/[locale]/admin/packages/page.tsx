@@ -34,7 +34,7 @@ export default async function AdminPackagesPage() {
       <AdminPageHeader
         title="Packages"
         hint="Visible packages appear on the public packages page, the homepage price row, and the visit form. Hide a package only if visitors should not see it."
-        liveHref="/en/packages"
+        liveHref="/packages"
         actions={
           <>
             <RestoreCatalogButton />

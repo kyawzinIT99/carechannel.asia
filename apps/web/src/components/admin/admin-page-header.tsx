@@ -1,3 +1,5 @@
+import { Link } from "@/i18n/routing";
+
 export function AdminPageHeader({
   kicker = "Admin",
   title,
@@ -22,14 +24,14 @@ export function AdminPageHeader({
       </div>
       <div className="flex flex-wrap items-center gap-2">
         {liveHref ? (
-          <a
+          <Link
             href={liveHref}
             target="_blank"
             rel="noopener noreferrer"
             className="rounded-full border border-[#1a2330]/15 bg-white px-4 py-2 text-sm font-semibold text-[#1a2330] hover:bg-[#f7f4ee]"
           >
             {liveLabel}
-          </a>
+          </Link>
         ) : null}
         {actions}
       </div>

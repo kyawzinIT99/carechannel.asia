@@ -49,7 +49,7 @@ export default async function AdminHomeContentPage() {
       <AdminPageHeader
         title="Homepage"
         hint="Hero copy, LINE / Telegram / Viber, pickup and stay text. Announcements come from Promotions. Package prices come from Packages. Centres come from Specialties."
-        liveHref="/en"
+        liveHref="/"
       />
 
       <div className="grid gap-4 sm:grid-cols-2">

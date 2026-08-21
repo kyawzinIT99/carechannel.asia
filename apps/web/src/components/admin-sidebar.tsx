@@ -100,9 +100,9 @@ export function AdminSidebar() {
       {open ? (
         <nav className="space-y-1 bg-[#1a2330] pb-4 print:hidden md:hidden">
           <NavLinks pathname={pathname} onPick={() => setOpen(false)} />
-          <a href="/en" className="mx-5 mt-2 block text-xs text-[#c4a35a]">
+          <Link href="/" className="mx-5 mt-2 block text-xs text-[#c4a35a]">
             Open public website →
-          </a>
+          </Link>
         </nav>
       ) : null}
 
@@ -116,9 +116,9 @@ export function AdminSidebar() {
           <NavLinks pathname={pathname} />
         </nav>
         <div className="border-t border-white/10 px-5 py-4">
-          <a href="/en" className="text-xs font-semibold text-[#c4a35a] hover:text-[#e0c57a]">
+          <Link href="/" className="text-xs font-semibold text-[#c4a35a] hover:text-[#e0c57a]">
             View public website →
-          </a>
+          </Link>
         </div>
       </aside>
     </>

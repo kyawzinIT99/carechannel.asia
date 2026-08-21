@@ -12,7 +12,7 @@ export default async function AdminSpecialtiesPage() {
       <AdminPageHeader
         title="Centres"
         hint="Published centres appear on the homepage, specialties page, and visit form."
-        liveHref="/en/specialties"
+        liveHref="/specialties"
         actions={
           <Link href="/admin/specialties/new" className="rounded-full bg-[#1a2330] px-4 py-2 text-sm font-semibold text-white hover:bg-[#111820]">
             + Add centre

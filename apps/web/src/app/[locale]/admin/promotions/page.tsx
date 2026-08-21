@@ -23,7 +23,7 @@ export default async function AdminPromotionsPage() {
       <AdminPageHeader
         title="Announcements"
         hint="Published items appear on the public homepage and packages page. Publishing does not email visitors — use Inquiries to send a follow-up."
-        liveHref="/en"
+        liveHref="/"
         actions={
           <Link href="/admin/promotions/new" className="rounded-full bg-[#1a2330] px-4 py-2 text-sm font-semibold text-white hover:bg-[#111820]">
             + New announcement

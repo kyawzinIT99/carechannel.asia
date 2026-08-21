@@ -23,7 +23,7 @@ export async function PATCH(request: Request) {
     }
     revalidatePublicSite();
     return NextResponse.json({ ok: true, count: rows.length });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "save_failed" }, { status: 400 });
   }
 }

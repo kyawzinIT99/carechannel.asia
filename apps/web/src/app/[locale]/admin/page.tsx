@@ -21,37 +21,43 @@ const CONNECTIONS = [
     title: "Homepage",
     hint: "Hero copy, LINE, Telegram, Viber, pickup and stay text.",
     edit: "/admin/home",
-    live: "/en",
+    live: "/",
+    liveLabel: "/en",
   },
   {
     title: "Packages",
     hint: "Prices and tests on /packages and the visit form.",
     edit: "/admin/packages",
-    live: "/en/packages",
+    live: "/packages",
+    liveLabel: "/en/packages",
   },
   {
     title: "Announcements",
     hint: "Published cards on the homepage and packages page.",
     edit: "/admin/promotions",
-    live: "/en",
+    live: "/",
+    liveLabel: "/en",
   },
   {
     title: "Centres",
     hint: "Specialty list on the homepage and /specialties.",
     edit: "/admin/specialties",
-    live: "/en/specialties",
+    live: "/specialties",
+    liveLabel: "/en/specialties",
   },
   {
     title: "Campuses",
     hint: "Sripoom and Charoen Mueang on the contact page.",
     edit: "/admin/branches",
-    live: "/en/contact",
+    live: "/contact",
+    liveLabel: "/en/contact",
   },
   {
     title: "About",
     hint: "Public about-page copy in English and Myanmar.",
     edit: "/admin/about",
-    live: "/en/about",
+    live: "/about",
+    liveLabel: "/en/about",
   },
 ];
 
@@ -70,7 +76,7 @@ export default async function AdminDashboard() {
       <AdminPageHeader
         title="Dashboard"
         hint="This panel writes the same records the public website and visit form read. Save in admin, then open the live page to confirm."
-        liveHref="/en"
+        liveHref="/"
         liveLabel="Open website"
         actions={
           <Link href="/admin/inquiries" className="rounded-full bg-[#1a2330] px-4 py-2 text-sm font-semibold text-white hover:bg-[#111820]">
@@ -101,9 +107,9 @@ export default async function AdminDashboard() {
               <div>
                 <p className="font-semibold text-[#1a2330]">{row.title}</p>
                 <p className="mt-1 text-sm leading-6 text-slate-500">{row.hint}</p>
-                <a href={row.live} className="mt-2 inline-block text-xs font-semibold text-[#c4a35a]">
-                  {row.live} →
-                </a>
+                <Link href={row.live} className="mt-2 inline-block text-xs font-semibold text-[#c4a35a]">
+                  {row.liveLabel} →
+                </Link>
               </div>
               <Link
                 href={row.edit}

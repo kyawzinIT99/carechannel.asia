@@ -26,7 +26,7 @@ export default async function AdminAboutPage() {
       <AdminPageHeader
         title="About page"
         hint="English and Myanmar copy for the public About page. Save to replace the catalog text visitors see."
-        liveHref="/en/about"
+        liveHref="/about"
       />
       <HomeContentForm
         rows={rows}

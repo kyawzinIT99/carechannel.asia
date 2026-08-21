@@ -18,7 +18,7 @@ export default async function AdminBranchesPage() {
       <AdminPageHeader
         title="Campuses"
         hint="Published campuses appear on the contact form and contact sidebar."
-        liveHref="/en/contact"
+        liveHref="/contact"
         actions={
           <Link href="/admin/branches/new" className="rounded-full bg-[#1a2330] px-4 py-2 text-sm font-semibold text-white hover:bg-[#111820]">
             + Add campus
