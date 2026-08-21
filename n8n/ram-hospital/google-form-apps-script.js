@@ -22,6 +22,29 @@ function pickNamed(nv, title) {
   return "";
 }
 
+function pickPassport(nv) {
+  const titles = [
+    "Passport Number",
+    "Passport number",
+    "Passport No",
+    "Passport no",
+    "Passport",
+    "passportNo",
+  ];
+  for (let i = 0; i < titles.length; i++) {
+    const hit = pickNamed(nv, titles[i]);
+    if (hit) return hit;
+  }
+  for (const key of Object.keys(nv || {})) {
+    if (/passport|နိုင်ငံကူးလက်မှတ်/i.test(String(key))) {
+      const row = nv[key];
+      const hit = Array.isArray(row) ? String(row[0] || "").trim() : String(row || "").trim();
+      if (hit) return hit;
+    }
+  }
+  return "";
+}
+
 /**
  * Optional. n8n already reads the linked response sheet every minute.
  * Do not enable this trigger as well, or each visit is created twice.
@@ -36,10 +59,13 @@ function onFormSubmit(e) {
       email: pickNamed(nv, "Email"),
       phone: pickNamed(nv, "Phone or viber Number"),
       country: pickNamed(nv, "Nationality") || "Myanmar",
+      passportNo: pickPassport(nv),
       message: pickNamed(nv, "Resident Address")
         ? "Resident address: " + pickNamed(nv, "Resident Address")
         : "Visit request (Google Form)",
       locale: "en",
+      consent: true,
+      returningPatient: false,
     }),
     muteHttpExceptions: true,
   });

@@ -6,7 +6,7 @@ import { buildInquiryReply } from "@/server/communication/inquiry-reply";
 import { flattenSpecialties, CHECKUP_PACKAGES_2026, packageFeatureLines } from "@/catalog/hospital-source";
 import { COUNTRIES } from "@/catalog/countries";
 import { assignVisitorCode, normalizeVisitorCode } from "@/server/inquiries/visitor-code";
-import { normalizePassport } from "@/server/inquiries/passport";
+import { normalizePassport, pickPassportFromRecord } from "@/server/inquiries/passport";
 
 function allSlugs() {
   return flattenSpecialties().map((item) => item.slug);
@@ -85,8 +85,24 @@ export const inquirySchema = z.object({
   consent: z.literal(true),
 });
 
+function hoistInquiryPayload(raw: unknown) {
+  if (!raw || typeof raw !== "object") return raw;
+  const rec = { ...(raw as Record<string, unknown>) };
+  if (rec.body && typeof rec.body === "object") {
+    Object.assign(rec, rec.body as Record<string, unknown>);
+  }
+  const passport = pickPassportFromRecord(rec);
+  if (passport) rec.passportNo = passport;
+  if (rec.consent === "true" || rec.consent === true || rec.consent === 1) rec.consent = true;
+  if (typeof rec.returningPatient === "string") {
+    rec.returningPatient = /yes|true|1|ရှိ/i.test(rec.returningPatient);
+  }
+  if (rec.returningPatient == null) rec.returningPatient = false;
+  return rec;
+}
+
 export async function createInquiry(raw: unknown, patientUserId?: string) {
-  const data = inquirySchema.parse(raw);
+  const data = inquirySchema.parse(hoistInquiryPayload(raw));
   const locale = data.locale as Locale;
 
   if (data.specialtySlug && !allSlugs().includes(data.specialtySlug)) {
@@ -232,8 +248,7 @@ export async function ingestExternalInquiry(raw: unknown) {
   const specialtySlug = allSlugs().includes(specialtySlugRaw) ? specialtySlugRaw : undefined;
   const packageCode = pickStr(nested, ["packageCode", "package"]) || undefined;
   const visitorCode = pickStr(nested, ["visitorCode", "Visitor code", "Code", "Incentive code"]) || undefined;
-  const passportNo =
-    pickStr(nested, ["passportNo", "Passport", "Passport no", "Passport number", "passport"]) || undefined;
+  const passportNo = pickPassportFromRecord(nested) || undefined;
   try {
     return await createInquiry({
       locale,
