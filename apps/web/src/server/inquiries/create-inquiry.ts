@@ -3,13 +3,63 @@ import { Locale } from "@prisma/client";
 import { prisma } from "@/server/db/prisma";
 import { dispatchInquiryConversation } from "@/server/automation/dispatch";
 import { buildInquiryReply } from "@/server/communication/inquiry-reply";
-import { flattenSpecialties } from "@/catalog/hospital-source";
+import { flattenSpecialties, CHECKUP_PACKAGES_2026, packageFeatureLines } from "@/catalog/hospital-source";
 import { COUNTRIES } from "@/catalog/countries";
 import { assignVisitorCode, normalizeVisitorCode } from "@/server/inquiries/visitor-code";
 import { normalizePassport } from "@/server/inquiries/passport";
 
 function allSlugs() {
   return flattenSpecialties().map((item) => item.slug);
+}
+
+async function resolvePackageId(packageCode?: string, packageId?: string) {
+  if (packageId) {
+    const byId = await prisma.package.findFirst({ where: { id: packageId } });
+    if (byId) return byId.id;
+  }
+  const code = String(packageCode || "").trim();
+  if (!code) return null;
+  const existing = await prisma.package.findFirst({ where: { code } });
+  if (existing) return existing.id;
+
+  const catalogPkg = CHECKUP_PACKAGES_2026.find((pkg) => pkg.code === code);
+  if (!catalogPkg) return null;
+  try {
+    let catalog = await prisma.packageCatalog.findFirst({ orderBy: { validFrom: "desc" } });
+    if (!catalog) {
+      catalog = await prisma.packageCatalog.create({
+        data: {
+          code: "HEALTH_CHECKUP_2026",
+          sourceUrl: "https://chiangmairam.com/news_detail/970",
+          nameEn: "Health Check Up Package 2026",
+          nameMy: "၂၀၂၆ နှစ်စဉ်ကျန်းမာရေးစစ်ဆေး ပက်ကေ့ချ်",
+          validFrom: new Date("2026-01-01T00:00:00.000Z"),
+          validTo: new Date("2026-12-31T23:59:59.000Z"),
+          notesEn: "",
+          notesMy: "",
+        },
+      });
+    }
+    const features = packageFeatureLines(catalogPkg.code);
+    const created = await prisma.package.create({
+      data: {
+        catalogId: catalog.id,
+        code: catalogPkg.code,
+        nameEn: catalogPkg.nameEn,
+        nameMy: catalogPkg.nameMy,
+        gender: catalogPkg.gender,
+        listPrice: catalogPkg.listPrice,
+        salePrice: catalogPkg.salePrice,
+        published: true,
+        featuresEn: features.featuresEn,
+        featuresMy: features.featuresMy,
+      },
+    });
+    return created.id;
+  } catch {
+    const again = await prisma.package.findFirst({ where: { code } });
+    return again?.id ?? null;
+  }
 }
 
 export const inquirySchema = z.object({
@@ -42,21 +92,9 @@ export async function createInquiry(raw: unknown, patientUserId?: string) {
   if (data.specialtySlug && !allSlugs().includes(data.specialtySlug)) {
     throw new Error("Unknown specialty");
   }
-  let packageId = data.packageId;
-  if (data.packageCode) {
-    const pkg = await prisma.package.findFirst({
-      where: { code: data.packageCode, published: true },
-    });
-    if (!pkg) throw new Error("Unknown package");
-    packageId = pkg.id;
-  } else if (data.packageId) {
-    const pkg = await prisma.package.findFirst({
-      where: { id: data.packageId, published: true },
-    });
-    if (!pkg) {
-      throw new Error("Unknown package");
-    }
-  }
+  const packageId = await resolvePackageId(data.packageCode, data.packageId);
+  const packageNote =
+    data.packageCode && !packageId ? `\nSelected package: ${data.packageCode}` : "";
 
   const visitorCode = await assignVisitorCode(data.visitorCode);
   const claimed = normalizeVisitorCode(data.visitorCode);
@@ -74,7 +112,7 @@ export async function createInquiry(raw: unknown, patientUserId?: string) {
       returningPatient: data.returningPatient,
       visitorCode,
       passportNo,
-      message: `${data.message}${claimedNote}`.slice(0, 4000),
+      message: `${data.message}${claimedNote}${packageNote}`.slice(0, 4000),
       specialtySlug: data.specialtySlug || null,
       packageId: packageId || null,
       patientUserId: patientUserId || null,
@@ -93,7 +131,10 @@ export async function createInquiry(raw: unknown, patientUserId?: string) {
     data: {
       inquiryId: inquiry.id,
       locale,
-      preferredDate: data.preferredDate ? new Date(data.preferredDate) : null,
+      preferredDate:
+        data.preferredDate && !Number.isNaN(new Date(data.preferredDate).getTime())
+          ? new Date(data.preferredDate)
+          : null,
       interpreterNeeded: Boolean(data.interpreterNeeded),
       interpreterLang: data.interpreterLang || null,
       airportPickup: Boolean(data.airportPickup),
