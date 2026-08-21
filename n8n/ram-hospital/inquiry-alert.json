@@ -17,7 +17,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const raw = items[0].json;\nconst body = raw.body && typeof raw.body === 'object' ? raw.body : raw;\nconst headers = raw.headers || {};\nconst secret = String(headers['x-ram-hospital-secret'] || headers['X-Ram-Hospital-Secret'] || '');\nconst expected = String(body.webhookSecret || '');\nif (expected && secret && secret !== expected) { throw new Error('Ram Hospital webhook secret was not accepted'); }\nconst guestEmail = String(body.guestEmail || body.email || '').trim().toLowerCase();\nconst staffEmail = String(body.staffEmail || body.alertEmail || body.toEmail || 'itsolutions.mm@gmail.com').trim();\nconst chatId = String(body.telegramChatId || '').trim();\nconst telegramText = String(body.telegramText || body.text || '').trim();\nconst guestText = String(body.guestText || '').trim();\nconst guestHtml = String(body.guestHtml || '').trim() || (guestText ? '<p>' + guestText.replace(/\\n/g, '<br/>') + '</p>' : '<p>We received your visit request. A coordinator will continue with you shortly.</p>');\nconst staffHtml = String(body.staffHtml || body.html || '').trim();\nconst guestSubject = String(body.guestSubject || 'Chiangmai Ram — we received your request');\nconst staffSubject = String(body.staffSubject || body.subject || 'Ram Hospital inquiry');\nconst hasGuest = guestEmail.includes('@');\nreturn [{ json: { ...body, guestEmail, hasGuest, staffEmail, toEmail: staffEmail, telegramChatId: chatId, telegramText, text: telegramText, guestText, guestHtml, staffHtml, html: staffHtml || guestHtml, guestSubject, subject: staffSubject } }];"
+        "jsCode": "const raw = items[0].json;\nconst body = raw.body && typeof raw.body === 'object' ? raw.body : raw;\nconst headers = raw.headers || {};\nconst secret = String(headers['x-ram-hospital-secret'] || headers['X-Ram-Hospital-Secret'] || '');\nconst expected = String(body.webhookSecret || '');\nif (expected && secret && secret !== expected) { throw new Error('Ram Hospital webhook secret was not accepted'); }\nconst guestEmail = String(body.guestEmail || body.email || '').trim().toLowerCase();\nconst staffEmail = String(body.staffEmail || body.alertEmail || 'itsolutions.mm@gmail.com').trim().toLowerCase();\nconst chatId = String(body.telegramChatId || '').trim();\nconst telegramText = String(body.telegramText || body.text || '').trim();\nconst guestText = String(body.guestText || '').trim();\nconst guestHtmlRaw = String(body.guestHtml || '').trim();\nconst guestHtml = guestHtmlRaw || (guestText ? '<div style=\"font-family:Arial,sans-serif;font-size:15px;line-height:1.6;color:#1a2330\"><p>' + guestText.replace(/\\n/g, '<br/>') + '</p></div>' : '<div style=\"font-family:Arial,sans-serif;font-size:15px;line-height:1.6;color:#1a2330\"><p>We received your visit request. A coordinator will continue with you shortly.</p></div>');\nconst staffHtml = String(body.staffHtml || body.html || '').trim();\nconst guestSubject = String(body.guestSubject || 'Chiangmai Ram — we received your request');\nconst staffSubject = String(body.staffSubject || body.subject || 'Ram Hospital inquiry');\nconst hasGuest = guestEmail.includes('@') && guestEmail !== staffEmail;\nconst mailNote = hasGuest ? ('\\nAuto-mail → ' + guestEmail) : '\\nAuto-mail → skipped (no guest email)';\nconst tg = (telegramText || staffSubject) + mailNote;\nreturn [{ json: { ...body, guestEmail, hasGuest, staffEmail, toEmail: staffEmail, telegramChatId: chatId, telegramText: tg, text: tg, guestText, guestHtml, staffHtml, html: staffHtml || guestHtml, guestSubject, subject: staffSubject } }];"
       },
       "id": "check-secret",
       "name": "Check Ram secret",
@@ -27,7 +27,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const row = items[0].json;\nconst email = String(row.guestEmail || '').trim();\nif (!email.includes('@')) return [];\nreturn [{ json: row }];"
+        "jsCode": "const row = items[0].json;\nconst email = String(row.guestEmail || '').trim().toLowerCase();\nif (!email.includes('@')) return [];\nif (email === String(row.staffEmail || '').trim().toLowerCase()) return [];\nreturn [{ json: row }];"
       },
       "id": "only-guest",
       "name": "Only guest email",
@@ -37,13 +37,16 @@
     },
     {
       "parameters": {
+        "resource": "message",
+        "operation": "send",
         "sendTo": "={{$json.guestEmail}}",
         "subject": "={{$json.guestSubject}}",
         "emailType": "html",
         "message": "={{$json.guestHtml}}",
         "options": {
           "appendAttribution": false,
-          "senderName": "Chiangmai Ram Hospital Myanmar"
+          "senderName": "Chiangmai Ram Hospital Myanmar",
+          "replyTo": "={{$json.staffEmail}}"
         }
       },
       "id": "gmail-guest",
@@ -61,12 +64,15 @@
     },
     {
       "parameters": {
+        "resource": "message",
+        "operation": "send",
         "sendTo": "={{$json.staffEmail}}",
         "subject": "={{$json.subject}}",
         "emailType": "html",
         "message": "={{$json.staffHtml || $json.html || $json.text}}",
         "options": {
-          "appendAttribution": false
+          "appendAttribution": false,
+          "senderName": "CareChannel Admin"
         }
       },
       "id": "gmail",
