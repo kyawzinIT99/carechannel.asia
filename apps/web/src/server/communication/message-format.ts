@@ -64,34 +64,24 @@ export function fallbackPatientCopy(input: {
 export function renderGuestEmailHtml(input: GuestLayoutInput) {
   const my = input.locale === "my";
   const brand = my ? "ချင်းမိုင်ရမ်ဆေးရုံ" : "Chiangmai Ram Hospital Myanmar";
-  const kicker = my ? "မိတ်ဖက် ခရီးစဉ်" : "Partner visit";
   const paragraphs = input.copy.paragraphs.map((row) => p(escapeHtml(row))).join("");
   const pkg = input.packageRows[0];
   const spec = input.specialtyBlocks[0];
   const codeLine = input.visitorCode
-    ? `<p style="margin:0 0 16px;font-size:20px;font-weight:700;letter-spacing:.08em;color:${GOLD}">${escapeHtml(input.visitorCode)}</p>`
+    ? `<p style="margin:0 0 12px;font-size:15px;color:${NAVY}">Code: <strong>${escapeHtml(input.visitorCode)}</strong></p>`
     : "";
 
-  return `<!DOCTYPE html>
-<html><body style="margin:0;background:#f3f5f8;padding:24px 12px">
-  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:560px;margin:0 auto;background:#ffffff;border-radius:16px;overflow:hidden;font-family:'Noto Sans','Noto Sans Myanmar',Arial,sans-serif">
-    <tr><td style="background:${NAVY};padding:22px 28px">
-      <p style="margin:0 0 6px;letter-spacing:.18em;font-size:11px;color:${GOLD};text-transform:uppercase">${escapeHtml(kicker)}</p>
-      <p style="margin:0;font-size:20px;font-weight:700;color:#ffffff">${escapeHtml(brand)}</p>
-    </td></tr>
-    <tr><td style="height:4px;background:${GOLD}"></td></tr>
-    <tr><td style="padding:24px 28px">
-      ${p(`<strong>${escapeHtml(input.copy.greeting)}</strong>`)}
-      ${paragraphs}
-      ${codeLine}
-      ${pkg ? `<p style="margin:0 0 12px;font-size:14px;color:${NAVY}">${escapeHtml(pkg.name)} — <strong>${escapeHtml(pkg.sale)}</strong></p>` : ""}
-      ${spec ? `<p style="margin:0 0 12px;font-size:14px;color:${NAVY}">${escapeHtml(spec.name)}</p>` : ""}
-    </td></tr>
-    <tr><td style="padding:16px 28px 24px;background:#f7f8fa;color:${SLATE};font-size:13px;line-height:1.6">
-      ${messengerFooterHtml(input.locale)}
-    </td></tr>
-  </table>
-</body></html>`;
+  // Keep layout plain — heavy HTML + many links is what pushed Gmail to Spam.
+  return `<div style="font-family:Arial,'Noto Sans Myanmar',sans-serif;font-size:15px;line-height:1.6;color:${NAVY}">
+  <p style="margin:0 0 16px;font-size:14px;color:${SLATE}">${escapeHtml(brand)}</p>
+  ${p(`<strong>${escapeHtml(input.copy.greeting)}</strong>`)}
+  ${paragraphs}
+  ${codeLine}
+  ${pkg ? `<p style="margin:0 0 12px;font-size:14px;color:${NAVY}">${escapeHtml(pkg.name)} — ${escapeHtml(pkg.sale)}</p>` : ""}
+  ${spec ? `<p style="margin:0 0 12px;font-size:14px;color:${NAVY}">${escapeHtml(spec.name)}</p>` : ""}
+  <hr style="border:none;border-top:1px solid #e5e7eb;margin:20px 0" />
+  ${messengerFooterHtml(input.locale)}
+</div>`;
 }
 
 export function renderGuestEmailText(input: GuestLayoutInput) {

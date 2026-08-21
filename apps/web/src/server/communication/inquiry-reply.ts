@@ -263,7 +263,7 @@ export async function buildInquiryReply(input: InquiryReplyInput): Promise<Inqui
   return {
     intents,
     guestSubject:
-      locale === "my" ? "ချင်းမိုင်ရမ် — တောင်းဆိုမှု လက်ခံပါသည်" : "Chiangmai Ram — we received your request",
+      locale === "my" ? "သင့်ခရီးစဉ် တောင်းဆိုမှု လက်ခံပါသည်" : "We received your visit request",
     guestText,
     guestHtml,
     staffSubject: `Ram Hospital inquiry — ${input.visitorCode || ""} ${input.fullName}`.trim(),
