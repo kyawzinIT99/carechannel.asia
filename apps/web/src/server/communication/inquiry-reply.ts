@@ -5,7 +5,7 @@ import {
   flattenSpecialties,
   type SpecialtySeed,
 } from "@/catalog/hospital-source";
-import { composePatientReply } from "@/server/communication/chatgpt";
+import { composePatientReply, type PatientReplyCopy } from "@/server/communication/chatgpt";
 import {
   fallbackPatientCopy,
   renderGuestEmailHtml,
@@ -92,7 +92,12 @@ function money(value: string) {
 
 export async function buildInquiryReply(input: InquiryReplyInput): Promise<InquiryReply> {
   const locale = input.locale;
-  const catalog = await loadPublicPackages();
+  let catalog: PublicPackage[] = [];
+  try {
+    catalog = await loadPublicPackages();
+  } catch (err) {
+    console.error("inquiry reply catalog failed", err);
+  }
   const packages = matchPackages(input, catalog);
   const specialties = matchSpecialties(input);
   const extras = [
@@ -160,14 +165,26 @@ export async function buildInquiryReply(input: InquiryReplyInput): Promise<Inqui
     location: locale === "my" ? HOSPITAL_PROFILE.locationNoteMy : HOSPITAL_PROFILE.locationNoteEn,
   };
 
-  const copy =
-    (await composePatientReply({
-      locale,
-      visitorName: input.fullName,
-      message: input.message,
-      facts,
-    })) ??
-    fallbackPatientCopy({
+  let copy: PatientReplyCopy;
+  try {
+    copy =
+      (await composePatientReply({
+        locale,
+        visitorName: input.fullName,
+        message: input.message,
+        facts,
+      })) ??
+      fallbackPatientCopy({
+        locale,
+        fullName: input.fullName,
+        message: input.message,
+        visitorCode: input.visitorCode,
+        packageNames: facts.packages.map((pkg) => pkg.name),
+        specialtyNames: facts.specialties.map((item) => item.name),
+        extras,
+      });
+  } catch {
+    copy = fallbackPatientCopy({
       locale,
       fullName: input.fullName,
       message: input.message,
@@ -176,6 +193,7 @@ export async function buildInquiryReply(input: InquiryReplyInput): Promise<Inqui
       specialtyNames: facts.specialties.map((item) => item.name),
       extras,
     });
+  }
 
   const chosen = VISIT_SITES.find((site) => site.code === input.visitSite);
   const siteLine = chosen

@@ -17,7 +17,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const raw = items[0].json;\nconst body = raw.body && typeof raw.body === 'object' ? raw.body : raw;\nconst headers = raw.headers || {};\nconst secret = String(headers['x-ram-hospital-secret'] || headers['X-Ram-Hospital-Secret'] || '');\nconst expected = String(body.webhookSecret || '');\nif (expected && secret && secret !== expected) { throw new Error('Ram Hospital webhook secret was not accepted'); }\nconst guestEmail = String(body.guestEmail || '').trim();\nconst staffEmail = String(body.staffEmail || body.alertEmail || body.toEmail || 'itsolutions.mm@gmail.com').trim();\nconst chatId = String(body.telegramChatId || '').trim();\nconst telegramText = String(body.telegramText || body.text || '').trim();\nconst guestHtml = String(body.guestHtml || '').trim();\nconst staffHtml = String(body.staffHtml || body.html || '').trim();\nconst guestSubject = String(body.guestSubject || 'Chiangmai Ram partner channel — your visit request');\nconst staffSubject = String(body.staffSubject || body.subject || 'Ram Hospital inquiry');\nreturn [{ json: { ...body, guestEmail, staffEmail, toEmail: staffEmail, telegramChatId: chatId, telegramText, text: telegramText, guestHtml, staffHtml, html: staffHtml || guestHtml, guestSubject, subject: staffSubject } }];"
+        "jsCode": "const raw = items[0].json;\nconst body = raw.body && typeof raw.body === 'object' ? raw.body : raw;\nconst headers = raw.headers || {};\nconst secret = String(headers['x-ram-hospital-secret'] || headers['X-Ram-Hospital-Secret'] || '');\nconst expected = String(body.webhookSecret || '');\nif (expected && secret && secret !== expected) { throw new Error('Ram Hospital webhook secret was not accepted'); }\nconst guestEmail = String(body.guestEmail || body.email || '').trim().toLowerCase();\nconst staffEmail = String(body.staffEmail || body.alertEmail || body.toEmail || 'itsolutions.mm@gmail.com').trim();\nconst chatId = String(body.telegramChatId || '').trim();\nconst telegramText = String(body.telegramText || body.text || '').trim();\nconst guestText = String(body.guestText || '').trim();\nconst guestHtml = String(body.guestHtml || '').trim() || (guestText ? '<p>' + guestText.replace(/\\n/g, '<br/>') + '</p>' : '<p>We received your visit request. A coordinator will continue with you shortly.</p>');\nconst staffHtml = String(body.staffHtml || body.html || '').trim();\nconst guestSubject = String(body.guestSubject || 'Chiangmai Ram — we received your request');\nconst staffSubject = String(body.staffSubject || body.subject || 'Ram Hospital inquiry');\nconst hasGuest = guestEmail.includes('@');\nreturn [{ json: { ...body, guestEmail, hasGuest, staffEmail, toEmail: staffEmail, telegramChatId: chatId, telegramText, text: telegramText, guestText, guestHtml, staffHtml, html: staffHtml || guestHtml, guestSubject, subject: staffSubject } }];"
       },
       "id": "check-secret",
       "name": "Check Ram secret",
@@ -27,19 +27,12 @@
     },
     {
       "parameters": {
-        "conditions": {
-          "string": [
-            {
-              "value1": "={{$json.guestEmail}}",
-              "operation": "isNotEmpty"
-            }
-          ]
-        }
+        "jsCode": "const row = items[0].json;\nconst email = String(row.guestEmail || '').trim();\nif (!email.includes('@')) return [];\nreturn [{ json: row }];"
       },
-      "id": "if-guest",
-      "name": "Has guest email",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 1,
+      "id": "only-guest",
+      "name": "Only guest email",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [460, -180]
     },
     {
@@ -49,7 +42,8 @@
         "emailType": "html",
         "message": "={{$json.guestHtml}}",
         "options": {
-          "appendAttribution": false
+          "appendAttribution": false,
+          "senderName": "Chiangmai Ram Hospital Myanmar"
         }
       },
       "id": "gmail-guest",
@@ -57,6 +51,7 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [700, -180],
+      "continueOnFail": true,
       "credentials": {
         "gmailOAuth2": {
           "id": "EnW0K9KGi7cdbGGq",
@@ -79,6 +74,7 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [700, 0],
+      "continueOnFail": true,
       "credentials": {
         "gmailOAuth2": {
           "id": "EnW0K9KGi7cdbGGq",
@@ -100,6 +96,7 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [700, 200],
+      "continueOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "RAM_HOSPITAL_TELEGRAM",
@@ -126,14 +123,14 @@
     "Check Ram secret": {
       "main": [
         [
-          { "node": "Has guest email", "type": "main", "index": 0 },
+          { "node": "Only guest email", "type": "main", "index": 0 },
           { "node": "Email via itsolutions.mm@gmail.com", "type": "main", "index": 0 },
           { "node": "Staff Telegram", "type": "main", "index": 0 },
           { "node": "Respond", "type": "main", "index": 0 }
         ]
       ]
     },
-    "Has guest email": {
+    "Only guest email": {
       "main": [[{ "node": "Patient email", "type": "main", "index": 0 }]]
     }
   },

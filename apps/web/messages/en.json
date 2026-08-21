@@ -56,7 +56,7 @@
     "intro": "Send this request in English or Myanmar. A coordinator follows up by email and Telegram. Choose a partner package, a specialty centre, or write what you need.",
     "name": "Full name",
     "phone": "Phone",
-    "email": "Email (so we can reply)",
+    "email": "Email (auto-reply)",
     "country": "Country",
     "passport": "Passport number",
     "returningPatient": "Have you ever been a patient here?",

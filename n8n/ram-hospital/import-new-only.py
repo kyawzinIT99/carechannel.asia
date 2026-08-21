@@ -77,7 +77,7 @@ def main() -> None:
             continue
         if found:
             wf_id = found["id"]
-            if name == "Ram Hospital Google Form to CRM":
+            if name in ("Ram Hospital Google Form to CRM", "Ram Hospital Inquiry Alert"):
                 api("PUT", f"/api/v1/workflows/{wf_id}", create_body)
                 print("updated", name, wf_id)
             else:

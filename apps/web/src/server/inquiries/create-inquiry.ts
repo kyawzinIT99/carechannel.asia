@@ -6,7 +6,7 @@ import { buildInquiryReply } from "@/server/communication/inquiry-reply";
 import { flattenSpecialties, CHECKUP_PACKAGES_2026, packageFeatureLines } from "@/catalog/hospital-source";
 import { COUNTRIES } from "@/catalog/countries";
 import { assignVisitorCode, normalizeVisitorCode } from "@/server/inquiries/visitor-code";
-import { normalizePassport, pickPassportFromRecord } from "@/server/inquiries/passport";
+import { normalizePassport, pickEmailFromRecord, pickPassportFromRecord } from "@/server/inquiries/passport";
 
 function allSlugs() {
   return flattenSpecialties().map((item) => item.slug);
@@ -178,12 +178,14 @@ export async function createInquiry(raw: unknown, patientUserId?: string) {
     },
   });
 
+  const guestEmail = String(data.email || "").trim().toLowerCase();
+  let reply: Awaited<ReturnType<typeof buildInquiryReply>> | null = null;
   try {
-    const reply = await buildInquiryReply({
+    reply = await buildInquiryReply({
       locale: data.locale,
       fullName: data.fullName,
       phone: data.phone,
-      email: data.email || undefined,
+      email: guestEmail.includes("@") ? guestEmail : undefined,
       country: data.country,
       returningPatient: data.returningPatient,
       message: data.message,
@@ -199,13 +201,19 @@ export async function createInquiry(raw: unknown, patientUserId?: string) {
       passportNo: passportNo || undefined,
       preferredDate: data.preferredDate,
     });
-    await dispatchInquiryConversation({
-      locale,
-      guestEmail: data.email || undefined,
-      ...reply,
-    });
-  } catch {
-    // Portal stays independent if n8n or mail is offline.
+  } catch (err) {
+    console.error("inquiry reply compose failed", err);
+  }
+  if (reply) {
+    try {
+      await dispatchInquiryConversation({
+        locale,
+        guestEmail: guestEmail.includes("@") ? guestEmail : undefined,
+        ...reply,
+      });
+    } catch (err) {
+      console.error("inquiry mail dispatch failed", err);
+    }
   }
 
   return inquiry;
@@ -238,7 +246,7 @@ export async function ingestExternalInquiry(raw: unknown) {
   }
   const fullName = pickStr(nested, ["fullName", "name", "Name", "full_name"]);
   const phone = pickStr(nested, ["phone", "Phone", "Phone or viber Number", "mobile", "tel"]);
-  const email = pickStr(nested, ["email", "Email"]);
+  const email = pickEmailFromRecord(nested) || pickStr(nested, ["email", "Email"]);
   const address = pickStr(nested, ["Resident Address", "address", "Address"]);
   const message =
     pickStr(nested, ["message", "Message", "comment", "notes"]) ||

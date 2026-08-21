@@ -21,17 +21,22 @@ async function postN8n(pathEnv: string, payload: Record<string, unknown>) {
   const url = process.env[pathEnv]?.trim();
   const secret = process.env.N8N_WEBHOOK_SECRET?.trim();
   if (!url) return "disabled" as const;
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...(secret ? { "X-Ram-Hospital-Secret": secret } : {}),
-      "User-Agent": "Ram-Hospital-Myanmar/1.0",
-    },
-    body: JSON.stringify(payload),
-    signal: AbortSignal.timeout(8_000),
-  });
-  return response.ok ? ("delivered" as const) : ("failed" as const);
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(secret ? { "X-Ram-Hospital-Secret": secret } : {}),
+        "User-Agent": "Ram-Hospital-Myanmar/1.0",
+      },
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(20_000),
+    });
+    return response.ok ? ("delivered" as const) : ("failed" as const);
+  } catch (err) {
+    console.error("n8n webhook failed", err);
+    return "failed" as const;
+  }
 }
 
 async function sendNodemailer(to: string, subject: string, text: string, html?: string) {

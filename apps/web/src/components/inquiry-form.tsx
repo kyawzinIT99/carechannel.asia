@@ -193,8 +193,8 @@ export function InquiryForm({
             <input required name="phone" type="tel" autoComplete="tel" className={inputCls} />
           </label>
           <label className={labelCls}>
-            {t("email")}
-            <input name="email" type="email" autoComplete="email" className={inputCls} />
+            {t("email")} *
+            <input required name="email" type="email" autoComplete="email" className={inputCls} />
           </label>
           <label className={labelCls}>
             {t("country")} *

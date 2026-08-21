@@ -74,7 +74,7 @@ Return ONLY valid JSON:
           },
         ],
       }),
-      signal: AbortSignal.timeout(20_000),
+      signal: AbortSignal.timeout(10_000),
     });
     if (!response.ok) return null;
     const data = (await response.json()) as {

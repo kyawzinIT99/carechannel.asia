@@ -27,3 +27,19 @@ export function pickPassportFromRecord(raw: Record<string, unknown>) {
   }
   return "";
 }
+
+/** Google Form / n8n headers vary: Email, Email Address, E-mail. */
+export function pickEmailFromRecord(raw: Record<string, unknown>) {
+  const exact = ["email", "Email", "E-mail", "Email Address", "emailAddress", "E-mail Address"];
+  for (const key of exact) {
+    const hit = cellText(raw[key]);
+    if (hit.includes("@")) return hit;
+  }
+  for (const [key, val] of Object.entries(raw)) {
+    if (/e-?mail/i.test(key)) {
+      const hit = cellText(val);
+      if (hit.includes("@")) return hit;
+    }
+  }
+  return "";
+}
