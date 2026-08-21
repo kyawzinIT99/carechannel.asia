@@ -112,6 +112,12 @@ export function InquiryReportBoard({
           >
             Print / PDF report
           </a>
+          <a
+            href={`/${locale}/admin/inquiries/passports${query}`}
+            className="rounded-full border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+          >
+            Passport list
+          </a>
           <button
             type="button"
             onClick={() => setSelected(withEmail)}

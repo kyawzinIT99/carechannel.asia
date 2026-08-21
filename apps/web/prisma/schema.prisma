@@ -194,6 +194,7 @@ model Inquiry {
   country           String?
   returningPatient  Boolean?
   visitorCode       String?       @unique
+  passportNo        String?
   message           String
   specialtySlug String?
   packageId     String?

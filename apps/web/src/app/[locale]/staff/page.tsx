@@ -45,6 +45,7 @@ export default async function StaffPage({
                 <th className="px-5 py-3">Code</th>
                 <th className="px-5 py-3">Date</th>
                 <th className="px-5 py-3">Visitor</th>
+                <th className="px-5 py-3">Passport</th>
                 <th className="px-5 py-3">Phone</th>
                 <th className="px-5 py-3">Centre / Package</th>
                 <th className="px-5 py-3">Status</th>
@@ -68,6 +69,9 @@ export default async function StaffPage({
                         {row.country ?? ""}
                         {row.returningPatient ? " · returning patient" : ""}
                       </p>
+                    </td>
+                    <td className="px-5 py-3 font-mono text-sm font-semibold tracking-wide">
+                      {row.passportNo || "—"}
                     </td>
                     <td className="px-5 py-3 text-slate-600">{row.phone}</td>
                     <td className="px-5 py-3 text-xs text-slate-500">

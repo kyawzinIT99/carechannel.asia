@@ -196,6 +196,7 @@ export function renderStaffEmailHtml(input: {
   country?: string;
   returningPatient?: boolean;
   visitorCode?: string;
+  passportNo?: string;
   specialtySlug?: string;
   packageCode?: string;
   preferredDate?: string;
@@ -209,6 +210,7 @@ export function renderStaffEmailHtml(input: {
     <h2 style="margin:0 0 16px;color:${NAVY}">New partner inquiry — ${escapeHtml(input.fullName)}</h2>
     <table role="presentation" cellspacing="0" style="font-size:14px;margin-bottom:20px">
       <tr><td style="padding:4px 16px 4px 0;color:${SLATE}">Incentive code</td><td>${escapeHtml(input.visitorCode || "—")}</td></tr>
+      <tr><td style="padding:4px 16px 4px 0;color:${SLATE}">Passport</td><td>${escapeHtml(input.passportNo || "—")}</td></tr>
       <tr><td style="padding:4px 16px 4px 0;color:${SLATE}">Phone</td><td>${escapeHtml(input.phone)}</td></tr>
       <tr><td style="padding:4px 16px 4px 0;color:${SLATE}">Email</td><td>${escapeHtml(input.email || "—")}</td></tr>
       <tr><td style="padding:4px 16px 4px 0;color:${SLATE}">Country</td><td>${escapeHtml(input.country || "—")}</td></tr>
@@ -232,6 +234,7 @@ export function renderStaffTelegramHtml(input: {
   country?: string;
   returningPatient?: boolean;
   visitorCode?: string;
+  passportNo?: string;
   packageCode?: string;
   specialtySlug?: string;
   message: string;
@@ -245,6 +248,7 @@ export function renderStaffTelegramHtml(input: {
     "",
     `<b>${escapeHtml(input.fullName)}</b>`,
     input.visitorCode ? `Incentive code: <b>${escapeHtml(input.visitorCode)}</b>` : "",
+    input.passportNo ? `Passport: <b>${escapeHtml(input.passportNo)}</b>` : "",
     `${escapeHtml(input.phone)}${input.country ? ` · ${escapeHtml(input.country)}` : ""}`,
     `Returning patient: ${input.returningPatient ? "yes" : "no"}`,
     `Package: ${escapeHtml(input.packageCode || "—")}`,

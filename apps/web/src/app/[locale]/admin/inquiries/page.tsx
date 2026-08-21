@@ -1,6 +1,7 @@
 import { prisma } from "@/server/db/prisma";
 import { InquiryActions } from "@/components/admin/inquiry-actions";
 import { InquiryReportBoard, InquirySelectBox } from "@/components/admin/inquiry-report-bar";
+import { InquiryPassportField } from "@/components/admin/inquiry-passport-field";
 import { backfillVisitorCodes } from "@/server/inquiries/visitor-code";
 
 export const dynamic = "force-dynamic";
@@ -67,6 +68,7 @@ export default async function AdminInquiriesPage({
               <th className="px-4 py-3">Code</th>
               <th className="px-4 py-3">Date</th>
               <th className="px-4 py-3">Visitor</th>
+              <th className="px-4 py-3">Passport</th>
               <th className="px-4 py-3">Phone / Email</th>
               <th className="px-4 py-3">Interest</th>
               <th className="px-4 py-3">Status</th>
@@ -77,7 +79,7 @@ export default async function AdminInquiriesPage({
           <tbody className="divide-y divide-slate-100">
             {inquiries.length === 0 ? (
               <tr>
-                <td colSpan={9} className="px-4 py-8 text-center text-slate-400">No inquiries yet.</td>
+                <td colSpan={10} className="px-4 py-8 text-center text-slate-400">No inquiries yet.</td>
               </tr>
             ) : null}
             {inquiries.map((row) => {
@@ -105,6 +107,9 @@ export default async function AdminInquiriesPage({
                       {row.country ? ` · ${row.country}` : ""}
                       {row.returningPatient ? " · returning patient" : ""}
                     </p>
+                  </td>
+                  <td className="px-4 py-3">
+                    <InquiryPassportField id={row.id} passportNo={row.passportNo} />
                   </td>
                   <td className="px-4 py-3 text-slate-600">
                     <p>{row.phone}</p>

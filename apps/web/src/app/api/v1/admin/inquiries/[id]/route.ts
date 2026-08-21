@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { InquiryStatus } from "@prisma/client";
 import { prisma } from "@/server/db/prisma";
 import { hasRole, readSession, STAFF_ROLES } from "@/server/auth/session";
+import { normalizePassport } from "@/server/inquiries/passport";
 
 const STATUSES = new Set<string>(Object.values(InquiryStatus));
 
@@ -13,14 +14,17 @@ export async function PATCH(
   if (!hasRole(session, STAFF_ROLES)) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   const { id } = await context.params;
   const body = await request.json();
-  const data: { status?: InquiryStatus; assignedToId?: string } = {};
+  const data: { status?: InquiryStatus; assignedToId?: string; passportNo?: string | null } = {};
   if (typeof body.status === "string" && STATUSES.has(body.status)) {
     data.status = body.status as InquiryStatus;
   }
   if (typeof body.assignedToId === "string" && body.assignedToId.length > 0 && body.assignedToId.length < 64) {
     data.assignedToId = body.assignedToId;
   }
-  if (!data.status && !data.assignedToId) {
+  if (typeof body.passportNo === "string") {
+    data.passportNo = normalizePassport(body.passportNo) || null;
+  }
+  if (!data.status && !data.assignedToId && !("passportNo" in data)) {
     return NextResponse.json({ error: "invalid" }, { status: 400 });
   }
   const inquiry = await prisma.inquiry.update({ where: { id }, data });

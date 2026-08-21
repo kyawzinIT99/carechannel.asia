@@ -11,6 +11,7 @@ const NAV = [
   { href: "/admin/specialties",label: "Specialties" },
   { href: "/admin/branches",   label: "Branches" },
   { href: "/admin/inquiries",  label: "Inquiries" },
+  { href: "/admin/inquiries/passports", label: "Passport list" },
   { href: "/admin/templates",  label: "Templates" },
   { href: "/admin/outbox",     label: "Outbox / n8n log" },
   { href: "/admin/users",      label: "Users" },

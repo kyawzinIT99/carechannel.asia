@@ -58,6 +58,7 @@
     "phone": "Phone",
     "email": "Email (so we can reply)",
     "country": "Country",
+    "passport": "Passport number",
     "returningPatient": "Have you ever been a patient here?",
     "returningYes": "Yes",
     "returningNo": "No",

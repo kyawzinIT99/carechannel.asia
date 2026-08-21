@@ -6,6 +6,7 @@ import { buildInquiryReply } from "@/server/communication/inquiry-reply";
 import { flattenSpecialties } from "@/catalog/hospital-source";
 import { COUNTRIES } from "@/catalog/countries";
 import { assignVisitorCode, normalizeVisitorCode } from "@/server/inquiries/visitor-code";
+import { normalizePassport } from "@/server/inquiries/passport";
 
 function allSlugs() {
   return flattenSpecialties().map((item) => item.slug);
@@ -30,6 +31,7 @@ export const inquirySchema = z.object({
   accommodationHelp: z.boolean().optional(),
   visaHelp: z.boolean().optional(),
   visitorCode: z.string().max(20).optional(),
+  passportNo: z.string().max(40).optional(),
   consent: z.literal(true),
 });
 
@@ -60,6 +62,7 @@ export async function createInquiry(raw: unknown, patientUserId?: string) {
   const claimed = normalizeVisitorCode(data.visitorCode);
   const claimedNote =
     claimed && claimed !== visitorCode ? `\nExisting incentive code quoted: ${claimed}` : "";
+  const passportNo = normalizePassport(data.passportNo) || null;
 
   const inquiry = await prisma.inquiry.create({
     data: {
@@ -70,6 +73,7 @@ export async function createInquiry(raw: unknown, patientUserId?: string) {
       country: data.country,
       returningPatient: data.returningPatient,
       visitorCode,
+      passportNo,
       message: `${data.message}${claimedNote}`.slice(0, 4000),
       specialtySlug: data.specialtySlug || null,
       packageId: packageId || null,
@@ -112,6 +116,7 @@ export async function createInquiry(raw: unknown, patientUserId?: string) {
         accommodationHelp: Boolean(data.accommodationHelp),
         visaHelp: Boolean(data.visaHelp),
         visitorCode,
+        passportNo,
       },
     },
   });
@@ -134,6 +139,7 @@ export async function createInquiry(raw: unknown, patientUserId?: string) {
       accommodationHelp: data.accommodationHelp,
       visaHelp: data.visaHelp,
       visitorCode,
+      passportNo: passportNo || undefined,
       preferredDate: data.preferredDate,
     });
     await dispatchInquiryConversation({
@@ -185,6 +191,8 @@ export async function ingestExternalInquiry(raw: unknown) {
   const specialtySlug = allSlugs().includes(specialtySlugRaw) ? specialtySlugRaw : undefined;
   const packageCode = pickStr(nested, ["packageCode", "package"]) || undefined;
   const visitorCode = pickStr(nested, ["visitorCode", "Visitor code", "Code", "Incentive code"]) || undefined;
+  const passportNo =
+    pickStr(nested, ["passportNo", "Passport", "Passport no", "Passport number", "passport"]) || undefined;
   try {
     return await createInquiry({
       locale,
@@ -199,6 +207,7 @@ export async function ingestExternalInquiry(raw: unknown) {
       specialtySlug,
       packageCode,
       visitorCode,
+      passportNo,
       consent: true,
     });
   } catch {
@@ -211,6 +220,7 @@ export async function ingestExternalInquiry(raw: unknown) {
       returningPatient: false,
       message: `[Google Form]\n${message}`.slice(0, 4000),
       consent: true,
+      passportNo,
     });
   }
 }

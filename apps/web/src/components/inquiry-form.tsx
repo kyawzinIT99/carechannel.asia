@@ -121,6 +121,7 @@ export function InquiryForm({
       accommodationHelp: needStay,
       visaHelp: needVisa,
       visitorCode: String(form.get("visitorCode") ?? ""),
+      passportNo: String(form.get("passportNo") ?? ""),
       consent: true,
     };
     const res = await fetch("/api/v1/public/inquiries", {
@@ -205,6 +206,10 @@ export function InquiryForm({
                 <option key={name} value={name}>{name}</option>
               ))}
             </select>
+          </label>
+          <label className={labelCls}>
+            {t("passport")} *
+            <input required name="passportNo" autoComplete="off" minLength={5} maxLength={20} className={`${inputCls} uppercase tracking-wide`} />
           </label>
           <label className={`${labelCls} sm:col-span-2`}>
             {my ? "Incentive ဧည့်သည်ကုဒ် (ရှိပြီးသား CH011 ကဲ့သို့)" : "Incentive visitor code (if you already have one, e.g. CH011)"}

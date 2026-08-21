@@ -34,6 +34,7 @@ export default async function InquiryPrintPage({
             <th className="py-2 pr-3">Date</th>
             <th className="py-2 pr-3">Code</th>
             <th className="py-2 pr-3">Visitor</th>
+            <th className="py-2 pr-3">Passport</th>
             <th className="py-2 pr-3">Phone</th>
             <th className="py-2 pr-3">Email</th>
             <th className="py-2 pr-3">Interest</th>
@@ -54,6 +55,7 @@ export default async function InquiryPrintPage({
                   {row.returningPatient === "yes" ? " · returning" : ""}
                 </p>
               </td>
+              <td className="whitespace-nowrap py-2 pr-3 font-mono font-semibold">{row.passportNo || "—"}</td>
               <td className="py-2 pr-3">{row.phone}</td>
               <td className="py-2 pr-3">{row.email || "—"}</td>
               <td className="py-2 pr-3">

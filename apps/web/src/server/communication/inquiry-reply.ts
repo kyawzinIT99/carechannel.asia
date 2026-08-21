@@ -37,6 +37,7 @@ export type InquiryReplyInput = {
   accommodationHelp?: boolean;
   visaHelp?: boolean;
   visitorCode?: string;
+  passportNo?: string;
   preferredDate?: string;
 };
 
@@ -138,6 +139,7 @@ export async function buildInquiryReply(input: InquiryReplyInput): Promise<Inqui
     ...(input.accommodationHelp ? ["accommodation"] : []),
     ...(input.visaHelp ? ["visa-support"] : []),
     ...(input.visitorCode ? ["incentive-code"] : []),
+    ...(input.passportNo ? ["passport"] : []),
   ];
 
   const facts = {
@@ -224,6 +226,7 @@ export async function buildInquiryReply(input: InquiryReplyInput): Promise<Inqui
     country: input.country,
     returningPatient: input.returningPatient,
     visitorCode: input.visitorCode,
+    passportNo: input.passportNo,
     specialtySlug: input.specialtySlug,
     packageCode: input.packageCode,
     preferredDate: input.preferredDate,
@@ -238,13 +241,14 @@ export async function buildInquiryReply(input: InquiryReplyInput): Promise<Inqui
     country: input.country,
     returningPatient: input.returningPatient,
     visitorCode: input.visitorCode,
+    passportNo: input.passportNo,
     packageCode: input.packageCode,
     specialtySlug: input.specialtySlug,
     message: input.message,
     copy,
     extras,
   });
-  const staffText = `Partner portal inquiry\nIncentive code: ${input.visitorCode || "—"}\nName: ${input.fullName}\nPhone: ${input.phone}\nEmail: ${input.email || ""}\nCountry: ${input.country || ""}\nReturning patient: ${input.returningPatient ? "yes" : "no"}\nSpecialty: ${input.specialtySlug || ""}\nPackage: ${input.packageCode || ""}\nDate: ${input.preferredDate || ""}\nInterpreter: ${input.interpreterNeeded ? input.interpreterLang || "yes" : "no"}\nMessage: ${input.message}\nIntents: ${intents.join(", ") || "general"}\n\nGuest reply:\n${guestText}`;
+  const staffText = `Partner portal inquiry\nIncentive code: ${input.visitorCode || "—"}\nPassport: ${input.passportNo || "—"}\nName: ${input.fullName}\nPhone: ${input.phone}\nEmail: ${input.email || ""}\nCountry: ${input.country || ""}\nReturning patient: ${input.returningPatient ? "yes" : "no"}\nSpecialty: ${input.specialtySlug || ""}\nPackage: ${input.packageCode || ""}\nDate: ${input.preferredDate || ""}\nInterpreter: ${input.interpreterNeeded ? input.interpreterLang || "yes" : "no"}\nMessage: ${input.message}\nIntents: ${intents.join(", ") || "general"}\n\nGuest reply:\n${guestText}`;
 
   return {
     intents,
