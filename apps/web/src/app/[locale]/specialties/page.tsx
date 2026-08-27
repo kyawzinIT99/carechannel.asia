@@ -269,8 +269,8 @@ export default async function SpecialtiesPage({
           </h2>
           <p className="mt-3 text-white/70">
             {my
-              ? "ညှိနှိုင်းရေးမှူးသည် ခရီးမထွက်မီ အီးမေးလ်နှင့် Telegram ဖြင့် ဆက်လက်ကူညီပါမည်"
-              : "A coordinator follows up by email and Telegram before you travel — no guesswork on arrival"}
+              ? "ညှိနှိုင်းရေးမှူးသည် ခရီးမထွက်မီ အီးမေးလ်ဖြင့် ဆက်လက်ကူညီပါမည်"
+              : "A coordinator follows up by email before you travel — no guesswork on arrival"}
           </p>
           <Link
             href="/contact"

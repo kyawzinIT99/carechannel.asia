@@ -53,8 +53,8 @@ export async function VisitAssistSection({
         </h2>
         <p className="mt-2 max-w-2xl text-sm leading-7 text-slate-500">
           {my
-            ? "ဤအကူအညီများသည် စစ်ဆေးပက်ကေ့ချ်တွင် မပါဝင်ပါ။ ဗီဇာကို ဧည့်သည် လိုမှသာ ကြေညာပါသည်။ ဤဝက်ဘ်ဆိုက် သို့မဟုတ် LINE / Telegram / Viber မှ တောင်းပါ။"
-            : "This is optional help only — not part of a checkup package. Visa help is announced only if the visitor wants it, via this website or LINE / Telegram / Viber."}
+            ? "ဤအကူအညီများသည် စစ်ဆေးပက်ကေ့ချ်တွင် မပါဝင်ပါ။ ဗီဇာကို ဧည့်သည် လိုမှသာ ကြေညာပါသည်။ ဤဝက်ဘ်ဆိုက် သို့မဟုတ် LINE မှ တောင်းပါ။"
+            : "This is optional help only — not part of a checkup package. Visa help is announced only if the visitor wants it, via this website or LINE."}
         </p>
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           {cards.map((item) => (

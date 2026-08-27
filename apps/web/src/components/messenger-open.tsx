@@ -35,8 +35,8 @@ export function MessengerOpen({
       </h1>
       <p className="mt-4 text-[15px] leading-8 text-slate-600">
         {my
-          ? "အက်ပ် မပွင့်ပါက အောက်ပါ ခလုတ်ကို နှိပ်ပါ။ ဖုန်းတွင် LINE / Telegram / Viber ထည့်သွင်းထားရန် လိုသည်။"
-          : "If the app does not open, tap a button below. LINE, Telegram, or Viber must be installed on the phone."}
+          ? "အက်ပ် မပွင့်ပါက အောက်ပါ ခလုတ်ကို နှိပ်ပါ။ ဖုန်းတွင် LINE ထည့်သွင်းထားရန် လိုသည်။"
+          : "If the app does not open, tap the button below. LINE must be installed on the phone."}
       </p>
       {number ? (
         <p className="mt-2 text-sm font-semibold text-slate-800">{number}</p>

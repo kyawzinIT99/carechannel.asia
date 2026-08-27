@@ -9,13 +9,11 @@ export const dynamic = "force-dynamic";
 const FIELDS = [
   { key: "home.heroEyebrow", label: "Hero eyebrow (small line above title)", multiline: false, fallbackEn: "Official Myanmar Partner Channel", fallbackMy: "တရားဝင် မြန်မာ မိတ်ဖက်လမ်းကြောင်း" },
   { key: "home.heroTitle", label: "Hero title", multiline: false, fallbackEn: "A calm start to your Chiangmai Ram visit", fallbackMy: "ချင်းမိုင်ရမ် ခရီးစဉ်ကို အေးချမ်းစွာ စတင်ပါ" },
-  { key: "home.heroHighlight", label: "Hero highlight", multiline: false, fallbackEn: "We help you plan the visit first — then a coordinator stays with you by email and Telegram.", fallbackMy: "ခရီးစဉ်ကို ဦးစွာ စီစဉ်ပေးသည်။ ညှိနှိုင်းရေးမှူးက အီးမေးလ်နှင့် Telegram ဖြင့် ဆက်လက်ကူညီမည်။" },
+  { key: "home.heroHighlight", label: "Hero highlight", multiline: false, fallbackEn: "We help you plan the visit first — then a coordinator stays with you by email.", fallbackMy: "ခရီးစဉ်ကို ဦးစွာ စီစဉ်ပေးသည်။ ညှိနှိုင်းရေးမှူးက အီးမေးလ်ဖြင့် ဆက်လက်ကူညီမည်။" },
   { key: "home.heroBody", label: "Hero body paragraph", multiline: true, fallbackEn: "This is a partner channel for Myanmar and international guests. Read hospital-published centres and 2026 check-up packages, then send one request. Nothing here is emergency care.", fallbackMy: "ဤသည် မြန်မာနှင့် နိုင်ငံတကာ ဧည့်သည်များအတွက် မိတ်ဖက်လမ်းကြောင်းဖြစ်သည်။ ဆေးရုံထုတ်ပြန်သည့် ဌာနနှင့် ၂၀၂၆ စစ်ဆေးပက်ကေ့ချ်ကို ဖတ်ပြီး တောင်းဆိုမှုတစ်ခု ပို့ပါ။ ဤနေရာသည် အရေးပေါ်ကုသမှု မဟုတ်ပါ။" },
   { key: "home.ctaPrimary", label: "Primary button", multiline: false, fallbackEn: "Request a visit", fallbackMy: "လာရောက်ရန် တောင်းဆိုမည်" },
   { key: "home.ctaSecondary", label: "Secondary button", multiline: false, fallbackEn: "See 2026 packages", fallbackMy: "၂၀၂၆ ပက်ကေ့ချ်များ" },
   { key: "partner.linePhone", label: "LINE number (public)", multiline: false, fallbackEn: "082-567-4570", fallbackMy: "082-567-4570" },
-  { key: "partner.telegramUrl", label: "Telegram username link only (https://t.me/yourname). Leave blank to open Telegram chat with the LINE phone. Do not use t.me/+66… — that is an invite link and will fail.", multiline: false, fallbackEn: "", fallbackMy: "" },
-  { key: "partner.viberPhone", label: "Viber number (public)", multiline: false, fallbackEn: "+95 9504 3252", fallbackMy: "+95 9504 3252" },
   { key: "partner.googleFormUrl", label: "Public Google Form for visit requests", multiline: false, fallbackEn: "https://docs.google.com/forms/d/e/1FAIpQLSfV14CMMEqKiKkALBxB0JKc740JKPiAIrY-ykNQUqTjKsJbKw/viewform?pli=1&authuser=1", fallbackMy: "https://docs.google.com/forms/d/e/1FAIpQLSfV14CMMEqKiKkALBxB0JKc740JKPiAIrY-ykNQUqTjKsJbKw/viewform?pli=1&authuser=1" },
   { key: "visit.pickupTitle", label: "Airport pickup title", multiline: false, fallbackEn: VISIT_ASSIST[0].titleEn, fallbackMy: VISIT_ASSIST[0].titleMy },
   { key: "visit.pickupBody", label: "Airport pickup body", multiline: true, fallbackEn: VISIT_ASSIST[0].bodyEn, fallbackMy: VISIT_ASSIST[0].bodyMy },
@@ -48,7 +46,7 @@ export default async function AdminHomeContentPage() {
     <div className="space-y-6">
       <AdminPageHeader
         title="Homepage"
-        hint="Hero copy, LINE / Telegram / Viber, pickup and stay text. Announcements come from Promotions. Package prices come from Packages. Centres come from Specialties."
+        hint="Hero copy, LINE, Google Form, pickup and stay text. Announcements come from Promotions. Package prices come from Packages. Centres come from Specialties."
         liveHref="/"
       />
 

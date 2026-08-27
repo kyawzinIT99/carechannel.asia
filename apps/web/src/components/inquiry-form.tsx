@@ -130,8 +130,8 @@ export function InquiryForm({
         <p className="mt-4 text-lg font-semibold text-[#1a2330]">{t("success")}</p>
         <p className="mt-2 text-sm leading-7 text-slate-500">
           {my
-            ? "ညှိနှိုင်းရေးမှူးသည် အီးမေးလ် သို့မဟုတ် Telegram ဖြင့် မကြာမီ ဆက်သွယ်ပါမည်"
-            : "A coordinator will follow up by email and Telegram shortly."}
+            ? "ညှိနှိုင်းရေးမှူးသည် အီးမေးလ်ဖြင့် မကြာမီ ဆက်သွယ်ပါမည်"
+            : "A coordinator will follow up by email shortly."}
         </p>
         {issuedCode ? (
           <p className="mt-5 text-sm text-slate-600">
@@ -380,8 +380,8 @@ export function InquiryForm({
               </span>
               <span className="mt-0.5 block text-xs text-slate-500">
                 {my
-                  ? "ဧည့်သည် လိုမှသာ။ ဤဝက်ဘ်ဆိုက် သို့မဟုတ် LINE / Telegram / Viber မှ တောင်းပါ။"
-                  : "Only if the visitor wants it. Ask on this website or LINE / Telegram / Viber."}
+                  ? "ဧည့်သည် လိုမှသာ။ ဤဝက်ဘ်ဆိုက် သို့မဟုတ် LINE မှ တောင်းပါ။"
+                  : "Only if the visitor wants it. Ask on this website or LINE."}
               </span>
             </span>
           </label>

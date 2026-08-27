@@ -47,7 +47,7 @@ export default async function AdminInquiriesPage({
     <div className="space-y-5">
       <AdminPageHeader
         title="Inquiries"
-        hint="Website, LINE / Telegram / Viber, and Google Form requests land in this one list. CH codes mark incentive visitors."
+        hint="Website, LINE, and Google Form requests land in this one list. CH codes mark incentive visitors."
         actions={
           <div className="flex gap-2 text-sm">
             <a href="?" className={`rounded-full px-3 py-1.5 ${!status ? "bg-[#1a2330] text-white" : "border border-slate-300 text-slate-600"}`}>All</a>

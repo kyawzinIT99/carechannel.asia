@@ -63,13 +63,13 @@ const templates: { key: string; locale: Locale; subject: string; body: string }[
     key: "inquiry.received",
     locale: "en",
     subject: "Chiangmai Ram Hospital Myanmar received your request",
-    body: "Dear {{name}},\n\nWe received your request on the official Myanmar partner channel. A coordinator will continue with you by email and Telegram about the incentive visit plan, published packages, or the specialty you asked about. We do not diagnose by message.\n\nHospital email: {{email}}\nFacebook: ChiangmaiRam.myanmar\n\nChiangmai Ram Hospital Myanmar",
+    body: "Dear {{name}},\n\nWe received your request on the official Myanmar partner channel. A coordinator will continue with you by email about the incentive visit plan, published packages, or the specialty you asked about. We do not diagnose by message.\n\nHospital email: {{email}}\nFacebook: ChiangmaiRam.myanmar\n\nChiangmai Ram Hospital Myanmar",
   },
   {
     key: "inquiry.received",
     locale: "my",
     subject: "ချင်းမိုင်ရမ်ဆေးရုံ သင့်တောင်းဆိုမှု လက်ခံပြီး",
-    body: "{{name}} ခင်ဗျာ/ရှင်၊\n\nမြန်မာမိတ်ဖက်လမ်းကြောင်းမှ သင့်တောင်းဆိုမှုကို လက်ခံပါသည်။ ညှိနှိုင်းရေးမှူးက incentive ခရီးစဉ်၊ ဖော်ပြထားသော ပက်ကေ့ချ် သို့မဟုတ် သင်မေးသော ဌာနအကြောင်းကို အီးမေးလ်နှင့် Telegram ဖြင့် ဆက်လက် ပြောပါမည်။ မက်ဆေ့ချ်ဖြင့် ရောဂါမရှာပါ။\n\nဆေးရုံအီးမေးလ်: {{email}}\nFacebook: ChiangmaiRam.myanmar\n\nချင်းမိုင်ရမ်ဆေးရုံ",
+    body: "{{name}} ခင်ဗျာ/ရှင်၊\n\nမြန်မာမိတ်ဖက်လမ်းကြောင်းမှ သင့်တောင်းဆိုမှုကို လက်ခံပါသည်။ ညှိနှိုင်းရေးမှူးက incentive ခရီးစဉ်၊ ဖော်ပြထားသော ပက်ကေ့ချ် သို့မဟုတ် သင်မေးသော ဌာနအကြောင်းကို အီးမေးလ်ဖြင့် ဆက်လက် ပြောပါမည်။ မက်ဆေ့ချ်ဖြင့် ရောဂါမရှာပါ။\n\nဆေးရုံအီးမေးလ်: {{email}}\nFacebook: ChiangmaiRam.myanmar\n\nချင်းမိုင်ရမ်ဆေးရုံ",
   },
   {
     key: "staff.inquiry.alert",
@@ -93,25 +93,25 @@ const templates: { key: string; locale: Locale; subject: string; body: string }[
     key: "appointment.confirmed",
     locale: "en",
     subject: "Your Chiangmai Ram appointment request was confirmed",
-    body: "Dear {{name}},\n\nA coordinator confirmed your appointment request on the incentive visit plan. Please arrive with your passport or ID. We will keep talking with you by email and Telegram if anything changes. This message is not medical advice.\n\nEmail: {{email}}",
+    body: "Dear {{name}},\n\nA coordinator confirmed your appointment request on the incentive visit plan. Please arrive with your passport or ID. We will keep talking with you by email if anything changes. This message is not medical advice.\n\nEmail: {{email}}",
   },
   {
     key: "appointment.confirmed",
     locale: "my",
     subject: "ချင်းမိုင်ရမ် ချိန်းဆိုမှု အတည်ပြုပြီး",
-    body: "{{name}} ခင်ဗျာ/ရှင်၊\n\nညှိနှိုင်းရေးမှူးက incentive ခရီးစဉ် ချိန်းဆို တောင်းဆိုမှုကို အတည်ပြုပါသည်။ နိုင်ငံကူးလက်မှတ် သို့မဟုတ် အထောက်အထား ယူလာပါ။ ပြောင်းလဲမှုရှိပါက အီးမေးလ်နှင့် Telegram ဖြင့် ဆက်ပြောပါမည်။ ဤမက်ဆေ့ချ်သည် ဆေးအကြံ မဟုတ်ပါ။\n\nအီးမေးလ်: {{email}}",
+    body: "{{name}} ခင်ဗျာ/ရှင်၊\n\nညှိနှိုင်းရေးမှူးက incentive ခရီးစဉ် ချိန်းဆို တောင်းဆိုမှုကို အတည်ပြုပါသည်။ နိုင်ငံကူးလက်မှတ် သို့မဟုတ် အထောက်အထား ယူလာပါ။ ပြောင်းလဲမှုရှိပါက အီးမေးလ်ဖြင့် ဆက်ပြောပါမည်။ ဤမက်ဆေ့ချ်သည် ဆေးအကြံ မဟုတ်ပါ။\n\nအီးမေးလ်: {{email}}",
   },
   {
     key: "appointment.reminder",
     locale: "en",
     subject: "Appointment reminder — Chiangmai Ram Hospital Myanmar",
-    body: "Dear {{name}},\n\nThis is a reminder of your confirmed visit on the partner incentive plan. Reply to this email or Telegram if you must change the time. Email: {{email}}.",
+    body: "Dear {{name}},\n\nThis is a reminder of your confirmed visit on the partner incentive plan. Reply to this email if you must change the time. Email: {{email}}.",
   },
   {
     key: "appointment.reminder",
     locale: "my",
     subject: "ချိန်းဆိုမှု သတိပေးချက် — ချင်းမိုင်ရမ်ဆေးရုံ",
-    body: "{{name}} ခင်ဗျာ/ရှင်၊\n\nမိတ်ဖက် incentive ခရီးစဉ် အတည်ပြုပြီးသော လာရောက်မှု သတိပေးချက်ဖြစ်သည်။ အချိန်ပြောင်းရန် ဤအီးမေးလ် သို့မဟုတ် Telegram ကို ပြန်ကြားပါ။ အီးမေးလ်: {{email}}။",
+    body: "{{name}} ခင်ဗျာ/ရှင်၊\n\nမိတ်ဖက် incentive ခရီးစဉ် အတည်ပြုပြီးသော လာရောက်မှု သတိပေးချက်ဖြစ်သည်။ အချိန်ပြောင်းရန် ဤအီးမေးလ်ကို ပြန်ကြားပါ။ အီးမေးလ်: {{email}}။",
   },
 ];
 
@@ -224,9 +224,9 @@ async function main() {
     {
       key: "home.heroBody",
       valueEn:
-        "Plan your incentive visit with hospital-published 2026 check-up packages and specialty centres. A coordinator follows up by email and Telegram.",
+        "Plan your incentive visit with hospital-published 2026 check-up packages and specialty centres. A coordinator follows up by email.",
       valueMy:
-        "ဆေးရုံထုတ်ပြန်သည့် ၂၀၂၆ စစ်ဆေးပက်ကေ့ချ်နှင့် ဌာနများဖြင့် incentive ခရီးစဉ်ကို စီစဉ်ပါ။ ညှိနှိုင်းရေးမှူးက အီးမေးလ်နှင့် Telegram ဖြင့် ဆက်လက်ကူညီမည်။",
+        "ဆေးရုံထုတ်ပြန်သည့် ၂၀၂၆ စစ်ဆေးပက်ကေ့ချ်နှင့် ဌာနများဖြင့် incentive ခရီးစဉ်ကို စီစဉ်ပါ။ ညှိနှိုင်းရေးမှူးက အီးမေးလ်ဖြင့် ဆက်လက်ကူညီမည်။",
     },
     {
       key: "home.ctaPrimary",
@@ -268,9 +268,9 @@ async function main() {
     {
       key: "visit.stayBody",
       valueEn:
-        "If you wish, a coordinator can help you find a simple rental apartment near the visit. This is not a hotel, and it is not a hospital or checkup package. Typical rates on the partner apartment site are 3,500 or 4,000 THB. Only if you want it — tell us on the request form, LINE, Telegram, or Viber.",
+        "If you wish, a coordinator can help you find a simple rental apartment near the visit. This is not a hotel, and it is not a hospital or checkup package. Typical rates on the partner apartment site are 3,500 or 4,000 THB. Only if you want it — tell us on the request form or LINE.",
       valueMy:
-        "လိုပါက ညှိနှိုင်းရေးမှူးက ခရီးစဉ်အနီး ရိုးရိုး အငှားတိုက်ခန်း ရှာပေးနိုင်သည်။ ဟိုတယ် မဟုတ်၊ ဆေးရုံ သို့မဟုတ် စစ်ဆေးပက်ကေ့ချ်လည်း မဟုတ်ပါ။ မိတ်ဖက်တိုက်ခန်းဝက်ဘ်ဆိုက်တွင် ပုံမှန်အားဖြင့် ၃,၅၀၀ သို့မဟုတ် ၄,၀၀၀ ဘတ်။ လိုမှသာ တောင်းဆိုဖောင်၊ LINE၊ Telegram သို့မဟုတ် Viber တွင် ပြောပါ။",
+        "လိုပါက ညှိနှိုင်းရေးမှူးက ခရီးစဉ်အနီး ရိုးရိုး အငှားတိုက်ခန်း ရှာပေးနိုင်သည်။ ဟိုတယ် မဟုတ်၊ ဆေးရုံ သို့မဟုတ် စစ်ဆေးပက်ကေ့ချ်လည်း မဟုတ်ပါ။ မိတ်ဖက်တိုက်ခန်းဝက်ဘ်ဆိုက်တွင် ပုံမှန်အားဖြင့် ၃,၅၀၀ သို့မဟုတ် ၄,၀၀၀ ဘတ်။ လိုမှသာ တောင်းဆိုဖောင် သို့မဟုတ် LINE တွင် ပြောပါ။",
     },
     {
       key: "visit.visaTitle",
@@ -280,9 +280,9 @@ async function main() {
     {
       key: "visit.visaBody",
       valueEn:
-        "Long-stay visa help in Chiang Mai is announced only if the visitor wants it. Ask on this website, LINE, Telegram, or Viber. We do not publish a visa office phone or email. This is not a checkup package.",
+        "Long-stay visa help in Chiang Mai is announced only if the visitor wants it. Ask on this website or LINE. We do not publish a visa office phone or email. This is not a checkup package.",
       valueMy:
-        "ချင်းမိုင် ကြာရှည် ဗီဇာ အကူအညီကို ဧည့်သည် လိုမှသာ ကြေညာပါသည်။ ဤဝက်ဘ်ဆိုက်၊ LINE၊ Telegram သို့မဟုတ် Viber မှ တောင်းပါ။ ဗီဇာရုံး ဖုန်း သို့မဟုတ် အီးမေးလ်ကို မဖော်ပြပါ။ စစ်ဆေးပက်ကေ့ချ်တွင် မပါဝင်ပါ။",
+        "ချင်းမိုင် ကြာရှည် ဗီဇာ အကူအညီကို ဧည့်သည် လိုမှသာ ကြေညာပါသည်။ ဤဝက်ဘ်ဆိုက် သို့မဟုတ် LINE မှ တောင်းပါ။ ဗီဇာရုံး ဖုန်း သို့မဟုတ် အီးမေးလ်ကို မဖော်ပြပါ။ စစ်ဆေးပက်ကေ့ချ်တွင် မပါဝင်ပါ။",
     },
     ...ABOUT_FIELDS.map((f) => ({
       key: f.key,
@@ -311,9 +311,9 @@ async function main() {
         titleEn: "2026 hospital-published check-up packages",
         titleMy: "၂၀၂၆ ဆေးရုံထုတ်ပြန် ကျန်းမာရေးစစ်ဆေး ပက်ကေ့ချ်",
         bodyEn:
-          "STANDARD, ADVANCE, and PREMIUM follow the hospital 2026 table. A coordinator confirms the official incentive amount on this website, LINE, Telegram, or Viber. Airport pickup and a rental apartment are optional help if you want them — not a hotel or checkup package.",
+          "STANDARD, ADVANCE, and PREMIUM follow the hospital 2026 table. A coordinator confirms the official incentive amount on this website or LINE. Airport pickup and a rental apartment are optional help if you want them — not a hotel or checkup package.",
         bodyMy:
-          "STANDARD၊ ADVANCE နှင့် PREMIUM သည် ဆေးရုံ ၂၀၂၆ ဇယားအတိုင်းဖြစ်သည်။ ညှိနှိုင်းရေးမှူးက တရားဝင် incentive ပမာဏကို ဤဝက်ဘ်ဆိုက်၊ LINE၊ Telegram သို့မဟုတ် Viber မှ အတည်ပြုသည်။ လေဆိပ်ကားနှင့် အငှားတိုက်ခန်းသည် လိုမှသာ အကူအညီဖြစ်ပြီး ဟိုတယ် သို့မဟုတ် စစ်ဆေးပက်ကေ့ချ် မဟုတ်ပါ။",
+          "STANDARD၊ ADVANCE နှင့် PREMIUM သည် ဆေးရုံ ၂၀၂၆ ဇယားအတိုင်းဖြစ်သည်။ ညှိနှိုင်းရေးမှူးက တရားဝင် incentive ပမာဏကို ဤဝက်ဘ်ဆိုက် သို့မဟုတ် LINE မှ အတည်ပြုသည်။ လေဆိပ်ကားနှင့် အငှားတိုက်ခန်းသည် လိုမှသာ အကူအညီဖြစ်ပြီး ဟိုတယ် သို့မဟုတ် စစ်ဆေးပက်ကေ့ချ် မဟုတ်ပါ။",
         published: true,
         sortOrder: 10,
         kind: "announcement",

@@ -3,7 +3,7 @@
 import { createContext, useContext, type ReactNode } from "react";
 import { HOSPITAL_PROFILE } from "@/catalog/hospital-source";
 import type { PublicChrome } from "@/catalog/public-chrome";
-import { lineHttpUrl, telegramHttpUrl, viberAppUrl } from "@/server/security/messengers";
+import { lineHttpUrl } from "@/server/security/messengers";
 
 const fallback: PublicChrome = {
   nameEn: HOSPITAL_PROFILE.nameEn,
@@ -15,9 +15,6 @@ const fallback: PublicChrome = {
   heroPath: HOSPITAL_PROFILE.heroPath,
   linePhone: HOSPITAL_PROFILE.chatPhoneDisplay,
   lineUrl: lineHttpUrl(HOSPITAL_PROFILE.chatPhoneDisplay),
-  telegramUrl: telegramHttpUrl("", HOSPITAL_PROFILE.chatPhoneDisplay),
-  viberDisplay: HOSPITAL_PROFILE.viberDisplay,
-  viberUrl: viberAppUrl(HOSPITAL_PROFILE.viberDisplay),
   apartmentUrl: "https://sddp-apartment.onrender.com",
   googleFormUrl: "https://docs.google.com/forms/d/e/1FAIpQLSfV14CMMEqKiKkALBxB0JKc740JKPiAIrY-ykNQUqTjKsJbKw/viewform?pli=1&authuser=1",
 };

@@ -15,7 +15,7 @@ import { PACKAGE_FLYERS, flyerFromPromotion } from "@/catalog/package-flyers";
 
 import type { PublicChrome } from "@/catalog/public-chrome";
 import { googleFormsUrl, httpsUrl } from "@/server/security/urls";
-import { lineHttpUrl, telegramHttpUrl, viberAppUrl } from "@/server/security/messengers";
+import { lineHttpUrl } from "@/server/security/messengers";
 
 function siteMapEn() {
   return listSiteContent().then((rows) =>
@@ -32,8 +32,6 @@ export async function loadPublicChrome(): Promise<PublicChrome> {
     copy = {};
   }
   const linePhone = copy["partner.linePhone"]?.trim() || HOSPITAL_PROFILE.chatPhoneDisplay;
-  const viberDisplay = copy["partner.viberPhone"]?.trim() || HOSPITAL_PROFILE.viberDisplay;
-  const telegramStored = copy["partner.telegramUrl"]?.trim() || HOSPITAL_PROFILE.telegramUrl;
   const apartmentUrl = httpsUrl(copy["partner.apartmentUrl"], "https://sddp-apartment.onrender.com");
   const publishedForm =
     "https://docs.google.com/forms/d/e/1FAIpQLSfV14CMMEqKiKkALBxB0JKc740JKPiAIrY-ykNQUqTjKsJbKw/viewform?pli=1&authuser=1";
@@ -51,9 +49,6 @@ export async function loadPublicChrome(): Promise<PublicChrome> {
     heroPath: hospital.heroPath || HOSPITAL_PROFILE.heroPath,
     linePhone,
     lineUrl: lineHttpUrl(linePhone),
-    telegramUrl: telegramHttpUrl(telegramStored, linePhone),
-    viberDisplay,
-    viberUrl: viberAppUrl(viberDisplay),
     apartmentUrl,
     googleFormUrl,
   };
@@ -71,7 +66,11 @@ export async function loadPublicCopy(locale: string) {
   const my = locale === "my";
   try {
     const rows = await listSiteContent();
-    return Object.fromEntries(rows.map((r) => [r.key, my ? r.valueMy : r.valueEn]));
+    return Object.fromEntries(
+      rows
+        .map((r) => [r.key, my ? r.valueMy : r.valueEn] as const)
+        .filter(([, value]) => !/\b(?:telegram|viber)\b/i.test(value)),
+    );
   } catch {
     return {} as Record<string, string>;
   }

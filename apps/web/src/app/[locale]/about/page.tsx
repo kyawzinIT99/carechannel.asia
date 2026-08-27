@@ -80,18 +80,6 @@ export default async function AboutPage({
             >
               LINE
             </Link>
-            <Link
-              href="/connect/telegram"
-              className="rounded-full border border-slate-300 bg-white/80 px-7 py-3 text-sm font-semibold text-[#1a2330] hover:bg-white"
-            >
-              Telegram
-            </Link>
-            <Link
-              href="/connect/viber"
-              className="rounded-full border border-slate-300 bg-white/80 px-7 py-3 text-sm font-semibold text-[#1a2330] hover:bg-white"
-            >
-              Viber
-            </Link>
           </div>
           <div className="mt-10 max-w-4xl">
             <HospitalFilm locale={locale} />

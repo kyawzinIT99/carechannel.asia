@@ -11,7 +11,7 @@ type ComposeInput = {
   facts: unknown;
 };
 
-const FORBIDDEN = /052-00|chiangmairam\.com|@chiangmairam|emergency 24|24.hour/i;
+const FORBIDDEN = /052-00|chiangmairam\.com|@chiangmairam|emergency 24|24.hour|telegram|viber/i;
 
 function parseCopy(raw: string): PatientReplyCopy | null {
   try {

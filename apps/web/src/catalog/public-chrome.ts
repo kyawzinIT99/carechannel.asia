@@ -8,9 +8,6 @@ export type PublicChrome = {
   heroPath: string;
   linePhone: string;
   lineUrl: string;
-  telegramUrl: string;
-  viberDisplay: string;
-  viberUrl: string;
   apartmentUrl: string;
   googleFormUrl: string;
 };

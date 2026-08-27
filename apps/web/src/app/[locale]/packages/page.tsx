@@ -221,8 +221,8 @@ export default async function PackagesPage({
           </h2>
           <p className="mt-3 text-white/70">
             {my
-              ? "ညှိနှိုင်းရေးမှူးသည် သင့်အတွက် အသင့်တော်ဆုံးကို အီးမေးလ်နှင့် Telegram ဖြင့် ညွှန်ပြပေးပါမည်"
-              : "A coordinator recommends the right one for you by email and Telegram — before you book"}
+              ? "ညှိနှိုင်းရေးမှူးသည် သင့်အတွက် အသင့်တော်ဆုံးကို အီးမေးလ်ဖြင့် ညွှန်ပြပေးပါမည်"
+              : "A coordinator recommends the right one for you by email — before you book"}
           </p>
           <Link
             href="/contact"

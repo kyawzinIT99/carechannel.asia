@@ -30,8 +30,6 @@ export function ContactChannels({
 
   const messengers = [
     { key: "line", label: "LINE", href: "/connect/line" as const },
-    { key: "telegram", label: "Telegram", href: "/connect/telegram" as const },
-    { key: "viber", label: "Viber", href: "/connect/viber" as const },
   ].map((ch) => (
     <Link key={ch.key} href={ch.href} className={linkClass}>
       {ch.label}
@@ -40,8 +38,8 @@ export function ContactChannels({
 
   const note =
     my
-      ? `တရားဝင် incentive ခရီးစဉ် — ဤဝက်ဘ်ဆိုက်၊ LINE (${chrome.linePhone})၊ Telegram သို့မဟုတ် Viber (${chrome.viberDisplay}) မှသာ ဆက်သွယ်ပါ။`
-      : `Official incentive visit — contact us only on this website, LINE (${chrome.linePhone}), Telegram, or Viber (${chrome.viberDisplay}).`;
+      ? `တရားဝင် incentive ခရီးစဉ် — ဤဝက်ဘ်ဆိုက် သို့မဟုတ် LINE (${chrome.linePhone}) မှသာ ဆက်သွယ်ပါ။`
+      : `Official incentive visit — contact us only on this website or LINE (${chrome.linePhone}).`;
 
   if (variant === "footer") {
     return (
