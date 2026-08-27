@@ -16,7 +16,6 @@ const FIELDS = [
   { key: "partner.linePhone", label: "LINE number (public)", multiline: false, fallbackEn: "082-567-4570", fallbackMy: "082-567-4570" },
   { key: "partner.telegramUrl", label: "Telegram username link only (https://t.me/yourname). Leave blank to open Telegram chat with the LINE phone. Do not use t.me/+66… — that is an invite link and will fail.", multiline: false, fallbackEn: "", fallbackMy: "" },
   { key: "partner.viberPhone", label: "Viber number (public)", multiline: false, fallbackEn: "+95 9504 3252", fallbackMy: "+95 9504 3252" },
-  { key: "partner.googleFormUrl", label: "Google Form URL (not shown on the public site; kept for n8n ingest if used)", multiline: false, fallbackEn: "https://docs.google.com/forms/d/e/1FAIpQLSfV14CMMEqKiKkALBxB0JKc740JKPiAIrY-ykNQUqTjKsJbKw/viewform", fallbackMy: "https://docs.google.com/forms/d/e/1FAIpQLSfV14CMMEqKiKkALBxB0JKc740JKPiAIrY-ykNQUqTjKsJbKw/viewform" },
   { key: "visit.pickupTitle", label: "Airport pickup title", multiline: false, fallbackEn: VISIT_ASSIST[0].titleEn, fallbackMy: VISIT_ASSIST[0].titleMy },
   { key: "visit.pickupBody", label: "Airport pickup body", multiline: true, fallbackEn: VISIT_ASSIST[0].bodyEn, fallbackMy: VISIT_ASSIST[0].bodyMy },
   { key: "visit.stayTitle", label: "Rental apartment title", multiline: false, fallbackEn: VISIT_ASSIST[1].titleEn, fallbackMy: VISIT_ASSIST[1].titleMy },

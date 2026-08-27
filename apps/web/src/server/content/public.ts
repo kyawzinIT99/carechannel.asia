@@ -14,7 +14,7 @@ import {
 import { PACKAGE_FLYERS, flyerFromPromotion } from "@/catalog/package-flyers";
 
 import type { PublicChrome } from "@/catalog/public-chrome";
-import { googleFormsUrl, httpsUrl } from "@/server/security/urls";
+import { httpsUrl } from "@/server/security/urls";
 import { lineHttpUrl, telegramHttpUrl, viberAppUrl } from "@/server/security/messengers";
 
 function siteMapEn() {
@@ -35,15 +35,6 @@ export async function loadPublicChrome(): Promise<PublicChrome> {
   const viberDisplay = copy["partner.viberPhone"]?.trim() || HOSPITAL_PROFILE.viberDisplay;
   const telegramStored = copy["partner.telegramUrl"]?.trim() || HOSPITAL_PROFILE.telegramUrl;
   const apartmentUrl = httpsUrl(copy["partner.apartmentUrl"], "https://sddp-apartment.onrender.com");
-  const publishedForm =
-    "https://docs.google.com/forms/d/e/1FAIpQLSfV14CMMEqKiKkALBxB0JKc740JKPiAIrY-ykNQUqTjKsJbKw/viewform";
-  const storedForm = googleFormsUrl(copy["partner.googleFormUrl"]) || googleFormsUrl(process.env.GOOGLE_FORM_URL);
-  const googleFormUrl =
-    !storedForm ||
-    storedForm.includes("ram-hospital-visit") ||
-    (storedForm.includes("1nLGeHgj") && !storedForm.includes("/e/"))
-      ? publishedForm
-      : storedForm;
   return {
     nameEn: hospital.nameEn,
     nameMy: hospital.nameMy,
@@ -58,7 +49,6 @@ export async function loadPublicChrome(): Promise<PublicChrome> {
     viberDisplay,
     viberUrl: viberAppUrl(viberDisplay),
     apartmentUrl,
-    googleFormUrl,
   };
 }
 
