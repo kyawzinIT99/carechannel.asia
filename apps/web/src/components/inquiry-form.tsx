@@ -6,14 +6,11 @@ import { COUNTRIES } from "@/catalog/countries";
 import {
   CHECKUP_PACKAGES_2026,
   INTERPRETER_LANGUAGES,
-  PKG_GROUPS_STANDARD,
-  PKG_GROUPS_ADVANCE_SHARED,
-  PKG_GROUPS_ADVANCE_MALE,
-  PKG_GROUPS_ADVANCE_FEMALE,
   PKG_INCLUDED_ALL,
   PKG_PREMIUM_NOTE,
   SPECIALTIES,
   flattenSpecialties,
+  packageGroupsForCode,
   type PkgGroup,
 } from "@/catalog/hospital-source";
 
@@ -26,37 +23,13 @@ type PackageDetail = {
 
 /** Returns categorised groups per package code. isNew=true marks groups added vs STANDARD. */
 function buildPackageDetail(code: string, my: boolean): PackageDetail {
-  const label = (g: PkgGroup) => ({ group: g, isNew: false });
-  const added = (g: PkgGroup) => ({ group: g, isNew: true });
+  const groups = packageGroupsForCode(code);
   const included = PKG_INCLUDED_ALL.map((i) => (my ? i.my : i.en));
-
-  if (code === "STANDARD_ANY") {
-    const groups = PKG_GROUPS_STANDARD.map(label);
-    return {
-      groups,
-      includedItems: included,
-      premiumNote: null,
-      totalTests: PKG_GROUPS_STANDARD.reduce((n, g) => n + g.items.length, 0),
-    };
-  }
-
-  const isMale = code === "ADVANCE_MALE" || code === "PREMIUM_MALE";
-  const isPremium = code.startsWith("PREMIUM");
-  const genderGroups = isMale ? PKG_GROUPS_ADVANCE_MALE : PKG_GROUPS_ADVANCE_FEMALE;
-
-  const groups = [
-    ...PKG_GROUPS_STANDARD.map(label),
-    ...PKG_GROUPS_ADVANCE_SHARED.map(added),
-    ...genderGroups.map(added),
-  ];
-
-  const totalTests = groups.reduce((n, g) => n + g.group.items.length, 0);
-
   return {
     groups,
     includedItems: included,
-    premiumNote: isPremium ? (my ? PKG_PREMIUM_NOTE.my : PKG_PREMIUM_NOTE.en) : null,
-    totalTests,
+    premiumNote: code.startsWith("PREMIUM") ? (my ? PKG_PREMIUM_NOTE.my : PKG_PREMIUM_NOTE.en) : null,
+    totalTests: groups.reduce((n, g) => n + g.group.items.length, 0),
   };
 }
 

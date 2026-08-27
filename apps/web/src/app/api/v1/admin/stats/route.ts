@@ -9,7 +9,9 @@ export async function GET() {
     prisma.inquiry.count(),
     prisma.inquiry.count({ where: { status: "NEW" } }),
     prisma.appointment.count({ where: { status: "CONFIRMED" } }),
-    prisma.promotion.count({ where: { published: true } }),
+    prisma.promotion.count({ where: { published: true, kind: { not: "flyer" } } }).catch(() =>
+      prisma.promotion.count({ where: { published: true } }),
+    ),
   ]);
   return NextResponse.json({ totalInquiries, newInquiries, confirmedAppts, promotions });
 }

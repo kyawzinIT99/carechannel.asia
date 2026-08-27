@@ -23,6 +23,9 @@ export default async function EditPromotionPage({
           titleMy: promo.titleMy,
           bodyEn: promo.bodyEn,
           bodyMy: promo.bodyMy,
+          imagePath: promo.imagePath ?? "",
+          kind: promo.kind,
+          flyerGroup: promo.flyerGroup ?? "",
           sortOrder: promo.sortOrder,
           published: promo.published,
         }}

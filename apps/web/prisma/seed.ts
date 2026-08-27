@@ -10,6 +10,7 @@ import {
   type SpecialtySeed,
 } from "../src/catalog/hospital-source";
 import { ABOUT_FIELDS } from "../src/catalog/about-copy";
+import { PACKAGE_FLYERS, flyerRecordCode } from "../src/catalog/package-flyers";
 
 const prisma = new PrismaClient();
 
@@ -310,7 +311,29 @@ async function main() {
           "STANDARD၊ ADVANCE နှင့် PREMIUM သည် ဆေးရုံ ၂၀၂၆ ဇယားအတိုင်းဖြစ်သည်။ ညှိနှိုင်းရေးမှူးက တရားဝင် incentive ပမာဏကို ဤဝက်ဘ်ဆိုက်၊ LINE၊ Telegram သို့မဟုတ် Viber မှ အတည်ပြုသည်။ လေဆိပ်ကားနှင့် အငှားတိုက်ခန်းသည် လိုမှသာ အကူအညီဖြစ်ပြီး ဟိုတယ် သို့မဟုတ် စစ်ဆေးပက်ကေ့ချ် မဟုတ်ပါ။",
         published: true,
         sortOrder: 10,
+        kind: "announcement",
       },
+    });
+  }
+
+  for (const [i, flyer] of PACKAGE_FLYERS.entries()) {
+    const code = flyerRecordCode(flyer.id);
+    const data = {
+      code,
+      kind: "flyer",
+      flyerGroup: flyer.group,
+      titleEn: flyer.titleEn,
+      titleMy: flyer.titleMy,
+      bodyEn: flyer.summaryEn,
+      bodyMy: flyer.summaryMy,
+      imagePath: flyer.src,
+      sortOrder: (i + 1) * 10,
+      published: true,
+    };
+    await prisma.promotion.upsert({
+      where: { code },
+      update: data,
+      create: data,
     });
   }
 

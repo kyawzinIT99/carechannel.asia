@@ -1,11 +1,14 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, Promotion } from "@prisma/client";
 import { prisma } from "@/server/db/prisma";
 import { Link } from "@/i18n/routing";
+import Image from "next/image";
 import { PackageToggle } from "@/components/admin/package-toggle";
 import { PackageHighlightEditor } from "@/components/admin/package-highlight-editor";
 import { AddPackageForm } from "@/components/admin/add-package-form";
 import { CatalogNotesForm } from "@/components/admin/catalog-notes-form";
 import { RestoreCatalogButton } from "@/components/admin/restore-catalog-button";
+import { RestoreFlyersButton } from "@/components/admin/restore-flyers-button";
+import { PromotionActions } from "@/components/admin/promotion-actions";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
 
 export const dynamic = "force-dynamic";
@@ -16,6 +19,7 @@ type CatalogRow = Prisma.PackageCatalogGetPayload<{
 
 export default async function AdminPackagesPage() {
   let catalogs: CatalogRow[] = [];
+  let flyers: Promotion[] = [];
   try {
     catalogs = await prisma.packageCatalog.findMany({
       include: { packages: { orderBy: { salePrice: "asc" } } },
@@ -28,12 +32,20 @@ export default async function AdminPackagesPage() {
       </div>
     );
   }
+  try {
+    flyers = await prisma.promotion.findMany({
+      where: { kind: "flyer" },
+      orderBy: { sortOrder: "asc" },
+    });
+  } catch {
+    flyers = [];
+  }
 
   return (
     <div className="space-y-6">
       <AdminPageHeader
         title="Packages"
-        hint="Visible packages appear on the public packages page, the homepage price row, and the visit form. Hide a package only if visitors should not see it."
+        hint="Visible packages appear on the public packages page, the homepage, and the visit form. Hospital flyers are published from this page or Announcements. Hide a package or flyer only if visitors should not see it."
         liveHref="/packages"
         actions={
           <>
@@ -129,6 +141,53 @@ export default async function AdminPackagesPage() {
           </div>
         ))
       )}
+
+      <section className="overflow-hidden rounded-2xl bg-white ring-1 ring-black/5">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 bg-[#1a2330] px-5 py-4">
+          <div>
+            <p className="font-semibold text-white">Hospital package flyers</p>
+            <p className="text-xs text-white/50">
+              These sheets appear on the public homepage and packages page. Publish or hide each one here.
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="rounded-full bg-[#c4a35a] px-3 py-1 text-xs font-semibold text-[#1a2330]">
+              {flyers.filter((p) => p.published).length}/{flyers.length} live
+            </span>
+            <RestoreFlyersButton />
+          </div>
+        </div>
+        {flyers.length === 0 ? (
+          <div className="p-6">
+            <p className="text-slate-600">No flyers in the database yet. Publish the hospital sheets, or restore 2026 packages & flyers.</p>
+          </div>
+        ) : (
+          <div className="grid gap-3 p-4 sm:grid-cols-2 lg:grid-cols-3">
+            {flyers.map((promo) => (
+              <article key={promo.id} className={`overflow-hidden rounded-xl ring-1 ring-slate-100 ${promo.published ? "" : "opacity-60"}`}>
+                {promo.imagePath ? (
+                  <div className="relative aspect-[3/4] bg-[#f4f1ea]">
+                    <Image src={promo.imagePath} alt="" fill className="object-contain" sizes="30vw" />
+                  </div>
+                ) : null}
+                <div className="p-3">
+                  <p className="text-sm font-semibold text-[#1a2330]">{promo.titleEn}</p>
+                  <p className="text-xs text-slate-500">{promo.flyerGroup} · sort {promo.sortOrder}</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <Link
+                      href={`/admin/promotions/${promo.id}/edit`}
+                      className="rounded-full border border-[#1a2330]/15 px-3 py-1.5 text-xs font-semibold text-[#1a2330] hover:bg-[#f7f4ee]"
+                    >
+                      Edit
+                    </Link>
+                    <PromotionActions id={promo.id} published={promo.published} />
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+      </section>
     </div>
   );
 }

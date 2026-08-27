@@ -9,6 +9,9 @@ type Initial = {
   titleMy: string;
   bodyEn: string;
   bodyMy: string;
+  imagePath?: string;
+  kind?: string;
+  flyerGroup?: string;
   sortOrder: number;
   published: boolean;
 };
@@ -17,6 +20,7 @@ export function PromotionForm({ initial }: { initial?: Initial }) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
+  const [kind, setKind] = useState(initial?.kind === "flyer" ? "flyer" : "announcement");
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -28,6 +32,9 @@ export function PromotionForm({ initial }: { initial?: Initial }) {
       titleMy: String(fd.get("titleMy") ?? ""),
       bodyEn: String(fd.get("bodyEn") ?? ""),
       bodyMy: String(fd.get("bodyMy") ?? ""),
+      imagePath: String(fd.get("imagePath") ?? "").trim(),
+      kind: String(fd.get("kind") ?? "announcement"),
+      flyerGroup: String(fd.get("flyerGroup") ?? "").trim(),
       sortOrder: Number(fd.get("sortOrder") ?? 100),
       published: fd.get("published") === "on",
     };
@@ -71,6 +78,41 @@ export function PromotionForm({ initial }: { initial?: Initial }) {
         Body (Myanmar)
         <textarea required name="bodyMy" rows={5} defaultValue={initial?.bodyMy ?? ""} className={field} />
       </label>
+      <label className="block text-sm font-medium">
+        Image path
+        <input
+          name="imagePath"
+          defaultValue={initial?.imagePath ?? ""}
+          placeholder="/photos/packages/thyroid.jpg"
+          className={field}
+        />
+        <span className="mt-1 block text-xs text-slate-500">
+          Hospital flyer files live under /photos/packages/ and /photos/profile/. Package sheets need this path to show on the homepage.
+        </span>
+      </label>
+      <div className="grid gap-5 md:grid-cols-2">
+        <label className="block text-sm font-medium">
+          Type
+          <select
+            name="kind"
+            value={kind}
+            onChange={(e) => setKind(e.target.value)}
+            className={field}
+          >
+            <option value="announcement">Announcement</option>
+            <option value="flyer">Package flyer (homepage sheet)</option>
+          </select>
+        </label>
+        <label className="block text-sm font-medium">
+          Flyer group
+          <select name="flyerGroup" defaultValue={initial?.flyerGroup ?? ""} className={field} disabled={kind !== "flyer"}>
+            <option value="">—</option>
+            <option value="checkup">2026 check-up</option>
+            <option value="specialty">Other packages</option>
+            <option value="hospital">Hospital & offices</option>
+          </select>
+        </label>
+      </div>
       <div className="flex items-center gap-6">
         <label className="block text-sm font-medium">
           Sort order
@@ -88,7 +130,7 @@ export function PromotionForm({ initial }: { initial?: Initial }) {
           disabled={busy}
           className="rounded-full bg-[#0b4f9c] px-5 py-2 text-sm font-semibold text-white disabled:opacity-50"
         >
-          {busy ? "Saving…" : "Save promotion"}
+          {busy ? "Saving…" : "Save"}
         </button>
         <button
           type="button"

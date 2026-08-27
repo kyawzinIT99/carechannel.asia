@@ -4,6 +4,7 @@ import { prisma } from "@/server/db/prisma";
 import { hasRole, readSession } from "@/server/auth/session";
 import { CHECKUP_PACKAGES_2026, PACKAGE_NOTES, packageFeatureLines } from "@/catalog/hospital-source";
 import { revalidatePublicSite } from "@/server/content/revalidate-public";
+import { upsertHospitalFlyers } from "@/server/content/hospital-flyers";
 
 const ADMIN: Role[] = ["SUPER_ADMIN", "HOSPITAL_ADMIN"];
 
@@ -51,6 +52,13 @@ export async function POST() {
     });
   }
 
+  let flyerCount = 0;
+  try {
+    flyerCount = await upsertHospitalFlyers();
+  } catch {
+    flyerCount = 0;
+  }
+
   revalidatePublicSite();
-  return NextResponse.json({ ok: true, count: CHECKUP_PACKAGES_2026.length });
+  return NextResponse.json({ ok: true, count: CHECKUP_PACKAGES_2026.length, flyerCount });
 }

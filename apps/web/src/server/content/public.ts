@@ -11,6 +11,7 @@ import {
   flattenSpecialties,
   packageFeatureLines,
 } from "@/catalog/hospital-source";
+import { PACKAGE_FLYERS, flyerFromPromotion } from "@/catalog/package-flyers";
 
 import type { PublicChrome } from "@/catalog/public-chrome";
 import { googleFormsUrl, httpsUrl } from "@/server/security/urls";
@@ -82,12 +83,33 @@ export async function loadPublicCopy(locale: string) {
 export async function loadPublicPromotions() {
   try {
     return await prisma.promotion.findMany({
-      where: { published: true },
+      where: { published: true, kind: { not: "flyer" } },
       orderBy: { sortOrder: "asc" },
     });
   } catch {
-    return [];
+    try {
+      return await prisma.promotion.findMany({
+        where: { published: true },
+        orderBy: { sortOrder: "asc" },
+      });
+    } catch {
+      return [];
+    }
   }
+}
+
+export async function loadPublicFlyers() {
+  try {
+    const rows = await prisma.promotion.findMany({
+      where: { published: true, kind: "flyer" },
+      orderBy: { sortOrder: "asc" },
+    });
+    const flyers = rows.map(flyerFromPromotion).filter((row): row is NonNullable<typeof row> => Boolean(row));
+    if (flyers.length) return flyers;
+  } catch {
+    /* unmigrated or empty */
+  }
+  return PACKAGE_FLYERS;
 }
 
 function publicPackageFromDb(p: {
@@ -123,7 +145,7 @@ export async function loadPublicPackages() {
   const catalog = CHECKUP_PACKAGES_2026.map((p) => ({
     id: p.code,
     ...p,
-    highlight: null as string | null,
+    highlight: p.highlight ?? null,
     ...packageFeatureLines(p.code),
   }));
   try {
@@ -138,13 +160,30 @@ export async function loadPublicPackages() {
         continue;
       }
       if (!db.published) continue;
-      merged.push(publicPackageFromDb(db));
+      merged.push({
+        ...publicPackageFromDb(db),
+        nameEn: item.nameEn,
+        nameMy: item.nameMy,
+        listPrice: item.listPrice,
+        salePrice: item.salePrice,
+        highlight: item.highlight,
+        featuresEn: item.featuresEn,
+        featuresMy: item.featuresMy,
+      });
     }
     for (const db of rows) {
       if (catalogCodes.has(db.code) || !db.published) continue;
       merged.push(publicPackageFromDb(db));
     }
-    merged.sort((a, b) => Number(a.salePrice) - Number(b.salePrice));
+    const catalogOrder = CHECKUP_PACKAGES_2026.map((p) => p.code);
+    merged.sort((a, b) => {
+      const ai = catalogOrder.indexOf(a.code);
+      const bi = catalogOrder.indexOf(b.code);
+      if (ai === -1 && bi === -1) return Number(a.salePrice) - Number(b.salePrice);
+      if (ai === -1) return 1;
+      if (bi === -1) return -1;
+      return ai - bi;
+    });
     return merged.length ? merged : catalog;
   } catch {
     return catalog;

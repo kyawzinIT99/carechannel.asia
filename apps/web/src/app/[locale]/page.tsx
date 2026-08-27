@@ -1,12 +1,13 @@
 import { setRequestLocale } from "next-intl/server";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
-import { loadPublicChrome, loadPublicCopy, loadPublicPackages, loadPublicPromotions, loadPublicSpecialties } from "@/server/content/public";
+import { loadPublicChrome, loadPublicCopy, loadPublicFlyers, loadPublicPackages, loadPublicPromotions, loadPublicSpecialties } from "@/server/content/public";
 import { VisitAssistSection } from "@/components/visit-assist-section";
 import { ContactChannels } from "@/components/contact-channels";
 import { ShwedagonMark } from "@/components/shwedagon-mark";
 import { HospitalFilm } from "@/components/hospital-film";
 import { GoldTicker } from "@/components/gold-ticker";
+import { PackageFlyersGallery } from "@/components/package-flyers-gallery";
 
 export const dynamic = "force-dynamic";
 
@@ -19,12 +20,13 @@ export default async function HomePage({
   setRequestLocale(locale);
   const my = locale === "my";
 
-  const [copy, promotions, featuredCentres, chrome, packages] = await Promise.all([
+  const [copy, promotions, featuredCentres, chrome, packages, flyers] = await Promise.all([
     loadPublicCopy(locale),
     loadPublicPromotions(),
     loadPublicSpecialties(),
     loadPublicChrome(),
     loadPublicPackages(),
+    loadPublicFlyers(),
   ]);
   const pick = (key: string, fallbackEn: string, fallbackMy: string) =>
     copy[key] || (locale === "my" ? fallbackMy : fallbackEn);
@@ -133,41 +135,56 @@ export default async function HomePage({
         </div>
       </section>
 
-      {packages.length > 0 ? (
-        <section className="border-b border-[#e4ebe4] bg-white py-12">
-          <div className="mx-auto max-w-6xl px-6">
-            <div className="flex flex-wrap items-end justify-between gap-3">
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#c4a35a]">
-                  {my ? "၂၀၂၆ ပက်ကေ့ချ်" : "2026 check-up"}
-                </p>
-                <h2 className="mt-1 text-2xl font-semibold text-[#1a2330]">
-                  {my ? "ဆေးရုံထုတ်ပြန် စျေးနှုန်း" : "Hospital-published prices"}
-                </h2>
-              </div>
-              <Link href="/packages" className="text-sm font-semibold text-[#1a2330] hover:underline">
-                {my ? "အသေးစိတ် →" : "All packages →"}
-              </Link>
+      <section className="border-b border-[#e4ebe4] bg-white py-12 md:py-16">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#c4a35a]">
+                {my ? "၂၀၂၆ ပက်ကေ့ချ်" : "2026 packages"}
+              </p>
+              <h2 className="mt-1 text-2xl font-semibold text-[#1a2330] md:text-3xl">
+                {my ? "ဆေးရုံထုတ်ပြန် ဇယားများကို အပြည့်အစုံ ဖတ်ပါ" : "Read every hospital package sheet"}
+              </h2>
+              <p className="mt-2 max-w-2xl text-[15px] leading-7 text-slate-600">
+                {my
+                  ? "စစ်ဆေးမှု၊ စျေးနှုန်းနှင့် စည်းကမ်းများကို ပုံတွင် ရှင်းလင်းစွာ ကြည့်နိုင်သည်။ ပုံကို နှိပ်၍ ကြီးကြည့်ပါ။"
+                  : "Tests, prices, and conditions are on the hospital flyers. Tap any sheet to enlarge it."}
+              </p>
             </div>
-            <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+            <Link href="/packages" className="text-sm font-semibold text-[#1a2330] hover:underline">
+              {my ? "ပက်ကေ့ချ် စာမျက်နှာ →" : "All packages →"}
+            </Link>
+          </div>
+
+          <PackageFlyersGallery locale={locale} groups={["checkup", "specialty"]} flyers={flyers} heading />
+
+          {packages.length > 0 ? (
+            <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {packages.map((pkg) => (
                 <Link
                   key={pkg.code}
                   href={`/contact?package=${pkg.code}`}
                   className="rounded-2xl bg-[#f7f4ee] p-4 ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-md"
                 >
-                  <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">{pkg.code.replaceAll("_", " ")}</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">
+                    {pkg.highlight || pkg.code.replaceAll("_", " ")}
+                  </p>
                   <p className="mt-1 text-sm font-semibold leading-5 text-[#1a2330]">{my ? pkg.nameMy : pkg.nameEn}</p>
                   <p className="mt-3 text-xl font-semibold text-[#1a2330]">
                     {Number(pkg.salePrice).toLocaleString()}
                     <span className="ml-1 text-xs font-medium text-slate-500">THB</span>
+                    {Number(pkg.listPrice) > Number(pkg.salePrice) ? (
+                      <span className="ml-2 text-sm font-medium text-slate-400 line-through">
+                        {Number(pkg.listPrice).toLocaleString()}
+                      </span>
+                    ) : null}
                   </p>
                 </Link>
               ))}
             </div>
-          </div>
-        </section>
-      ) : null}
+          ) : null}
+        </div>
+      </section>
 
       {promotions.length > 0 && (
         <section className="bg-[#f7f4ee] py-16 md:py-20">
@@ -262,6 +279,10 @@ export default async function HomePage({
               )}
             </Link>
           ))}
+        </div>
+
+        <div className="mt-12">
+          <PackageFlyersGallery locale={locale} groups={["hospital"]} flyers={flyers} heading />
         </div>
       </section>
 

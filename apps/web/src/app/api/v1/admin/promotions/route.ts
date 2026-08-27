@@ -7,12 +7,18 @@ import { revalidatePublicSite } from "@/server/content/revalidate-public";
 const ADMIN: Role[] = ["SUPER_ADMIN", "HOSPITAL_ADMIN"];
 
 function promoData(body: Record<string, unknown>) {
+  const kind = String(body.kind ?? "announcement").trim() === "flyer" ? "flyer" : "announcement";
+  const flyerGroup = String(body.flyerGroup ?? "").trim();
   return {
     titleEn: String(body.titleEn ?? "").trim(),
     titleMy: String(body.titleMy ?? "").trim(),
     bodyEn: String(body.bodyEn ?? "").trim(),
     bodyMy: String(body.bodyMy ?? "").trim(),
-    imagePath: body.imagePath ? String(body.imagePath) : null,
+    imagePath: body.imagePath ? String(body.imagePath).trim() || null : null,
+    kind,
+    flyerGroup: kind === "flyer" && (flyerGroup === "checkup" || flyerGroup === "specialty" || flyerGroup === "hospital")
+      ? flyerGroup
+      : null,
     sortOrder: Number(body.sortOrder ?? 100),
     published: Boolean(body.published),
   };

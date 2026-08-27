@@ -13,7 +13,15 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
   const body = await request.json();
   const data: Record<string, unknown> = {};
   for (const key of ["titleEn", "titleMy", "bodyEn", "bodyMy", "imagePath"] as const) {
-    if (typeof body[key] === "string") data[key] = body[key];
+    if (typeof body[key] === "string") data[key] = body[key].trim() || null;
+  }
+  if (typeof body.kind === "string") {
+    data.kind = body.kind === "flyer" ? "flyer" : "announcement";
+    if (data.kind !== "flyer") data.flyerGroup = null;
+  }
+  if (typeof body.flyerGroup === "string") {
+    const group = body.flyerGroup.trim();
+    data.flyerGroup = group === "checkup" || group === "specialty" || group === "hospital" ? group : null;
   }
   if (typeof body.published === "boolean") data.published = body.published;
   if (body.sortOrder !== undefined) data.sortOrder = Number(body.sortOrder);

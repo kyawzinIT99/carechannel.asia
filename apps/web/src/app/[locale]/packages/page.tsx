@@ -1,8 +1,9 @@
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/routing";
 import { PageContainer } from "@/components/page-container";
-import { loadPublicPackages, loadPublicPromotions } from "@/server/content/public";
+import { loadPublicFlyers, loadPublicPackages, loadPublicPromotions } from "@/server/content/public";
 import { VisitAssistSection } from "@/components/visit-assist-section";
+import { PackageFlyersGallery } from "@/components/package-flyers-gallery";
 
 export const dynamic = "force-dynamic";
 
@@ -71,9 +72,10 @@ export default async function PackagesPage({
   setRequestLocale(locale);
   const my = locale === "my";
 
-  const [promotions, packages] = await Promise.all([
+  const [promotions, packages, flyers] = await Promise.all([
     loadPublicPromotions(),
     loadPublicPackages(),
+    loadPublicFlyers(),
   ]);
 
   const groups = (["STANDARD", "ADVANCE", "PREMIUM", "MORE"] as const)
@@ -96,13 +98,16 @@ export default async function PackagesPage({
           </h1>
           <p className="mt-4 max-w-2xl text-[15px] leading-7 text-slate-600">
             {my
-              ? "ပက်ကေ့ချ်နှင့် စျေးနှုန်းကို အက်ဒမင်က ထိန်းချုပ်သည်။ ညှိနှိုင်းရေးမှူးက အီးမေးလ်နှင့် Telegram ဖြင့် ရှင်းပြမည်။"
-              : "Prices are managed in the admin panel. A coordinator walks you through the right package by email and Telegram."}
+              ? "ဆေးရုံထုတ်ပြန် ဇယားများကို အောက်တွင် အပြည့်အစုံ ဖတ်ပါ။ ပုံကို နှိပ်၍ ကြီးကြည့်နိုင်သည်။ စျေးနှုန်းကတ်မှ တောင်းဆိုနိုင်သည်။"
+              : "Read the hospital-published sheets in full below. Tap any flyer to enlarge it. Request a visit from a price card."}
           </p>
         </div>
       </section>
 
       <PageContainer>
+        <div className="mb-10">
+          <PackageFlyersGallery locale={locale} groups={["checkup", "specialty"]} flyers={flyers} heading />
+        </div>
         {promotions.map((promo) => (
           <div key={promo.id} className="mb-8 overflow-hidden rounded-[1.75rem] bg-white ring-1 ring-slate-200/90">
             <div className="h-1.5 w-full bg-[#d4af37]" />

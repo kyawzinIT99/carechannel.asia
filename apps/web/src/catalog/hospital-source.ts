@@ -104,12 +104,8 @@ export const PACKAGE_NOTES = {
 };
 
 /**
- * Full checkup item lists sourced from:
- * - chiangmairam.com/readpackage/221
- * - southeastlife.co.th/promotion/detail/chiangmai-ram (partner listing of Chiangmai Ram items)
- * Items grouped by body system so the public UI can show categorised medical information.
- * PREMIUM extra items beyond ADVANCE are NOT published in text on the website (image only);
- * do not invent them — coordinator provides the full PREMIUM list.
+ * Full checkup item lists sourced from the hospital 2026 comparison flyer
+ * (LINE album 27 Aug 2026). Do not add tests that are not on that sheet.
  */
 
 export type PkgGroup = {
@@ -160,7 +156,6 @@ export const PKG_GROUPS_STANDARD: PkgGroup[] = [
     items: [
       { en: "Complete Blood Count (CBC)", my: "သွေးပြည့်စစ်ဆေးမှု (CBC)", noteEn: "Red cells, white cells, platelets", noteMy: "နီဥ၊ ဖြူဥ၊ သွေးခဲဆဲလ်" },
       { en: "Urinalysis (Urine exam)", my: "ဆီးစစ်ဆေးမှု", noteEn: "Kidney, bladder, diabetes markers", noteMy: "ကျောက်ကပ်၊ ဆီးအိမ်၊ ဆီးချို" },
-      { en: "H. pylori screening (blood)", my: "H. pylori စစ်ဆေးမှု (သွေး)", noteEn: "Stomach bacteria linked to ulcers", noteMy: "အစာအိမ်ပိုး (ကြွတ်ဆာချ်ပြုနိုင်)" },
     ],
   },
   {
@@ -175,37 +170,34 @@ export const PKG_GROUPS_STANDARD: PkgGroup[] = [
   },
 ];
 
+/** STANDARD Female Plus (under 39) — on top of STANDARD */
+export const PKG_GROUPS_STANDARD_FEMALE_PLUS: PkgGroup[] = [
+  {
+    key: "female_plus",
+    icon: "👩",
+    labelEn: "Female Plus Screening",
+    labelMy: "Female Plus စစ်ဆေးမှု",
+    items: [
+      { en: "HR HPV DNA Test + Liquid Based Cytology", my: "HR HPV DNA + Liquid Based Cytology", noteEn: "Cervical cancer screening", noteMy: "သားအိမ်ခေါင်းကင်ဆာ စစ်ဆေး" },
+      { en: "Ultrasound — breast", my: "အာလ်ထရာဆောင်း — ရင်သား", noteEn: "Breast ultrasound", noteMy: "ရင်သား အာလ်ထရာဆောင်း" },
+    ],
+  },
+];
+
 /** Groups added in ADVANCE tier (both male and female), on top of STANDARD */
 export const PKG_GROUPS_ADVANCE_SHARED: PkgGroup[] = [
   {
-    key: "cancer_shared",
-    icon: "🎯",
-    labelEn: "Cancer Marker Screening",
-    labelMy: "ကင်ဆာ မားကာ စစ်ဆေးမှု",
+    key: "advance_exam",
+    icon: "👁",
+    labelEn: "Advance Screening",
+    labelMy: "ADVANCE စစ်ဆေးမှု",
     items: [
-      { en: "Stool exam + faecal occult blood test", my: "မွေးခြံစစ်ဆေးမှု + သွေးခိုပါဝင်မှု", noteEn: "Colorectal cancer / bowel bleeding", noteMy: "အူမကြီးကင်ဆာ / အူမြင်းသွေးထွက်" },
-      { en: "AFP — liver cancer marker", my: "AFP — အသဲကင်ဆာ မားကာ", noteEn: "Elevated AFP may indicate liver cancer", noteMy: "AFP မြင့်ပါက အသဲကင်ဆာ ဖြစ်နိုင်" },
-      { en: "CEA — colorectal cancer marker", my: "CEA — အူမကြီးကင်ဆာ မားကာ", noteEn: "Bowel and other cancer screening", noteMy: "အူမကြီးနှင့် အခြားကင်ဆာ" },
-      { en: "CA 19-9 — pancreatic cancer marker", my: "CA 19-9 — ပန်ကရိယာကင်ဆာ မားကာ", noteEn: "Pancreas and bile duct cancers", noteMy: "ပန်ကရိယာနှင့် ဝမ်းချိုမြင်းကင်ဆာ" },
-    ],
-  },
-  {
-    key: "hepatitis",
-    icon: "🦠",
-    labelEn: "Hepatitis Virus Screening",
-    labelMy: "အသဲရောင် ဗိုင်းရပ်စ် စစ်ဆေးမှု",
-    items: [
-      { en: "Anti HCV — Hepatitis C antibody", my: "Anti HCV — အသဲရောင် C ဆန့်ကျင်ဓာတ်", noteEn: "Hepatitis C infection status", noteMy: "အသဲရောင် C ကူးစက်မှု" },
-      { en: "HBsAg — Hepatitis B surface antigen", my: "HBsAg — အသဲရောင် B မျက်နှာပြင်", noteEn: "Hepatitis B infection status", noteMy: "အသဲရောင် B ကူးစက်မှု" },
-    ],
-  },
-  {
-    key: "vascular_imaging",
-    icon: "🔊",
-    labelEn: "Vascular & Advanced Imaging",
-    labelMy: "သွေးကြောနှင့် အဆင့်မြင့် ဓာတ်မှန်",
-    items: [
-      { en: "ABI — ankle-brachial index (vascular blood flow)", my: "ABI — သွေးကြောစီးဆင်းမှု", noteEn: "Peripheral artery disease / circulation", noteMy: "ပြင်ပသွေးကြောရောဂါ / သွေးစီးဆင်းမှု" },
+      { en: "Eye exam with fundus", my: "မျက်စိနှင့် fundus စစ်ဆေးမှု", noteEn: "Retina / fundus examination", noteMy: "မြင်လွှာ / fundus စစ်ဆေး" },
+      { en: "HbA1c", my: "HbA-1C", noteEn: "Average blood sugar", noteMy: "ပျမ်းမျှ သွေးတွင်းသကြား" },
+      { en: "Gastrointestinal bleeding & inflammation screening", my: "အစာလမ်းကြောင်း သွေးထွက်နှင့် ရောင်ရမ်းမှု စစ်ဆေး", noteEn: "GI bleeding / inflammation", noteMy: "အစာလမ်းကြောင်း သွေးထွက် / ရောင်ရမ်း" },
+      { en: "Stool exam including occult blood", my: "မစင်စစ်ဆေးမှု + သွေးခိုပါဝင်မှု", noteEn: "Colorectal screening", noteMy: "အူမကြီးကင်ဆာ စစ်ဆေး" },
+      { en: "AFP — liver cancer marker", my: "AFP — အသဲကင်ဆာ မားကာ", noteEn: "Liver cancer marker", noteMy: "အသဲကင်ဆာ မားကာ" },
+      { en: "ABI — ankle-brachial index", my: "ABI — သွေးကြောစီးဆင်းမှု", noteEn: "Vascular blood flow", noteMy: "သွေးကြော စီးဆင်းမှု" },
       { en: "Ultrasound — whole abdomen", my: "အာလ်ထရာဆောင်း — ဗိုက်တစ်ခုလုံး", noteEn: "Liver, gallbladder, kidneys, spleen, pancreas", noteMy: "အသဲ၊ သည်းခြေ၊ ကျောက်ကပ်၊ ဗိုက်ကျင်" },
     ],
   },
@@ -219,12 +211,12 @@ export const PKG_GROUPS_ADVANCE_MALE: PkgGroup[] = [
     labelEn: "Men's Health Screening",
     labelMy: "ကျားသားကျန်းမာရေး စစ်ဆေးမှု",
     items: [
-      { en: "PSA — prostate-specific antigen", my: "PSA — ပရိုစတိတ်အထူးသတ် ပရိုတင်း", noteEn: "Prostate cancer marker", noteMy: "ပရိုစတိတ်ကင်ဆာ မားကာ" },
+      { en: "Anti HCV — Hepatitis C antibody", my: "Anti HCV — အသဲရောင် C ဆန့်ကျင်ဓာတ်", noteEn: "Hepatitis C infection status", noteMy: "အသဲရောင် C ကူးစက်မှု" },
     ],
   },
 ];
 
-/** ADVANCE Female only */
+/** ADVANCE Female and PREMIUM Female */
 export const PKG_GROUPS_ADVANCE_FEMALE: PkgGroup[] = [
   {
     key: "womens_health",
@@ -232,25 +224,63 @@ export const PKG_GROUPS_ADVANCE_FEMALE: PkgGroup[] = [
     labelEn: "Women's Health Screening",
     labelMy: "မိန်းမကျန်းမာရေး စစ်ဆေးမှု",
     items: [
-      { en: "CA 125 — ovarian cancer marker", my: "CA 125 — သားအိမ်ကင်ဆာ မားကာ", noteEn: "Ovarian cancer screening", noteMy: "သားအိမ်ကင်ဆာ စစ်ဆေး" },
-      { en: "CA 15-3 — breast cancer marker", my: "CA 15-3 — နို့သားကင်ဆာ မားကာ", noteEn: "Breast cancer screening", noteMy: "နို့သားကင်ဆာ စစ်ဆေး" },
-      { en: "Cervical cancer — HPV DNA Test + Liquid Based Cytology", my: "သားအိမ်ခေါင်းကင်ဆာ — HPV DNA + LBC", noteEn: "HPV virus and cervical cell abnormality", noteMy: "HPV ဗိုင်းရပ်စ်နှင့် သားအိမ်ခေါင်းဆဲလ် ပြဿနာ" },
-      { en: "Mammogram — digital breast X-ray", my: "မမ်မိုဂရမ် — ဒစ်ဂျစ်တယ် နို့သား X-ray", noteEn: "Early breast cancer detection", noteMy: "နို့သားကင်ဆာ စောစောရှာဖွေ" },
+      { en: "HR HPV DNA Test + Liquid Based Cytology", my: "HR HPV DNA + Liquid Based Cytology", noteEn: "Cervical cancer screening", noteMy: "သားအိမ်ခေါင်းကင်ဆာ စစ်ဆေး" },
+      { en: "Mammogram — digital breast X-ray", my: "မမ်မိုဂရမ် — ဒစ်ဂျစ်တယ် ရင်သား X-ray", noteEn: "Early breast cancer detection", noteMy: "ရင်သားကင်ဆာ စောစောရှာဖွေ" },
+    ],
+  },
+];
+
+/** PREMIUM extras on top of ADVANCE */
+export const PKG_GROUPS_PREMIUM_SHARED: PkgGroup[] = [
+  {
+    key: "premium_shared",
+    icon: "⭐",
+    labelEn: "Premium Screening",
+    labelMy: "PREMIUM စစ်ဆေးမှု",
+    items: [
+      { en: "Vitamin D 25 OH total", my: "Vitamin D 25 OH total", noteEn: "Vitamin D level", noteMy: "ဗီတာမင် D ပမာဏ" },
+      { en: "Advanced BMD", my: "Advanced BMD", noteEn: "Bone mineral density", noteMy: "အရိုးသိပ်သည်းဆ" },
+      { en: "EST or Echo (physician’s discretion)", my: "EST သို့မဟုတ် Echo (ဆရာဝန် ဆုံးဖြတ်ချက်)", noteEn: "Exercise stress test or echocardiogram", noteMy: "လေ့ကျင့်ခန်း နှလုံးစစ် သို့မဟုတ် Echo" },
+    ],
+  },
+];
+
+export const PKG_GROUPS_PREMIUM_MALE: PkgGroup[] = [
+  {
+    key: "premium_male",
+    icon: "👨",
+    labelEn: "Premium Men's Health",
+    labelMy: "PREMIUM ကျားသားကျန်းမာရေး",
+    items: [
+      { en: "PSA — prostate-specific antigen", my: "PSA — ပရိုစတိတ်အထူးသတ် ပရိုတင်း", noteEn: "Prostate cancer marker", noteMy: "ပရိုစတိတ်ကင်ဆာ မားကာ" },
+    ],
+  },
+];
+
+export const PKG_GROUPS_PREMIUM_FEMALE: PkgGroup[] = [
+  {
+    key: "premium_female_hepc",
+    icon: "🦠",
+    labelEn: "Hepatitis Screening",
+    labelMy: "အသဲရောင် စစ်ဆေးမှု",
+    items: [
+      { en: "Anti HCV — Hepatitis C antibody", my: "Anti HCV — အသဲရောင် C ဆန့်ကျင်ဓာတ်", noteEn: "Hepatitis C infection status", noteMy: "အသဲရောင် C ကူးစက်မှု" },
     ],
   },
 ];
 
 /** Included in all tiers (service items, not clinical tests) */
 export const PKG_INCLUDED_ALL = [
-  { en: "Snack set box", my: "အဆာပြေ ဘောက်ချာ" },
-  { en: "Blood draw kit and temperature check", my: "သွေးဖောက်ပစ္စည်းနှင့် ကိုယ်အပူချိန်" },
-  { en: "Health summary booklet + hospital service fee", my: "ကျန်းမာရေး အကျဉ်းချုပ်စာအုပ် + ဆေးရုံ ဝန်ဆောင်မှုကြေး" },
+  { en: "Coffee break", my: "ကော်ဖီ အနားယူချိန်" },
+  { en: "Medical supplies", my: "ဆေးပစ္စည်း" },
+  { en: "Report book", my: "အစီရင်ခံစာ စာအုပ်" },
+  { en: "Hospital service and nursing service", my: "ဆေးရုံ ဝန်ဆောင်မှုနှင့် သူနာပြု ဝန်ဆောင်မှု" },
 ];
 
-/** Premium note — exact additional items are image-only on hospital website */
+/** Premium note — flyer on this website is the published item list */
 export const PKG_PREMIUM_NOTE = {
-  en: "PREMIUM includes everything in ADVANCE plus additional specialised screenings. The complete PREMIUM item list is published as an image on the hospital website — a coordinator will translate and send you the full PDF checklist before your visit.",
-  my: "PREMIUM တွင် ADVANCE ၏ စစ်ဆေးမှုအားလုံးနှင့် ထပ်ဆောင်း အထူးစစ်ဆေးမှုများ ပါဝင်သည်။ PREMIUM ၏ အပြည့်အစုံ စာရင်းကို ဆေးရုံက ပုံ PDF ဖြင့် ထုတ်ပြန်သည် — ညှိနှိုင်းရေးမှူးက ဘာသာပြန်ဆိုပြီး ခရီးမမထွက်မီ ပေးပို့မည်။",
+  en: "PREMIUM includes everything in ADVANCE plus Vitamin D, Advanced BMD, and EST or Echo at the physician’s discretion. Open the 2026 comparison flyer on this page for the full hospital sheet.",
+  my: "PREMIUM တွင် ADVANCE အားလုံးအပြင် Vitamin D၊ Advanced BMD နှင့် ဆရာဝန်ဆုံးဖြတ်သည့် EST သို့မဟုတ် Echo ပါဝင်သည်။ အပြည့်အစုံကို ဤစာမျက်နှာရှိ ၂၀၂၆ နှိုင်းယှဉ်ဇယားတွင် ဖတ်ပါ။",
 };
 
 /** Legacy flat export kept for backward-compatibility with packages/page.tsx */
@@ -263,57 +293,88 @@ export const PACKAGE_ITEMS = {
   PREMIUM_NOTE: PKG_PREMIUM_NOTE,
 } as const;
 
-/** Source: https://chiangmairam.com/news_detail/970 — do not add the unpublished 21,500 SKU. */
+/** Source: hospital 2026 comparison flyer (LINE album 27 Aug 2026). */
 export const CHECKUP_PACKAGES_2026 = [
   {
     code: "STANDARD_ANY",
-    nameEn: "STANDARD (male / female)",
-    nameMy: "STANDARD (ကျား / မ)",
+    nameEn: "STANDARD (under 39, male / female)",
+    nameMy: "STANDARD (၃၉ နှစ်အောက် ကျား / မ)",
     gender: "ANY" as const,
-    listPrice: "4265.00",
+    listPrice: "4308.00",
     salePrice: "3300.00",
+    highlight: "Under 39",
+  },
+  {
+    code: "STANDARD_FEMALE_PLUS",
+    nameEn: "STANDARD Female Plus (under 39)",
+    nameMy: "STANDARD Female Plus (၃၉ နှစ်အောက်)",
+    gender: "FEMALE" as const,
+    listPrice: "11861.00",
+    salePrice: "9500.00",
+    highlight: "Under 39 · Female Plus",
   },
   {
     code: "ADVANCE_MALE",
-    nameEn: "ADVANCE male",
-    nameMy: "ADVANCE ကျား",
+    nameEn: "ADVANCE male (40–49)",
+    nameMy: "ADVANCE ကျား (၄၀–၄၉)",
     gender: "MALE" as const,
-    listPrice: "12200.00",
-    salePrice: "9500.00",
+    listPrice: "10054.00",
+    salePrice: "8000.00",
+    highlight: "Ages 40–49",
   },
   {
     code: "ADVANCE_FEMALE",
-    nameEn: "ADVANCE female",
-    nameMy: "ADVANCE မ",
+    nameEn: "ADVANCE female (40–49)",
+    nameMy: "ADVANCE မ (၄၀–၄၉)",
     gender: "FEMALE" as const,
-    listPrice: "16733.00",
+    listPrice: "15947.00",
     salePrice: "12500.00",
+    highlight: "Ages 40–49",
   },
   {
     code: "PREMIUM_MALE",
-    nameEn: "PREMIUM male",
-    nameMy: "PREMIUM ကျား",
+    nameEn: "PREMIUM male (50+)",
+    nameMy: "PREMIUM ကျား (၅၀+)",
     gender: "MALE" as const,
-    listPrice: "18906.00",
-    salePrice: "13500.00",
+    listPrice: "22447.00",
+    salePrice: "17500.00",
+    highlight: "Ages 50+",
   },
   {
     code: "PREMIUM_FEMALE",
-    nameEn: "PREMIUM female",
-    nameMy: "PREMIUM မ",
+    nameEn: "PREMIUM female (50+)",
+    nameMy: "PREMIUM မ (၅၀+)",
     gender: "FEMALE" as const,
-    listPrice: "24043.00",
-    salePrice: "18500.00",
+    listPrice: "27584.00",
+    salePrice: "21500.00",
+    highlight: "Ages 50+",
   },
 ];
 
-export function packageFeatureLines(code: string): { featuresEn: string[]; featuresMy: string[] } {
-  const groups = [...PKG_GROUPS_STANDARD];
-  if (code !== "STANDARD_ANY") {
-    groups.push(...PKG_GROUPS_ADVANCE_SHARED);
-    if (code.includes("MALE")) groups.push(...PKG_GROUPS_ADVANCE_MALE);
-    if (code.includes("FEMALE")) groups.push(...PKG_GROUPS_ADVANCE_FEMALE);
+export function packageGroupsForCode(code: string): { group: PkgGroup; isNew: boolean }[] {
+  const base = PKG_GROUPS_STANDARD.map((group) => ({ group, isNew: false }));
+  if (code === "STANDARD_ANY") return base;
+  if (code === "STANDARD_FEMALE_PLUS") {
+    return [...base, ...PKG_GROUPS_STANDARD_FEMALE_PLUS.map((group) => ({ group, isNew: true }))];
   }
+  const groups = [
+    ...base,
+    ...PKG_GROUPS_ADVANCE_SHARED.map((group) => ({ group, isNew: true })),
+  ];
+  const female = code.includes("FEMALE");
+  const male = !female && code.includes("MALE");
+  if (male) groups.push(...PKG_GROUPS_ADVANCE_MALE.map((group) => ({ group, isNew: true })));
+  if (female) groups.push(...PKG_GROUPS_ADVANCE_FEMALE.map((group) => ({ group, isNew: true })));
+  if (code.startsWith("PREMIUM")) {
+    groups.push(...PKG_GROUPS_PREMIUM_SHARED.map((group) => ({ group, isNew: true })));
+    if (male) groups.push(...PKG_GROUPS_PREMIUM_MALE.map((group) => ({ group, isNew: true })));
+    if (female) groups.push(...PKG_GROUPS_PREMIUM_FEMALE.map((group) => ({ group, isNew: true })));
+  }
+  return groups;
+}
+
+export function packageFeatureLines(code: string): { featuresEn: string[]; featuresMy: string[] } {
+  const groups = packageGroupsForCode(code).map((row) => row.group);
   const featuresEn = groups.flatMap((g) => g.items.map((i) => i.en));
   const featuresMy = groups.flatMap((g) => g.items.map((i) => i.my));
   if (code.startsWith("PREMIUM")) {

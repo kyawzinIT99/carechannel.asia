@@ -19,5 +19,9 @@ export async function upsertSiteContent(row: SiteContentRow) {
 }
 
 export async function countPublishedPromotions(): Promise<number> {
-  return prisma.promotion.count({ where: { published: true } });
+  try {
+    return await prisma.promotion.count({ where: { published: true, kind: { not: "flyer" } } });
+  } catch {
+    return prisma.promotion.count({ where: { published: true } });
+  }
 }
