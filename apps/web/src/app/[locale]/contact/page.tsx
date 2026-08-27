@@ -1,6 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { InquiryForm } from "@/components/inquiry-form";
-import { ContactChannels } from "@/components/contact-channels";
 import { SPECIALTIES } from "@/catalog/hospital-source";
 import {
   loadPublicBranches,
@@ -101,14 +100,6 @@ export default async function ContactPage({
                   </p>
                 </div>
               ))}
-            </div>
-          </div>
-          <div className="rounded-2xl bg-white px-5 py-4 ring-1 ring-slate-200/80">
-            <p className="text-sm font-semibold text-[#1a2330]">
-              {my ? "စာပို့ရန်" : "Message us"}
-            </p>
-            <div className="mt-2">
-              <ContactChannels locale={locale} variant="stack" />
             </div>
           </div>
           <div className="rounded-2xl bg-[#f7f1e4] px-5 py-4 ring-1 ring-[#e8dcc0]">

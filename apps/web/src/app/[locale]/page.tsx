@@ -3,7 +3,6 @@ import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { loadPublicChrome, loadPublicCopy, loadPublicFlyers, loadPublicPackages, loadPublicPromotions, loadPublicSpecialties } from "@/server/content/public";
 import { VisitAssistSection } from "@/components/visit-assist-section";
-import { ContactChannels } from "@/components/contact-channels";
 import { ShwedagonMark } from "@/components/shwedagon-mark";
 import { HospitalFilm } from "@/components/hospital-film";
 import { GoldTicker } from "@/components/gold-ticker";
@@ -304,9 +303,6 @@ export default async function HomePage({
             <Link href="/contact" className="rounded-full bg-[#1a2330] px-7 py-3 text-sm font-semibold text-white hover:bg-[#111820]">
               {ctaPrimary}
             </Link>
-          </div>
-          <div className="mx-auto mt-6 max-w-md">
-            <ContactChannels locale={locale} variant="pills" />
           </div>
         </div>
       </section>
