@@ -30,9 +30,9 @@ export const ABOUT_FIELDS = [
     label: "Lead paragraph",
     multiline: true,
     fallbackEn:
-      "This website is the official partner channel of Chiangmai Ram Hospital for patients from Myanmar and Asia. Care is at Chiangmai Ram — one hospital, not a shopping list of many hospitals. We offer a simple way to connect: send a request on this website, or open LINE, Telegram, or Viber from the same site. Some visitors may also use the Google Form. Every request arrives in one coordinator inbox. We do not invent a different medical service. We confirm the hospital-published incentive for people who come through this official channel.",
+      "This website is the official partner channel of Chiangmai Ram Hospital for patients from Myanmar and Asia. Care is at Chiangmai Ram — one hospital, not a shopping list of many hospitals. We offer a simple way to connect: send a request on this website, or open LINE, Telegram, or Viber from the same site. Every request arrives in one coordinator inbox. We do not invent a different medical service. We confirm the hospital-published incentive for people who come through this official channel.",
     fallbackMy:
-      "ဤဝက်ဘ်ဆိုက်သည် မြန်မာနှင့် အာရှလူနာများအတွက် ချင်းမိုင်ရမ်ဆေးရုံ၏ တရားဝင် မိတ်ဖက်လမ်းကြောင်း ဖြစ်ပါသည်။ ကုသမှုကို ချင်းမိုင်ရမ်ဆေးရုံ တစ်ရုံတွင် လုပ်ပါသည်။ ဆေးရုံအများအပြားကို ရွေးချယ်ရောင်းသော လမ်းကြောင်း မဟုတ်ပါ။ ဆက်သွယ်ရန် လွယ်ကူပါသည်။ ဤဝက်ဘ်ဆိုက်မှ တောင်းဆိုမှု ပို့ပါ။ သို့မဟုတ် ဤဆိုက်ထဲမှ LINE၊ Telegram၊ Viber ကို ဖွင့်ပါ။ အချို့ဧည့်သည်များ Google Form ကို သုံးနိုင်ပါသည်။ တောင်းဆိုမှုအားလုံး ညှိနှိုင်းရေးမှူး စာရင်းတစ်ခုတည်းသို့ ရောက်ပါသည်။ ဆေးဝန်ဆောင်မှုအသစ်ကို တီထွင်မပြောပါ။ ဤတရားဝင်လမ်းကြောင်းမှ လာသူများအတွက် ဆေးရုံထုတ်ပြန် incentive ကို အတည်ပြုပါသည်။",
+      "ဤဝက်ဘ်ဆိုက်သည် မြန်မာနှင့် အာရှလူနာများအတွက် ချင်းမိုင်ရမ်ဆေးရုံ၏ တရားဝင် မိတ်ဖက်လမ်းကြောင်း ဖြစ်ပါသည်။ ကုသမှုကို ချင်းမိုင်ရမ်ဆေးရုံ တစ်ရုံတွင် လုပ်ပါသည်။ ဆေးရုံအများအပြားကို ရွေးချယ်ရောင်းသော လမ်းကြောင်း မဟုတ်ပါ။ ဆက်သွယ်ရန် လွယ်ကူပါသည်။ ဤဝက်ဘ်ဆိုက်မှ တောင်းဆိုမှု ပို့ပါ။ သို့မဟုတ် ဤဆိုက်ထဲမှ LINE၊ Telegram၊ Viber ကို ဖွင့်ပါ။ တောင်းဆိုမှုအားလုံး ညှိနှိုင်းရေးမှူး စာရင်းတစ်ခုတည်းသို့ ရောက်ပါသည်။ ဆေးဝန်ဆောင်မှုအသစ်ကို တီထွင်မပြောပါ။ ဤတရားဝင်လမ်းကြောင်းမှ လာသူများအတွက် ဆေးရုံထုတ်ပြန် incentive ကို အတည်ပြုပါသည်။",
   },
   {
     key: "about.whoTitle",
@@ -100,8 +100,8 @@ export const ABOUT_FIELDS = [
     key: "about.how2",
     label: "Step 2",
     multiline: true,
-    fallbackEn: "Prefer a Google Form? Use the form on the request page. n8n sends it into the same visit-request list. We do not split your details into extra member lists.",
-    fallbackMy: "Google Form သုံးလိုပါက တောင်းဆိုစာမျက်နှာရှိ ဖောင်ကို သုံးပါ။ n8n က တူညီသော လာရောက်ရန် စာရင်းထဲသို့ ပို့ပါသည်။ အချက်အလက်ကို အဖွဲ့ဝင်စာရင်းအသစ်များသို့ ခွဲမထားပါ။",
+    fallbackEn: "Send one request on this website. A coordinator keeps your details in the same visit-request list. We do not split them into extra member lists.",
+    fallbackMy: "ဤဝက်ဘ်ဆိုက်မှ တောင်းဆိုမှုတစ်ခု ပို့ပါ။ ညှိနှိုင်းရေးမှူးက အချက်အလက်ကို တူညီသော လာရောက်ရန် စာရင်းတွင် ထားပါသည်။ အဖွဲ့ဝင်စာရင်းအသစ်များသို့ ခွဲမထားပါ။",
   },
   {
     key: "about.how3",
@@ -138,9 +138,9 @@ export const ABOUT_FIELDS = [
     label: "Important note — body",
     multiline: true,
     fallbackEn:
-      "This partner site does not give emergency instructions. Website requests, app chats, and the Google Form all become one visit request for coordinators. Customer details stay in that inquiry list — not scattered as extra members in the admin panel.",
+      "This partner site does not give emergency instructions. Website requests and LINE, Telegram, or Viber chats all become one visit request for coordinators. Customer details stay in that inquiry list — not scattered as extra members in the admin panel.",
     fallbackMy:
-      "ဤမိတ်ဖက်ဆိုက်သည် အရေးပေါ်ညွှန်ကြားချက် မပေးပါ။ ဝက်ဘ်ဆိုက် တောင်းဆိုမှု၊ အက်ပ် စကားပြောမှုနှင့် Google Form အားလုံး ညှိနှိုင်းရေးမှူးအတွက် လာရောက်ရန် တောင်းဆိုမှု တစ်ခုတည်း ဖြစ်ပါသည်။ ဧည့်သည်အချက်အလက်ကို ထိုစာရင်းတွင်သာ ထားပါသည်။ အက်ဒမင်တွင် အဖွဲ့ဝင်စာရင်းအသစ်များသို့ ခွဲမဖြန့်ပါ။",
+      "ဤမိတ်ဖက်ဆိုက်သည် အရေးပေါ်ညွှန်ကြားချက် မပေးပါ။ ဝက်ဘ်ဆိုက် တောင်းဆိုမှုနှင့် LINE၊ Telegram သို့မဟုတ် Viber စကားပြောမှုအားလုံး ညှိနှိုင်းရေးမှူးအတွက် လာရောက်ရန် တောင်းဆိုမှု တစ်ခုတည်း ဖြစ်ပါသည်။ ဧည့်သည်အချက်အလက်ကို ထိုစာရင်းတွင်သာ ထားပါသည်။ အက်ဒမင်တွင် အဖွဲ့ဝင်စာရင်းအသစ်များသို့ ခွဲမဖြန့်ပါ။",
   },
 ] as const;
 

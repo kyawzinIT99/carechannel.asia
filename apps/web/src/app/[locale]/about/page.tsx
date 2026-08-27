@@ -3,7 +3,7 @@ import { Link } from "@/i18n/routing";
 import { HospitalFilm } from "@/components/hospital-film";
 import { ShwedagonMark } from "@/components/shwedagon-mark";
 import { ABOUT_FACEBOOK_URL, ABOUT_FIELDS, aboutField } from "@/catalog/about-copy";
-import { loadPublicChrome, loadPublicCopy } from "@/server/content/public";
+import { loadPublicCopy } from "@/server/content/public";
 
 export const dynamic = "force-dynamic";
 
@@ -19,7 +19,7 @@ export default async function AboutPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const my = locale === "my";
-  const [copy, chrome] = await Promise.all([loadPublicCopy(locale), loadPublicChrome()]);
+  const [copy] = await Promise.all([loadPublicCopy(locale)]);
   const pick = (key: (typeof ABOUT_FIELDS)[number]["key"]) => {
     const field = aboutField(key);
     return copy[key] || (locale === "my" ? field.fallbackMy : field.fallbackEn);
@@ -68,14 +68,6 @@ export default async function AboutPage({
             >
               {my ? "ဤဝက်ဘ်ဆိုက်မှ တောင်းဆိုမည်" : "Inquire on this website"}
             </Link>
-            <a
-              href={chrome.googleFormUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-full border border-[#d4af37]/50 bg-white/80 px-7 py-3 text-sm font-semibold text-[#1a2330] hover:bg-white"
-            >
-              {my ? "Google Form" : "Google Form"}
-            </a>
             <Link
               href="/packages"
               className="rounded-full border border-[#d4af37]/50 bg-white/80 px-7 py-3 text-sm font-semibold text-[#1a2330] hover:bg-white"
