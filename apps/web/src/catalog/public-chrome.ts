@@ -12,4 +12,5 @@ export type PublicChrome = {
   viberDisplay: string;
   viberUrl: string;
   apartmentUrl: string;
+  googleFormUrl: string;
 };

@@ -82,11 +82,19 @@ export default async function HomePage({
               {heroBody}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                href="/contact"
+              <a
+                href={chrome.googleFormUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="rounded-full bg-[#1a2330] px-7 py-3 text-sm font-semibold text-white hover:bg-[#111820]"
               >
                 {ctaPrimary}
+              </a>
+              <Link
+                href="/contact"
+                className="rounded-full border border-[#1a2330]/15 bg-white px-7 py-3 text-sm font-semibold text-[#1a2330] hover:bg-white/80"
+              >
+                {my ? "ဝက်ဘ်ဆိုက်ဖောင်" : "Use website form"}
               </Link>
               <Link
                 href="/packages"

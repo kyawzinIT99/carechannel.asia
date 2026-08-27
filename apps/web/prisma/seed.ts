@@ -239,6 +239,11 @@ async function main() {
       valueMy: "၂၀၂၆ ပက်ကေ့ချ်များ",
     },
     {
+      key: "partner.googleFormUrl",
+      valueEn: "https://docs.google.com/forms/d/e/1FAIpQLSfV14CMMEqKiKkALBxB0JKc740JKPiAIrY-ykNQUqTjKsJbKw/viewform?pli=1&authuser=1",
+      valueMy: "https://docs.google.com/forms/d/e/1FAIpQLSfV14CMMEqKiKkALBxB0JKc740JKPiAIrY-ykNQUqTjKsJbKw/viewform?pli=1&authuser=1",
+    },
+    {
       key: "home.facebookNote",
       valueEn: "Updates also appear on Facebook: ChiangmaiRam.myanmar",
       valueMy: "သတင်းများကို Facebook ChiangmaiRam.myanmar တွင်လည်း ကြည့်နိုင်သည်",

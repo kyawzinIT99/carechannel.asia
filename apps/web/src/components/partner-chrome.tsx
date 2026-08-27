@@ -19,6 +19,7 @@ const fallback: PublicChrome = {
   viberDisplay: HOSPITAL_PROFILE.viberDisplay,
   viberUrl: viberAppUrl(HOSPITAL_PROFILE.viberDisplay),
   apartmentUrl: "https://sddp-apartment.onrender.com",
+  googleFormUrl: "https://docs.google.com/forms/d/e/1FAIpQLSfV14CMMEqKiKkALBxB0JKc740JKPiAIrY-ykNQUqTjKsJbKw/viewform?pli=1&authuser=1",
 };
 
 const PartnerChromeContext = createContext<PublicChrome>(fallback);

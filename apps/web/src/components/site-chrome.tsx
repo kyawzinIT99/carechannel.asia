@@ -71,12 +71,14 @@ export function SiteChrome({ children }: { children: ReactNode }) {
           {/* Right: primary CTA + lang + burger */}
           <div className="flex shrink-0 items-center gap-2">
             {/* Primary CTA — visible on md+ */}
-            <Link
-              href="/contact"
+            <a
+              href={hospital.googleFormUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="hidden rounded-full bg-[#1a2330] px-4 py-2 text-sm font-semibold text-white hover:bg-[#111820] md:block"
             >
               {locale === "my" ? "ဆက်သွယ်ရန်" : "Request a visit"}
-            </Link>
+            </a>
 
             {/* Language toggle */}
             <Link
