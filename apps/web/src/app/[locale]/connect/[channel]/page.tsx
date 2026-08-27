@@ -22,7 +22,6 @@ export default async function ConnectMessengerPage({
       name="LINE"
       appUrl={lineHttpUrl(chrome.linePhone)}
       httpUrl={lineHttpUrl(chrome.linePhone)}
-      number={chrome.linePhone}
     />
   );
 }
