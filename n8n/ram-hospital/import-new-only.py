@@ -78,6 +78,8 @@ def main() -> None:
         if found:
             wf_id = found["id"]
             if name in ("Ram Hospital Google Form to CRM", "Ram Hospital Inquiry Alert"):
+                live = api("GET", f"/api/v1/workflows/{wf_id}")
+                create_body["staticData"] = live.get("staticData") or {}
                 api("PUT", f"/api/v1/workflows/{wf_id}", create_body)
                 print("updated", name, wf_id)
             else:

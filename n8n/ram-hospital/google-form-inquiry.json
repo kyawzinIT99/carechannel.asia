@@ -12,20 +12,31 @@
       "name": "Google Form webhook",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
-      "position": [0, 0],
+      "position": [
+        0,
+        0
+      ],
       "webhookId": "ram-hospital-google-form"
     },
     {
       "parameters": {
         "rule": {
-          "interval": [{ "field": "minutes", "minutesInterval": 1 }]
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 1
+            }
+          ]
         }
       },
       "id": "every-min",
       "name": "Every minute",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
-      "position": [0, 240]
+      "position": [
+        0,
+        240
+      ]
     },
     {
       "parameters": {
@@ -39,7 +50,10 @@
       "name": "Read linked responses",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [240, 240],
+      "position": [
+        240,
+        240
+      ],
       "credentials": {
         "googleDriveOAuth2Api": {
           "id": "3uPsiUT3D5JpjwWH",
@@ -49,23 +63,29 @@
     },
     {
       "parameters": {
-        "jsCode": "const staticData = $getWorkflowStaticData('global');\nconst values = items[0].json.values || [];\nif (!Array.isArray(values) || values.length < 2) return [];\nconst headers = (values[0] || []).map((h) => String(h || '').trim());\nconst seen = staticData.seenFormTs2 || {};\nconst out = [];\nfor (let i = 1; i < values.length; i++) {\n  const row = values[i] || [];\n  const obj = {};\n  headers.forEach((h, idx) => { obj[h] = String(row[idx] || '').trim(); });\n  const ts = obj.Timestamp || ('row-' + i);\n  if (seen[ts]) continue;\n  seen[ts] = 1;\n  out.push({ json: obj });\n}\nstaticData.seenFormTs2 = seen;\nreturn out;"
+        "jsCode": "const staticData = $getWorkflowStaticData('global');\nconst values = items[0].json.values || [];\nif (!Array.isArray(values) || values.length < 2) return [];\nconst headers = (values[0] || []).map((h) => String(h || '').trim());\nconst seen = staticData.seenFormTs2 || {};\nconst out = [];\nfor (let i = 1; i < values.length; i++) {\n  const row = values[i] || [];\n  const obj = {};\n  headers.forEach((h, idx) => { obj[h] = String(row[idx] || '').trim(); });\n  const ts = obj.Timestamp || ('row-' + i);\n  if (seen[ts]) continue;\n  obj._formTs = ts;\n  out.push({ json: obj });\n}\nreturn out;"
       },
       "id": "new-rows",
       "name": "Only new sheet rows",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [480, 240]
+      "position": [
+        480,
+        240
+      ]
     },
     {
       "parameters": {
-        "jsCode": "const raw = items[0].json;\nconst body = raw.body && typeof raw.body === 'object' ? raw.body : raw;\nconst nv = body.namedValues && typeof body.namedValues === 'object' ? body.namedValues : {};\nfunction pick(obj, keys) {\n  const bag = {};\n  for (const [k, v] of Object.entries(obj || {})) bag[String(k).trim()] = v;\n  for (const key of keys) {\n    const val = bag[key] != null ? bag[key] : obj[key];\n    if (Array.isArray(val) && val[0]) return String(val[0]).trim();\n    if (val != null && String(val).trim()) return String(val).trim();\n  }\n  return '';\n}\nfunction pickPassport(obj) {\n  const exact = pick(obj, ['passportNo', 'Passport', 'Passport no', 'Passport No', 'Passport number', 'Passport Number', 'passport']);\n  if (exact) return exact;\n  for (const [k, v] of Object.entries(obj || {})) {\n    if (/passport|နိုင်ငံကူးလက်မှတ်/i.test(String(k))) {\n      const val = Array.isArray(v) ? v[0] : v;\n      if (val != null && String(val).trim()) return String(val).trim();\n    }\n  }\n  return '';\n}\nconst keysName = ['fullName', 'Name', 'name', 'Full name'];\nconst keysEmail = ['email', 'Email', 'E-mail', 'Email Address', 'emailAddress', 'E-mail Address'];\nconst keysPhone = ['phone', 'Phone', 'Phone or viber Number', 'mobile', 'tel'];\nconst keysNat = ['country', 'Country', 'nationality', 'Nationality'];\nconst keysAddr = ['Resident Address', 'address', 'Address'];\nconst fullName = pick(body, keysName) || pick(nv, keysName);\nconst email = pick(body, keysEmail) || pick(nv, keysEmail);\nconst phone = pick(body, keysPhone) || pick(nv, keysPhone);\nconst country = pick(body, keysNat) || pick(nv, keysNat) || 'Myanmar';\nconst address = pick(body, keysAddr) || pick(nv, keysAddr);\nconst passportNo = pickPassport(body) || pickPassport(nv);\nconst message = address ? ('Resident address: ' + address) : 'Visit request (Google Form)';\nreturn [{ json: { fullName, email, phone, country, locale: 'en', message, returningPatient: false, consent: true, passportNo } }];"
+        "jsCode": "const raw = items[0].json;\nconst body = raw.body && typeof raw.body === 'object' ? raw.body : raw;\nconst nv = body.namedValues && typeof body.namedValues === 'object' ? body.namedValues : {};\n\nfunction pick(obj, keys) {\n  const bag = {};\n  for (const [key, value] of Object.entries(obj || {})) {\n    bag[String(key).trim().toLowerCase()] = value;\n  }\n  for (const key of keys) {\n    const value = bag[String(key).trim().toLowerCase()];\n    if (Array.isArray(value) && value[0]) return String(value[0]).trim();\n    if (value != null && String(value).trim()) return String(value).trim();\n  }\n  return '';\n}\n\nfunction pickPassport(obj) {\n  const exact = pick(obj, ['passportNo', 'Passport', 'Passport no', 'Passport No', 'Passport number', 'Passport Number']);\n  if (exact) return exact;\n  for (const [key, value] of Object.entries(obj || {})) {\n    if (/passport|နိုင်ငံကူးလက်မှတ်/i.test(String(key))) {\n      const hit = Array.isArray(value) ? value[0] : value;\n      if (hit != null && String(hit).trim()) return String(hit).trim();\n    }\n  }\n  return '';\n}\n\nfunction normalizeCountry(value) {\n  const raw = String(value || '').trim();\n  if (!raw) return 'Myanmar';\n  if (/မြန်မာ|burm|myanmar|\\bmm\\b/i.test(raw)) return 'Myanmar';\n  if (/thai|siam|\\bth\\b/i.test(raw)) return 'Thailand';\n  return raw.replace(/\\w\\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());\n}\n\nfunction normalizePhone(value) {\n  let s = String(value || '').trim();\n  const mm = '၀၁၂၃၄၅၆၇၈၉';\n  s = s.replace(/[၀-၉]/g, (ch) => String(mm.indexOf(ch)));\n  const cleaned = s.replace(/[^\\d+]/g, '');\n  if (cleaned.length >= 6 && cleaned.length <= 40) return cleaned;\n  return s.slice(0, 40);\n}\n\nconst keysName = ['fullName', 'Name', 'Full name', 'Full Name (Passport)'];\nconst keysEmail = ['email', 'Email', 'E-mail', 'Email Address', 'emailAddress', 'E-mail Address'];\nconst keysPhone = ['phone', 'Phone', 'Phone or viber Number', 'Phone Number or Viber', 'mobile', 'tel'];\nconst keysNat = ['country', 'Country', 'nationality', 'Nationality'];\nconst keysMessage = ['message', 'Message', 'Symptoms or Health Concerns', 'Resident Address', 'address', 'Address'];\n\nconst fullName = pick(body, keysName) || pick(nv, keysName);\nconst email = pick(body, keysEmail) || pick(nv, keysEmail);\nconst phone = normalizePhone(pick(body, keysPhone) || pick(nv, keysPhone));\nconst country = normalizeCountry(pick(body, keysNat) || pick(nv, keysNat) || 'Myanmar');\nconst passportNo = pickPassport(body) || pickPassport(nv);\nconst gender = pick(body, ['Gender', 'Sex']) || pick(nv, ['Gender', 'Sex']);\nconst dob = pick(body, ['Date of Birth', 'Birth date', 'DOB']) || pick(nv, ['Date of Birth', 'Birth date', 'DOB']);\nlet message = pick(body, keysMessage) || pick(nv, keysMessage) || 'Visit request (Google Form)';\nif (gender) message += '\\nGender: ' + gender;\nif (dob) message += '\\nDate of birth: ' + dob;\n\nreturn [{ json: {\n  source: 'google_form',\n  fullName,\n  email,\n  phone,\n  country,\n  locale: 'en',\n  message,\n  returningPatient: false,\n  consent: true,\n  passportNo,\n  _formTs: body._formTs || body.Timestamp || '',\n} }];"
       },
       "id": "map-fields",
       "name": "Map name email phone nationality passport",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [720, 120]
+      "position": [
+        720,
+        120
+      ]
     },
     {
       "parameters": {
@@ -89,25 +109,94 @@
       "name": "Create inquiry in CareChannel",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [980, 120]
+      "position": [
+        980,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const staticData = $getWorkflowStaticData('global');\nconst seen = staticData.seenFormTs2 || {};\nlet ts = '';\ntry {\n  ts = String($('Map name email phone nationality passport').item.json._formTs || '');\n} catch (e) {}\nif (ts) {\n  seen[ts] = 1;\n  staticData.seenFormTs2 = seen;\n}\nreturn items;"
+      },
+      "id": "mark-seen",
+      "name": "Remember imported row",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1220,
+        120
+      ]
     }
   ],
   "connections": {
     "Google Form webhook": {
-      "main": [[{ "node": "Map name email phone nationality passport", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Map name email phone nationality passport",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Every minute": {
-      "main": [[{ "node": "Read linked responses", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Read linked responses",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Read linked responses": {
-      "main": [[{ "node": "Only new sheet rows", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Only new sheet rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Only new sheet rows": {
-      "main": [[{ "node": "Map name email phone nationality passport", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Map name email phone nationality passport",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Map name email phone nationality passport": {
-      "main": [[{ "node": "Create inquiry in CareChannel", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Create inquiry in CareChannel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create inquiry in CareChannel": {
+      "main": [
+        [
+          {
+            "node": "Remember imported row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
-  "settings": { "executionOrder": "v1" }
+  "settings": {
+    "executionOrder": "v1"
+  }
 }

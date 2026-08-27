@@ -85,19 +85,133 @@ export const inquirySchema = z.object({
   consent: z.literal(true),
 });
 
-function hoistInquiryPayload(raw: unknown) {
-  if (!raw || typeof raw !== "object") return raw;
-  const rec = { ...(raw as Record<string, unknown>) };
-  if (rec.body && typeof rec.body === "object") {
-    Object.assign(rec, rec.body as Record<string, unknown>);
+function asText(value: unknown): string {
+  if (Array.isArray(value) && value[0] != null) return String(value[0]).trim();
+  if (typeof value === "number" && Number.isFinite(value)) return String(value);
+  if (typeof value === "boolean") return value ? "true" : "false";
+  if (value == null || typeof value === "object") return "";
+  return String(value).trim();
+}
+
+const COUNTRY_ALIASES: Record<string, (typeof COUNTRIES)[number]> = {
+  burma: "Myanmar",
+  burmese: "Myanmar",
+  myanmar: "Myanmar",
+  mm: "Myanmar",
+  mya: "Myanmar",
+  thai: "Thailand",
+  thailand: "Thailand",
+  th: "Thailand",
+  siam: "Thailand",
+  usa: "United States",
+  us: "United States",
+  america: "United States",
+  uk: "United Kingdom",
+  britain: "United Kingdom",
+  england: "United Kingdom",
+  uae: "United Arab Emirates",
+  korea: "Korea, South",
+  "south korea": "Korea, South",
+  "viet nam": "Vietnam",
+};
+
+function normalizeCountry(value: string | undefined) {
+  const raw = String(value || "").trim();
+  if (!raw) return "Myanmar";
+  if (/မြန်မာ|burm|myanmar/i.test(raw) || /^\s*mm\s*$/i.test(raw)) return "Myanmar";
+  const lower = raw.toLowerCase();
+  const aliased = COUNTRY_ALIASES[lower];
+  if (aliased) return aliased;
+  const hit = (COUNTRIES as readonly string[]).find((row) => row.toLowerCase() === lower);
+  return hit || "Myanmar";
+}
+
+function normalizePhone(value: unknown) {
+  const mmDigits = "၀၁၂၃၄၅၆၇၈၉";
+  let raw = asText(value);
+  raw = raw.replace(/[၀-၉]/g, (ch) => String(Math.max(0, mmDigits.indexOf(ch))));
+  const cleaned = raw.replace(/[^\d+]/g, "");
+  if (cleaned.length >= 6 && cleaned.length <= 40) return cleaned;
+  return raw.slice(0, 40);
+}
+
+function isTruthyFlag(value: unknown) {
+  if (value === true || value === 1) return true;
+  return /^(true|yes|1|on|ရှိ)$/i.test(asText(value));
+}
+
+function parseJsonish(raw: unknown): unknown {
+  if (typeof raw !== "string") return raw;
+  const trimmed = raw.trim();
+  if (!trimmed.startsWith("{") && !trimmed.startsWith("[")) return raw;
+  try {
+    return JSON.parse(trimmed) as unknown;
+  } catch {
+    return raw;
   }
+}
+
+/** Google Form dates: 11/04/1988, 11-4-88, 1988-04-11. Skip impossible years like 988. */
+function parseLooseDate(raw: string): string | undefined {
+  const value = raw.trim();
+  if (!value) return undefined;
+  const iso = value.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (iso) {
+    const year = Number(iso[1]);
+    if (year >= 1900 && year <= 2100) return `${iso[1]}-${iso[2]}-${iso[3]}`;
+    return undefined;
+  }
+  const slash = value.match(/^(\d{1,2})[/\-.](\d{1,2})[/\-.](\d{2,4})$/);
+  if (slash) {
+    let year = Number(slash[3]);
+    if (year < 100) year += year >= 30 ? 1900 : 2000;
+    if (year < 1900 || year > 2100) return undefined;
+    const first = Number(slash[1]);
+    const second = Number(slash[2]);
+    const day = first > 12 ? first : second > 12 ? second : first;
+    const month = first > 12 ? second : second > 12 ? first : second;
+    if (month < 1 || month > 12 || day < 1 || day > 31) return undefined;
+    return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+  }
+  const parsed = new Date(value);
+  if (!Number.isNaN(parsed.getTime()) && parsed.getFullYear() >= 1900 && parsed.getFullYear() <= 2100) {
+    return parsed.toISOString().slice(0, 10);
+  }
+  return undefined;
+}
+
+function hoistInquiryPayload(raw: unknown) {
+  const parsed = parseJsonish(raw);
+  if (!parsed || typeof parsed !== "object") return parsed;
+  const rec = { ...(parsed as Record<string, unknown>) };
+  const nested = parseJsonish(rec.body);
+  if (nested && typeof nested === "object") {
+    Object.assign(rec, nested as Record<string, unknown>);
+  }
+  if (!asText(rec.fullName)) {
+    rec.fullName = pickStr(rec, ["Full Name (Passport)", "Name", "name", "full_name"]);
+  } else {
+    rec.fullName = asText(rec.fullName);
+  }
+  rec.phone = normalizePhone(rec.phone || pickStr(rec, ["Phone Number or Viber", "Phone or viber Number", "Phone", "mobile", "tel"]));
+  rec.email = asText(rec.email || pickEmailFromRecord(rec));
+  if (rec.email && !z.string().email().safeParse(rec.email).success) rec.email = "";
+  rec.country = normalizeCountry(asText(rec.country) || pickStr(rec, ["Nationality", "nationality", "Country"]));
+  rec.locale = asText(rec.locale).toLowerCase() === "my" ? "my" : "en";
+  rec.consent = isTruthyFlag(rec.consent) ? true : rec.consent;
+  rec.returningPatient = rec.returningPatient == null ? false : isTruthyFlag(rec.returningPatient);
   const passport = pickPassportFromRecord(rec);
   if (passport) rec.passportNo = passport;
-  if (rec.consent === "true" || rec.consent === true || rec.consent === 1) rec.consent = true;
-  if (typeof rec.returningPatient === "string") {
-    rec.returningPatient = /yes|true|1|ရှိ/i.test(rec.returningPatient);
+  let message = asText(rec.message) || pickStr(rec, ["Symptoms or Health Concerns", "Resident Address", "Message"]);
+  if (message.length < 4) message = "Visit request (Google Form)";
+  const gender = pickStr(rec, ["Gender", "Sex"]);
+  const dobRaw = pickStr(rec, ["Date of Birth", "Birth date", "DOB", "dateOfBirth"]);
+  for (const line of [gender ? `Gender: ${gender}` : "", dobRaw ? `Date of birth: ${dobRaw}` : ""].filter(Boolean)) {
+    if (!message.includes(line)) message = `${message}\n${line}`;
   }
-  if (rec.returningPatient == null) rec.returningPatient = false;
+  rec.message = message.slice(0, 4000);
+  const preferred = asText(rec.preferredDate);
+  if (preferred) rec.preferredDate = parseLooseDate(preferred) || preferred;
   return rec;
 }
 
@@ -219,18 +333,12 @@ export async function createInquiry(raw: unknown, patientUserId?: string) {
   return inquiry;
 }
 
-function normalizeCountry(value: string | undefined) {
-  const raw = String(value || "").trim();
-  if (!raw) return "Myanmar";
-  if (/မြန်မာ|burma|\bmm\b/i.test(raw)) return "Myanmar";
-  const hit = (COUNTRIES as readonly string[]).find((row) => row.toLowerCase() === raw.toLowerCase());
-  return hit || "Myanmar";
-}
-
 function pickStr(raw: Record<string, unknown>, keys: string[]) {
+  const bag: Record<string, unknown> = {};
+  for (const [key, val] of Object.entries(raw)) bag[key.trim().toLowerCase()] = val;
   for (const key of keys) {
-    const val = raw[key];
-    if (typeof val === "string" && val.trim()) return val.trim();
+    const hit = asText(bag[key.trim().toLowerCase()]);
+    if (hit) return hit;
   }
   return "";
 }
@@ -244,12 +352,12 @@ export async function ingestExternalInquiry(raw: unknown) {
     const trimmed = key.trim();
     if (trimmed && nested[trimmed] == null) nested[trimmed] = val;
   }
-  const fullName = pickStr(nested, ["fullName", "name", "Name", "full_name"]);
-  const phone = pickStr(nested, ["phone", "Phone", "Phone or viber Number", "mobile", "tel"]);
-  const email = pickEmailFromRecord(nested) || pickStr(nested, ["email", "Email"]);
+  const fullName = pickStr(nested, ["fullName", "Full Name (Passport)", "name", "Name", "full_name"]);
+  const phone = pickStr(nested, ["phone", "Phone", "Phone Number or Viber", "Phone or viber Number", "mobile", "tel"]);
+  const email = pickEmailFromRecord(nested) || pickStr(nested, ["email", "Email", "Email Address"]);
   const address = pickStr(nested, ["Resident Address", "address", "Address"]);
   const message =
-    pickStr(nested, ["message", "Message", "comment", "notes"]) ||
+    pickStr(nested, ["message", "Message", "Symptoms or Health Concerns", "comment", "notes"]) ||
     (address ? `Resident address: ${address}` : "Google Form visit request");
   const locale = pickStr(nested, ["locale", "language"]) === "my" ? "my" : "en";
   const specialtySlugRaw = pickStr(nested, ["specialtySlug", "specialty"]);
@@ -267,7 +375,7 @@ export async function ingestExternalInquiry(raw: unknown) {
         pickStr(nested, ["country", "Country", "nationality", "Nationality"]),
       ),
       returningPatient: /yes|true|1|ရှိ/i.test(pickStr(nested, ["returningPatient", "returning"])),
-      message: `[Google Form]\n${message}`.slice(0, 4000),
+      message: message.slice(0, 4000),
       specialtySlug,
       packageCode,
       visitorCode,
@@ -282,7 +390,7 @@ export async function ingestExternalInquiry(raw: unknown) {
       email: email.includes("@") ? email : "",
       country: "Myanmar",
       returningPatient: false,
-      message: `[Google Form]\n${message}`.slice(0, 4000),
+      message: message.slice(0, 4000),
       consent: true,
       passportNo,
     });
