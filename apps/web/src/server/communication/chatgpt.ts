@@ -11,7 +11,7 @@ type ComposeInput = {
   facts: unknown;
 };
 
-const FORBIDDEN = /052-00|chiangmairam\.com|@chiangmairam|emergency 24|24.hour|telegram|viber/i;
+const FORBIDDEN = /052-00|082-567|chiangmairam\.com|@chiangmairam|emergency 24|24.hour|telegram|viber/i;
 
 function parseCopy(raw: string): PatientReplyCopy | null {
   try {
@@ -38,7 +38,7 @@ export async function composePatientReply(input: ComposeInput): Promise<PatientR
 
 Rules:
 - Use ONLY the FACTS JSON. Never invent prices, tests, hours, diagnoses, departments, or phone numbers.
-- Never mention or show any email address, phone number, or website URL, except messenger links and the apartment URL in FACTS.
+- Never mention or show any email address, phone number, LINE number, or website URL, except the apartment URL in FACTS.
 - Never mention emergency 24-hour lines.
 - Do NOT diagnose. If the visitor describes symptoms, say a coordinator will continue the conversation; do not recommend treatment.
 - Language: ${language}.

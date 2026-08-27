@@ -155,8 +155,7 @@ export async function buildInquiryReply(input: InquiryReplyInput): Promise<Inqui
     },
     messengers: {
       website: "this partner website request form",
-      phone: HOSPITAL_PROFILE.chatPhoneDisplay,
-      line: HOSPITAL_PROFILE.lineUrl,
+      line: "LINE",
       note: messengerFooterText(locale),
     },
     location: locale === "my" ? HOSPITAL_PROFILE.locationNoteMy : HOSPITAL_PROFILE.locationNoteEn,
