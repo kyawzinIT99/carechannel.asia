@@ -56,8 +56,8 @@ export function fallbackPatientCopy(input: {
             : `We received your visit request. Your code is${code || " —"}. A coordinator will continue with you shortly.`,
         ],
     nextSteps: my
-      ? ["LINE၊ Telegram သို့မဟုတ် Viber မှ ဆက်ပြောပါ"]
-      : ["Continue on LINE, Telegram, or Viber"],
+      ? ["LINE မှ ဆက်ပြောပါ"]
+      : ["Continue on LINE"],
   };
 }
 

@@ -16,29 +16,24 @@ export const HOSPITAL_PROFILE = {
   email: "chiangmairam@chiangmairam.com",
   website: "https://www.chiangmairam.com",
   facebookUrl: "https://www.facebook.com/ChiangmaiRam.myanmar",
-  /** Partner LINE / Telegram number. Official incentive-visit chat — not a hospital emergency line. */
+  /** Partner LINE number. Official incentive-visit chat — not a hospital emergency line. */
   chatPhoneDisplay: "082-567-4570",
   chatPhoneE164: "66825674570",
   lineUrl: "https://line.me/R/ti/p/~0825674570",
-  /** Phone chat uses tg://resolve?phone= — t.me/+<phone> is an invite link and will fail. */
-  telegramUrl: "",
-  viberDisplay: "+95 9504 3252",
-  viberE164: "9595043252",
-  viberUrl: "viber://chat?number=%2B9595043252",
   logoPath: "/brand/logo-ramhosp.png",
   mapPath: "/photos/map.jpg",
   heroPath: "/photos/health.jpg",
   locationNoteEn:
-    "Main campus: 8 Boonruengrit Road, Tambon Sripoom, Mueang, Chiang Mai 50200, Thailand. Chiangmai Ram Health Center uses separate buildings on this campus, with parking. A new branch is opening soon near ARISE Charoen Mueang Condo, Charoen Mueang Road, Tha Sala, Mueang Chiang Mai. Coordinators confirm which site to visit by email and Telegram.",
+    "Main campus: 8 Boonruengrit Road, Tambon Sripoom, Mueang, Chiang Mai 50200, Thailand. Chiangmai Ram Health Center uses separate buildings on this campus, with parking. A new branch is opening soon near ARISE Charoen Mueang Condo, Charoen Mueang Road, Tha Sala, Mueang Chiang Mai. Coordinators confirm which site to visit by email.",
   locationNoteMy:
-    "ပင်မနယ်မြေ - အမှတ် ၈၊ ဘွန်းရွမ်ရစ်လမ်း၊ တမ်ဘွန်စရီဖူမ်၊ မြို့နယ်မောင်း၊ ချင်းမိုင် ၅၀၂၀၀၊ ထိုင်းနိုင်ငံ။ ချင်းမိုင်ရမ် ကျန်းမာရေးစင်တာသည် ဤနယ်မြေတွင် အဆောက်အအုံခွဲများနှင့် ကားရပ်ရန်နေရာ ရှိသည်။ ဌာနခွဲအသစ်ကို ARISE Charoen Mueang ကွန်ဒို အနီး (လမ်း ချရိုအန်မောင်း၊ တမ်ဘွန်သာစလာ၊ မြို့နယ်မောင်း၊ ချင်းမိုင်) တွင် မကြာမီ ဖွင့်မည်။ မည်သည့်နေရာသို့ လာရမည်ကို ညှိနှိုင်းရေးမှူးက အီးမေးလ်နှင့် Telegram ဖြင့် အတည်ပြုသည်။",
+    "ပင်မနယ်မြေ - အမှတ် ၈၊ ဘွန်းရွမ်ရစ်လမ်း၊ တမ်ဘွန်စရီဖူမ်၊ မြို့နယ်မောင်း၊ ချင်းမိုင် ၅၀၂၀၀၊ ထိုင်းနိုင်ငံ။ ချင်းမိုင်ရမ် ကျန်းမာရေးစင်တာသည် ဤနယ်မြေတွင် အဆောက်အအုံခွဲများနှင့် ကားရပ်ရန်နေရာ ရှိသည်။ ဌာနခွဲအသစ်ကို ARISE Charoen Mueang ကွန်ဒို အနီး (လမ်း ချရိုအန်မောင်း၊ တမ်ဘွန်သာစလာ၊ မြို့နယ်မောင်း၊ ချင်းမိုင်) တွင် မကြာမီ ဖွင့်မည်။ မည်သည့်နေရာသို့ လာရမည်ကို ညှိနှိုင်းရေးမှူးက အီးမေးလ်ဖြင့် အတည်ပြုသည်။",
   sourceNote:
     "Contact and identity copied from chiangmairam.com/contactus and Facebook page ChiangmaiRam.myanmar About. Legal partner use.",
 } as const;
 
 export const PARTNER_CHANNEL = {
-  en: "We are the official partner for Myanmar visitors on the incentive visit plan. The published incentive amount is confirmed only through this website, LINE, Telegram, or Viber. A coordinator stays with you until the visit plan is clear. This is not Facebook contact, and it is not an emergency line.",
-  my: "ကျွန်ုပ်တို့သည် မြန်မာဧည့်သည်များအတွက် တရားဝင် incentive ခရီးစဉ် မိတ်ဖက်ဖြစ်သည်။ ထုတ်ပြန်သည့် incentive ပမာဏကို ဤဝက်ဘ်ဆိုက်၊ LINE၊ Telegram သို့မဟုတ် Viber မှသာ အတည်ပြုသည်။ ညှိနှိုင်းရေးမှူးက ခရီးစဉ်ရှင်းသည်အထိ ဆက်လက်ကူညီသည်။ Facebook မှ ဆက်သွယ်ခြင်း မဟုတ်၊ အရေးပေါ်လိုင်းလည်း မဟုတ်ပါ။",
+  en: "We are the official partner for Myanmar visitors on the incentive visit plan. The published incentive amount is confirmed only through this website or LINE. A coordinator stays with you until the visit plan is clear. This is not Facebook contact, and it is not an emergency line.",
+  my: "ကျွန်ုပ်တို့သည် မြန်မာဧည့်သည်များအတွက် တရားဝင် incentive ခရီးစဉ် မိတ်ဖက်ဖြစ်သည်။ ထုတ်ပြန်သည့် incentive ပမာဏကို ဤဝက်ဘ်ဆိုက် သို့မဟုတ် LINE မှသာ အတည်ပြုသည်။ ညှိနှိုင်းရေးမှူးက ခရီးစဉ်ရှင်းသည်အထိ ဆက်လက်ကူညီသည်။ Facebook မှ ဆက်သွယ်ခြင်း မဟုတ်၊ အရေးပေါ်လိုင်းလည်း မဟုတ်ပါ။",
 } as const;
 
 export const VISIT_SITES = [
@@ -59,9 +54,9 @@ export const VISIT_SITES = [
     nameEn: "New branch — near ARISE Charoen Mueang Condo",
     nameMy: "ဌာနခွဲအသစ် — ARISE Charoen Mueang ကွန်ဒို အနီး",
     detailEn:
-      "Opening soon near ARISE Charoen Mueang Condo, Charoen Mueang Road, Tha Sala, Mueang Chiang Mai. We will confirm the exact visit point by email and Telegram. No unpublished medical services are listed for this site yet.",
+      "Opening soon near ARISE Charoen Mueang Condo, Charoen Mueang Road, Tha Sala, Mueang Chiang Mai. We will confirm the exact visit point by email. No unpublished medical services are listed for this site yet.",
     detailMy:
-      "ARISE Charoen Mueang ကွန်ဒို အနီး၊ လမ်း ချရိုအန်မောင်း၊ တမ်ဘွန်သာစလာ၊ မြို့နယ်မောင်း၊ ချင်းမိုင်တွင် မကြာမီ ဖွင့်မည်။ လာရောက်မည့် အတိအကျနေရာကို အီးမေးလ်နှင့် Telegram ဖြင့် အတည်ပြုပါမည်။ ဤနေရာအတွက် မထုတ်ပြန်သေးသော ဆေးဝန်ဆောင်မှုကို မဖော်ပြပါ။",
+      "ARISE Charoen Mueang ကွန်ဒို အနီး၊ လမ်း ချရိုအန်မောင်း၊ တမ်ဘွန်သာစလာ၊ မြို့နယ်မောင်း၊ ချင်းမိုင်တွင် မကြာမီ ဖွင့်မည်။ လာရောက်မည့် အတိအကျနေရာကို အီးမေးလ်ဖြင့် အတည်ပြုပါမည်။ ဤနေရာအတွက် မထုတ်ပြန်သေးသော ဆေးဝန်ဆောင်မှုကို မဖော်ပြပါ။",
     mapQuery: "ARISE Charoen Mueang Condo, Charoen Mueang Road, Tha Sala, Chiang Mai",
   },
 ] as const;
@@ -83,18 +78,18 @@ export const VISIT_ASSIST = [
     titleMy: "အနီးအနား အငှားတိုက်ခန်း",
     apartmentUrl: "https://sddp-apartment.onrender.com",
     bodyEn:
-      "If you wish, a coordinator can help you find a simple rental apartment near the visit. This is not a hotel, and it is not a hospital or checkup package. Typical rates on the partner apartment site are 3,500 or 4,000 THB. Only if you want it — tell us on the request form, LINE, Telegram, or Viber.",
+      "If you wish, a coordinator can help you find a simple rental apartment near the visit. This is not a hotel, and it is not a hospital or checkup package. Typical rates on the partner apartment site are 3,500 or 4,000 THB. Only if you want it — tell us on the request form or LINE.",
     bodyMy:
-      "လိုပါက ညှိနှိုင်းရေးမှူးက ခရီးစဉ်အနီး ရိုးရိုး အငှားတိုက်ခန်း ရှာပေးနိုင်သည်။ ဟိုတယ် မဟုတ်၊ ဆေးရုံ သို့မဟုတ် စစ်ဆေးပက်ကေ့ချ်လည်း မဟုတ်ပါ။ မိတ်ဖက်တိုက်ခန်းဝက်ဘ်ဆိုက်တွင် ပုံမှန်အားဖြင့် ၃,၅၀၀ သို့မဟုတ် ၄,၀၀၀ ဘတ်။ လိုမှသာ တောင်းဆိုဖောင်၊ LINE၊ Telegram သို့မဟုတ် Viber တွင် ပြောပါ။",
+      "လိုပါက ညှိနှိုင်းရေးမှူးက ခရီးစဉ်အနီး ရိုးရိုး အငှားတိုက်ခန်း ရှာပေးနိုင်သည်။ ဟိုတယ် မဟုတ်၊ ဆေးရုံ သို့မဟုတ် စစ်ဆေးပက်ကေ့ချ်လည်း မဟုတ်ပါ။ မိတ်ဖက်တိုက်ခန်းဝက်ဘ်ဆိုက်တွင် ပုံမှန်အားဖြင့် ၃,၅၀၀ သို့မဟုတ် ၄,၀၀၀ ဘတ်။ လိုမှသာ တောင်းဆိုဖောင် သို့မဟုတ် LINE တွင် ပြောပါ။",
   },
   {
     code: "VISA_SUPPORT",
     titleEn: "Long-stay visa help",
     titleMy: "ကြာရှည် ဗီဇာ အကူအညီ",
     bodyEn:
-      "Long-stay visa help in Chiang Mai is announced only if the visitor wants it. Ask on this website, LINE, Telegram, or Viber. We do not publish a visa office phone or email. This is not a checkup package.",
+      "Long-stay visa help in Chiang Mai is announced only if the visitor wants it. Ask on this website or LINE. We do not publish a visa office phone or email. This is not a checkup package.",
     bodyMy:
-      "ချင်းမိုင် ကြာရှည် ဗီဇာ အကူအညီကို ဧည့်သည် လိုမှသာ ကြေညာပါသည်။ ဤဝက်ဘ်ဆိုက်၊ LINE၊ Telegram သို့မဟုတ် Viber မှ တောင်းပါ။ ဗီဇာရုံး ဖုန်း သို့မဟုတ် အီးမေးလ်ကို မဖော်ပြပါ။ စစ်ဆေးပက်ကေ့ချ်တွင် မပါဝင်ပါ။",
+      "ချင်းမိုင် ကြာရှည် ဗီဇာ အကူအညီကို ဧည့်သည် လိုမှသာ ကြေညာပါသည်။ ဤဝက်ဘ်ဆိုက် သို့မဟုတ် LINE မှ တောင်းပါ။ ဗီဇာရုံး ဖုန်း သို့မဟုတ် အီးမေးလ်ကို မဖော်ပြပါ။ စစ်ဆေးပက်ကေ့ချ်တွင် မပါဝင်ပါ။",
   },
 ] as const;
 

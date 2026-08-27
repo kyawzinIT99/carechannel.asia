@@ -6,7 +6,6 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/routing";
 import { VISIT_SITES } from "@/catalog/hospital-source";
 import { googleMapsEmbedSrc, googleMapsSearchHref } from "@/server/security/urls";
-import { ContactChannels } from "@/components/contact-channels";
 import { usePartnerChrome } from "@/components/partner-chrome";
 
 export function SiteChrome({ children }: { children: ReactNode }) {
@@ -133,7 +132,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
       <footer className="mt-16 border-t border-slate-200 bg-white">
         <div className="mx-auto max-w-6xl px-4 py-10">
           <div className="grid gap-8 lg:grid-cols-2">
-            <div className="grid gap-8 sm:grid-cols-2">
+            <div className="grid gap-8">
             <div>
               <Image
                 src={hospital.logoPath}
@@ -148,17 +147,6 @@ export function SiteChrome({ children }: { children: ReactNode }) {
               <Link href="/about" className="mt-2 inline-flex text-sm font-semibold text-[#1a2330] hover:underline">
                 {locale === "my" ? "အကြောင်း" : "About"} →
               </Link>
-            </div>
-
-            <div className="text-sm leading-7 text-slate-600">
-              <p className="font-semibold text-slate-800">
-                {locale === "my" ? "လိပ်စာ" : "Address"}
-              </p>
-              <p>{locale === "my" ? hospital.addressMy : hospital.addressEn}</p>
-              <p className="mt-3 font-semibold text-slate-800">
-                {locale === "my" ? "ဆက်သွယ်ရန်" : "Contact"}
-              </p>
-              <ContactChannels locale={locale} variant="footer" />
             </div>
             </div>
 

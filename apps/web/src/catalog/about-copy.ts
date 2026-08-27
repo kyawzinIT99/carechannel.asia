@@ -21,18 +21,18 @@ export const ABOUT_FIELDS = [
     label: "Highlight under title",
     multiline: true,
     fallbackEn:
-      "Visitors who connect on this website, LINE, Telegram, or Viber receive the official Chiangmai Ram partner opportunity: a large published discount and visit priority. That is stronger than going through a usual medical agent or incentive broker who works under many hospitals.",
+      "Visitors who connect on this website or LINE receive the official Chiangmai Ram partner opportunity: a large published discount and visit priority. That is stronger than going through a usual medical agent or incentive broker who works under many hospitals.",
     fallbackMy:
-      "ဤဝက်ဘ်ဆိုက်၊ LINE၊ Telegram သို့မဟုတ် Viber မှ ဆက်သွယ်သော ဧည့်သည်များသည် ချင်းမိုင်ရမ်၏ တရားဝင် မိတ်ဖက်အခွင့်အရေးကို ရရှိပါသည်။ ဆေးရုံက ထုတ်ပြန်ထားသော လျှော့စျေးကြီးနှင့် ဦးစားပေး ခရီးစဉ်ဖြစ်ပါသည်။ ဆေးရုံအများအပြားအောက်တွင် လုပ်ကိုင်သော ပုံမှန်ဆေးအေးဂျင့် သို့မဟုတ် incentive ကြားခံထက် ပိုမိုခိုင်မာပါသည်။",
+      "ဤဝက်ဘ်ဆိုက် သို့မဟုတ် LINE မှ ဆက်သွယ်သော ဧည့်သည်များသည် ချင်းမိုင်ရမ်၏ တရားဝင် မိတ်ဖက်အခွင့်အရေးကို ရရှိပါသည်။ ဆေးရုံက ထုတ်ပြန်ထားသော လျှော့စျေးကြီးနှင့် ဦးစားပေး ခရီးစဉ်ဖြစ်ပါသည်။ ဆေးရုံအများအပြားအောက်တွင် လုပ်ကိုင်သော ပုံမှန်ဆေးအေးဂျင့် သို့မဟုတ် incentive ကြားခံထက် ပိုမိုခိုင်မာပါသည်။",
   },
   {
     key: "about.lead",
     label: "Lead paragraph",
     multiline: true,
     fallbackEn:
-      "This website is the official partner channel of Chiangmai Ram Hospital for patients from Myanmar and Asia. Care is at Chiangmai Ram — one hospital, not a shopping list of many hospitals. We offer a simple way to connect: send a request on this website, or open LINE, Telegram, or Viber from the same site. Every request arrives in one coordinator inbox. We do not invent a different medical service. We confirm the hospital-published incentive for people who come through this official channel.",
+      "This website is the official partner channel of Chiangmai Ram Hospital for patients from Myanmar and Asia. Care is at Chiangmai Ram — one hospital, not a shopping list of many hospitals. We offer a simple way to connect: send a request on this website, use the Google Form, or open LINE from the same site. Every request arrives in one coordinator inbox. We do not invent a different medical service. We confirm the hospital-published incentive for people who come through this official channel.",
     fallbackMy:
-      "ဤဝက်ဘ်ဆိုက်သည် မြန်မာနှင့် အာရှလူနာများအတွက် ချင်းမိုင်ရမ်ဆေးရုံ၏ တရားဝင် မိတ်ဖက်လမ်းကြောင်း ဖြစ်ပါသည်။ ကုသမှုကို ချင်းမိုင်ရမ်ဆေးရုံ တစ်ရုံတွင် လုပ်ပါသည်။ ဆေးရုံအများအပြားကို ရွေးချယ်ရောင်းသော လမ်းကြောင်း မဟုတ်ပါ။ ဆက်သွယ်ရန် လွယ်ကူပါသည်။ ဤဝက်ဘ်ဆိုက်မှ တောင်းဆိုမှု ပို့ပါ။ သို့မဟုတ် ဤဆိုက်ထဲမှ LINE၊ Telegram၊ Viber ကို ဖွင့်ပါ။ တောင်းဆိုမှုအားလုံး ညှိနှိုင်းရေးမှူး စာရင်းတစ်ခုတည်းသို့ ရောက်ပါသည်။ ဆေးဝန်ဆောင်မှုအသစ်ကို တီထွင်မပြောပါ။ ဤတရားဝင်လမ်းကြောင်းမှ လာသူများအတွက် ဆေးရုံထုတ်ပြန် incentive ကို အတည်ပြုပါသည်။",
+      "ဤဝက်ဘ်ဆိုက်သည် မြန်မာနှင့် အာရှလူနာများအတွက် ချင်းမိုင်ရမ်ဆေးရုံ၏ တရားဝင် မိတ်ဖက်လမ်းကြောင်း ဖြစ်ပါသည်။ ကုသမှုကို ချင်းမိုင်ရမ်ဆေးရုံ တစ်ရုံတွင် လုပ်ပါသည်။ ဆေးရုံအများအပြားကို ရွေးချယ်ရောင်းသော လမ်းကြောင်း မဟုတ်ပါ။ ဆက်သွယ်ရန် လွယ်ကူပါသည်။ ဤဝက်ဘ်ဆိုက်မှ တောင်းဆိုမှု ပို့ပါ။ Google Form ကိုသုံးပါ။ သို့မဟုတ် ဤဆိုက်ထဲမှ LINE ကို ဖွင့်ပါ။ တောင်းဆိုမှုအားလုံး ညှိနှိုင်းရေးမှူး စာရင်းတစ်ခုတည်းသို့ ရောက်ပါသည်။ ဆေးဝန်ဆောင်မှုအသစ်ကို တီထွင်မပြောပါ။ ဤတရားဝင်လမ်းကြောင်းမှ လာသူများအတွက် ဆေးရုံထုတ်ပြန် incentive ကို အတည်ပြုပါသည်။",
   },
   {
     key: "about.whoTitle",
@@ -93,8 +93,8 @@ export const ABOUT_FIELDS = [
     key: "about.how1",
     label: "Step 1",
     multiline: true,
-    fallbackEn: "Read centres and 2026 packages on this website. Then send one request here, or open LINE, Telegram, or Viber from the same page.",
-    fallbackMy: "ဤဝက်ဘ်ဆိုက်တွင် ဌာနနှင့် ၂၀၂၆ ပက်ကေ့ချ်ကို ဖတ်ပါ။ ထို့နောက် ဤနေရာမှ တောင်းဆိုမှု ပို့ပါ။ သို့မဟုတ် ဤဆိုက်ထဲမှ LINE၊ Telegram၊ Viber ကို ဖွင့်ပါ။",
+    fallbackEn: "Read centres and 2026 packages on this website. Then send one request here, use the Google Form, or open LINE from the same page.",
+    fallbackMy: "ဤဝက်ဘ်ဆိုက်တွင် ဌာနနှင့် ၂၀၂၆ ပက်ကေ့ချ်ကို ဖတ်ပါ။ ထို့နောက် ဤနေရာမှ တောင်းဆိုမှု ပို့ပါ။ Google Form ကိုသုံးပါ။ သို့မဟုတ် ဤဆိုက်ထဲမှ LINE ကို ဖွင့်ပါ။",
   },
   {
     key: "about.how2",
@@ -107,8 +107,8 @@ export const ABOUT_FIELDS = [
     key: "about.how3",
     label: "Step 3",
     multiline: true,
-    fallbackEn: "A coordinator continues by email, LINE, Telegram, or Viber until the discounted incentive visit is clear. This is not a diagnosis by message.",
-    fallbackMy: "ညှိနှိုင်းရေးမှူးက အီးမေးလ်၊ LINE၊ Telegram သို့မဟုတ် Viber ဖြင့် လျှော့စျေး incentive ခရီးစဉ် ရှင်းသည်အထိ ဆက်ပြောပါမည်။ မက်ဆေ့ချ်ဖြင့် ရောဂါမရှာပါ။",
+    fallbackEn: "A coordinator continues by email or LINE until the discounted incentive visit is clear. This is not a diagnosis by message.",
+    fallbackMy: "ညှိနှိုင်းရေးမှူးက အီးမေးလ် သို့မဟုတ် LINE ဖြင့် လျှော့စျေး incentive ခရီးစဉ် ရှင်းသည်အထိ ဆက်ပြောပါမည်။ မက်ဆေ့ချ်ဖြင့် ရောဂါမရှာပါ။",
   },
   {
     key: "about.eventTitle",
@@ -138,9 +138,9 @@ export const ABOUT_FIELDS = [
     label: "Important note — body",
     multiline: true,
     fallbackEn:
-      "This partner site does not give emergency instructions. Website requests and LINE, Telegram, or Viber chats all become one visit request for coordinators. Customer details stay in that inquiry list — not scattered as extra members in the admin panel.",
+      "This partner site does not give emergency instructions. Website requests, Google Form requests, and LINE chats all become one visit request for coordinators. Customer details stay in that inquiry list — not scattered as extra members in the admin panel.",
     fallbackMy:
-      "ဤမိတ်ဖက်ဆိုက်သည် အရေးပေါ်ညွှန်ကြားချက် မပေးပါ။ ဝက်ဘ်ဆိုက် တောင်းဆိုမှုနှင့် LINE၊ Telegram သို့မဟုတ် Viber စကားပြောမှုအားလုံး ညှိနှိုင်းရေးမှူးအတွက် လာရောက်ရန် တောင်းဆိုမှု တစ်ခုတည်း ဖြစ်ပါသည်။ ဧည့်သည်အချက်အလက်ကို ထိုစာရင်းတွင်သာ ထားပါသည်။ အက်ဒမင်တွင် အဖွဲ့ဝင်စာရင်းအသစ်များသို့ ခွဲမဖြန့်ပါ။",
+      "ဤမိတ်ဖက်ဆိုက်သည် အရေးပေါ်ညွှန်ကြားချက် မပေးပါ။ ဝက်ဘ်ဆိုက် တောင်းဆိုမှု၊ Google Form တောင်းဆိုမှုနှင့် LINE စကားပြောမှုအားလုံး ညှိနှိုင်းရေးမှူးအတွက် လာရောက်ရန် တောင်းဆိုမှု တစ်ခုတည်း ဖြစ်ပါသည်။ ဧည့်သည်အချက်အလက်ကို ထိုစာရင်းတွင်သာ ထားပါသည်။ အက်ဒမင်တွင် အဖွဲ့ဝင်စာရင်းအသစ်များသို့ ခွဲမဖြန့်ပါ။",
   },
 ] as const;
 

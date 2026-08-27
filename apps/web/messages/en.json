@@ -18,7 +18,7 @@
   "home": {
     "kicker": "Official partner · Myanmar and international visitors",
     "title": "Visit Chiangmai Ram with a clear plan",
-    "lead": "This is the partner channel for Myanmar guests and other visitors on the incentive visit plan. We show only hospital-published centres and 2026 check-up prices. Then a coordinator talks with you by email and Telegram until the visit feels right.",
+    "lead": "This is the partner channel for Myanmar guests and other visitors on the incentive visit plan. We show only hospital-published centres and 2026 check-up prices. Then a coordinator talks with you by email until the visit feels right.",
     "ctaBook": "Send a visit request",
     "ctaCenters": "See the centres",
     "ctaPackages": "See 2026 packages",
@@ -28,7 +28,7 @@
     "step2Title": "2. Ask",
     "step2": "Send one request in English or Myanmar. Tell us the visit you want. We do not diagnose by form.",
     "step3Title": "3. Talk",
-    "step3": "A coordinator continues with you by email and Telegram until you are satisfied with the incentive visit plan.",
+    "step3": "A coordinator continues with you by email until you are satisfied with the incentive visit plan.",
     "centersTitle": "Specialty centres",
     "packagesTitle": "2026 check-up promotion",
     "locationTitle": "Where you visit",
@@ -45,7 +45,7 @@
   },
   "packages": {
     "title": "Health Check Up Package 2026",
-    "intro": "This is the hospital 2026 promotion table. A coordinator can walk you through STANDARD, ADVANCE, or PREMIUM by email and Telegram.",
+    "intro": "This is the hospital 2026 promotion table. A coordinator can walk you through STANDARD, ADVANCE, or PREMIUM by email.",
     "list": "List price (THB)",
     "sale": "Promotion price (THB)",
     "notes": "Hospital notes",
@@ -53,7 +53,7 @@
   },
   "contact": {
     "title": "Request a partner visit",
-    "intro": "Send this request in English or Myanmar. A coordinator follows up by email and Telegram. Choose a partner package, a specialty centre, or write what you need.",
+    "intro": "Send this request in English or Myanmar. A coordinator follows up by email. Choose a partner package, a specialty centre, or write what you need.",
     "name": "Full name",
     "phone": "Phone",
     "email": "Email (auto-reply)",
@@ -69,10 +69,10 @@
     "interpreter": "I need a medical interpreter",
     "lang": "Interpreter language",
     "message": "What visit do you want? Do not send lab values for diagnosis here.",
-    "consent": "I agree that Chiangmai Ram Hospital Myanmar may use this information to continue this visit request by email and Telegram.",
+    "consent": "I agree that Chiangmai Ram Hospital Myanmar may use this information to continue this visit request by email.",
     "submit": "Send request",
-    "success": "We received your request. A coordinator will continue with you by email and Telegram. This site does not diagnose.",
-    "error": "We could not save the request. Please try again, or contact us on this website, LINE, Telegram, or Viber."
+    "success": "We received your request. A coordinator will continue with you by email. This site does not diagnose.",
+    "error": "We could not save the request. Please try again, or contact us on this website or LINE."
   },
   "login": {
     "title": "Sign in",
@@ -96,6 +96,6 @@
     "promotions": "Promotions"
   },
   "footer": {
-    "legal": "Official partner channel for Myanmar and other Asia visitors. Coordinators continue by email and Telegram. This site does not give emergency instructions or invent medical advice."
+    "legal": "Official partner channel for Myanmar and other Asia visitors. Coordinators continue by email. This site does not give emergency instructions or invent medical advice."
   }
 }

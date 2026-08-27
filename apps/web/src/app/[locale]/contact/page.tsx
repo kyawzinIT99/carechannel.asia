@@ -1,9 +1,9 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { InquiryForm } from "@/components/inquiry-form";
-import { ContactChannels } from "@/components/contact-channels";
 import { SPECIALTIES } from "@/catalog/hospital-source";
 import {
   loadPublicBranches,
+  loadPublicChrome,
   loadPublicPackages,
   loadPublicSpecialtyTree,
 } from "@/server/content/public";
@@ -22,10 +22,11 @@ export default async function ContactPage({
   setRequestLocale(locale);
   const t = await getTranslations("contact");
   const my = locale === "my";
-  const [branches, packages, tree] = await Promise.all([
+  const [branches, packages, tree, chrome] = await Promise.all([
     loadPublicBranches(),
     loadPublicPackages(),
     loadPublicSpecialtyTree(),
+    loadPublicChrome(),
   ]);
 
   const steps = my
@@ -101,13 +102,21 @@ export default async function ContactPage({
               ))}
             </div>
           </div>
-          <div className="rounded-2xl bg-white px-5 py-4 ring-1 ring-slate-200/80">
-            <p className="text-sm font-semibold text-[#1a2330]">
-              {my ? "စာပို့ရန်" : "Message us"}
+          <div className="rounded-2xl bg-[#f7f1e4] px-5 py-4 ring-1 ring-[#e8dcc0]">
+            <p className="text-sm font-semibold text-[#1a2330]">Google Form</p>
+            <p className="mt-2 text-xs leading-6 text-slate-600">
+              {my
+                ? "လာရောက်ရန် တောင်းဆိုမှုကို ပြင်ဆင်ထားသော Google Form မှလည်း ပို့နိုင်ပါသည်။"
+                : "You can also send your visit request through the revised Google Form."}
             </p>
-            <div className="mt-2">
-              <ContactChannels locale={locale} variant="stack" />
-            </div>
+            <a
+              href={chrome.googleFormUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-flex rounded-full bg-[#1a2330] px-4 py-2 text-sm font-semibold text-white hover:bg-[#111820]"
+            >
+              {my ? "Google Form ဖွင့်ရန်" : "Open Google Form"}
+            </a>
           </div>
         </aside>
       </div>

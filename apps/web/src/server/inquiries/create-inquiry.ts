@@ -63,6 +63,7 @@ async function resolvePackageId(packageCode?: string, packageId?: string) {
 }
 
 export const inquirySchema = z.object({
+  source: z.enum(["website", "google_form"]).optional(),
   locale: z.enum(["en", "my"]),
   fullName: z.string().min(2).max(120),
   phone: z.string().min(6).max(40),
@@ -367,6 +368,7 @@ export async function ingestExternalInquiry(raw: unknown) {
   const passportNo = pickPassportFromRecord(nested) || undefined;
   try {
     return await createInquiry({
+      source: "google_form",
       locale,
       fullName: fullName.length >= 2 ? fullName : "Google Form visitor",
       phone: phone.length >= 6 ? phone : "000000",
@@ -384,6 +386,7 @@ export async function ingestExternalInquiry(raw: unknown) {
     });
   } catch {
     return createInquiry({
+      source: "google_form",
       locale,
       fullName: fullName.length >= 2 ? fullName : "Google Form visitor",
       phone: phone.length >= 6 ? phone : "000000",

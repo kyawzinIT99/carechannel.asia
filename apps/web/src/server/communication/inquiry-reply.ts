@@ -156,10 +156,7 @@ export async function buildInquiryReply(input: InquiryReplyInput): Promise<Inqui
     messengers: {
       website: "this partner website request form",
       phone: HOSPITAL_PROFILE.chatPhoneDisplay,
-      telegram: HOSPITAL_PROFILE.telegramUrl,
       line: HOSPITAL_PROFILE.lineUrl,
-      viber: HOSPITAL_PROFILE.viberDisplay,
-      viberUrl: HOSPITAL_PROFILE.viberUrl,
       note: messengerFooterText(locale),
     },
     location: locale === "my" ? HOSPITAL_PROFILE.locationNoteMy : HOSPITAL_PROFILE.locationNoteEn,

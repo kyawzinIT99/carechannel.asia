@@ -3,7 +3,6 @@ import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { loadPublicChrome, loadPublicCopy, loadPublicFlyers, loadPublicPackages, loadPublicPromotions, loadPublicSpecialties } from "@/server/content/public";
 import { VisitAssistSection } from "@/components/visit-assist-section";
-import { ContactChannels } from "@/components/contact-channels";
 import { ShwedagonMark } from "@/components/shwedagon-mark";
 import { HospitalFilm } from "@/components/hospital-film";
 import { GoldTicker } from "@/components/gold-ticker";
@@ -39,8 +38,8 @@ export default async function HomePage({
   const heroTitle = pick("home.heroTitle", "A calm start to your Chiangmai Ram visit", "ချင်းမိုင်ရမ် ခရီးစဉ်ကို အေးချမ်းစွာ စတင်ပါ");
   const heroHighlight = pick(
     "home.heroHighlight",
-    "We help you plan the visit first — then a coordinator stays with you by email and Telegram.",
-    "ခရီးစဉ်ကို ဦးစွာ စီစဉ်ပေးသည်။ ညှိနှိုင်းရေးမှူးက အီးမေးလ်နှင့် Telegram ဖြင့် ဆက်လက်ကူညီမည်။",
+    "We help you plan the visit first — then a coordinator stays with you by email.",
+    "ခရီးစဉ်ကို ဦးစွာ စီစဉ်ပေးသည်။ ညှိနှိုင်းရေးမှူးက အီးမေးလ်ဖြင့် ဆက်လက်ကူညီမည်။",
   );
   const heroBody = pick(
     "home.heroBody",
@@ -88,6 +87,14 @@ export default async function HomePage({
               >
                 {ctaPrimary}
               </Link>
+              <a
+                href={chrome.googleFormUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full border border-[#1a2330]/15 bg-white px-7 py-3 text-sm font-semibold text-[#1a2330] hover:bg-white/80"
+              >
+                Google Form
+              </a>
               <Link
                 href="/packages"
                 className="rounded-full border border-[#1a2330]/15 bg-white px-7 py-3 text-sm font-semibold text-[#1a2330] hover:bg-white/80"
@@ -289,16 +296,13 @@ export default async function HomePage({
           <h2 className="text-3xl font-semibold text-[#1a2330]">{my ? "အဆင်သင့်ဖြစ်သောအခါ တောင်းဆိုပါ" : "Ask when you are ready"}</h2>
           <p className="mt-4 leading-8 text-slate-600">
             {my
-              ? "တရားဝင် incentive ပမာဏကို ဤဝက်ဘ်ဆိုက်၊ LINE၊ Telegram သို့မဟုတ် Viber မှသာ အတည်ပြုပါ။"
-              : "The official incentive amount is confirmed only on this website, LINE, Telegram, or Viber."}
+              ? "တရားဝင် incentive ပမာဏကို ဤဝက်ဘ်ဆိုက် သို့မဟုတ် LINE မှသာ အတည်ပြုပါ။"
+              : "The official incentive amount is confirmed only on this website or LINE."}
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link href="/contact" className="rounded-full bg-[#1a2330] px-7 py-3 text-sm font-semibold text-white hover:bg-[#111820]">
               {ctaPrimary}
             </Link>
-          </div>
-          <div className="mx-auto mt-6 max-w-md">
-            <ContactChannels locale={locale} variant="pills" />
           </div>
         </div>
       </section>
